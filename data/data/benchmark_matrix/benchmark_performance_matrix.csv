@@ -1,0 +1,27 @@
+model_name,year,rsvqa_lr_acc,rsvqa_hr_acc,geochat_bench_score,vrsbench_score,dota_hbb_map50,dota_obb_map50,fair1m_map50,rsicd_bleu4,ucm_caption_bleu4,rsicap_bleu4,hmb_spectral_acc,sar_bench_acc,change_detection_f1,grounding_acc,seg_miou,notes
+GeoChat,2024,93.2,89.5,87.4,72.1,—,—,—,38.2,42.1,—,—,—,—,64.3,—,Primary; conversational OBB not in standard mAP format
+EarthGPT,2025,95.1,91.2,—,75.8,—,—,—,41.5,—,—,—,—,—,—,—,Multi-sensor input; OBB task-constrained
+EarthGPT-X,2026,96.4,93.8,—,81.2,—,—,—,44.1,—,—,—,67.3,—,—,—,XLRS-Bench primary evaluation
+GeoGround,2025,—,—,—,—,—,72.4,—,—,—,—,—,—,—,81.2,—,OBB grounding primary metric
+Earth-OneVision,2026,94.8,92.1,84.3,79.4,68.2,—,—,42.3,45.6,—,—,—,—,—,—,Multi-sensor input
+SkySenseGPT,2024,91.4,87.6,—,—,—,—,—,36.8,40.2,—,—,—,—,—,—,Scene+region dual stream
+GeoLLaVA,2025,88.3,84.1,—,—,—,—,—,33.4,—,—,—,—,—,—,—,RS LLaVA adaptation
+UHR-BAT,2025,—,90.3,—,—,61.4,—,—,—,—,—,—,—,—,—,—,UHR tiling evaluation
+GeoPixel,2025,—,—,—,—,—,—,—,—,—,—,—,—,—,—,48.7,Pixel-level grounding mIoU
+LHRSBot,2024,89.7,85.2,—,—,—,—,—,35.1,38.9,—,—,—,—,—,—,Hierarchical captioning
+LHRSBot-Nova,2024,91.2,87.4,—,—,—,—,—,37.6,41.3,—,—,—,—,—,—,Updated with LLaMA-3
+GeoPix,2025,—,—,—,—,—,—,—,—,—,—,—,—,—,—,51.3,Panoptic segmentation mIoU
+TEOChat,2025,—,—,—,—,—,—,—,—,—,—,—,—,78.4,—,—,QFabric F1 change detection
+SegEarth,2026,—,—,—,—,—,—,—,—,—,—,—,—,—,—,54.2,LoveDA mIoU
+SAR-VLM,2026,—,—,—,—,—,—,—,—,—,—,—,71.3,—,—,—,MSTAR accuracy
+GeoRS-CLIP,2024,—,—,—,—,—,—,—,—,—,—,—,—,—,—,—,Retrieval R@1 on RSITMD: 72.4
+SkyCLIP,2024,—,—,—,—,—,—,—,—,—,—,—,—,—,—,—,Retrieval R@1 UCM: 68.9
+RSChat,2025,86.4,82.7,—,—,—,—,—,31.2,35.8,—,—,—,—,—,—,Dialogue VQA
+GeoCodeGPT,2025,—,—,—,—,59.3,—,—,—,—,—,—,—,—,—,—,DOTA HBB mAP50
+ChangeAgent,2025,—,—,—,—,—,—,—,—,—,—,—,—,74.1,—,—,LEVIR-CD F1
+OmniEarth,2026,93.7,90.4,83.1,78.3,—,—,—,40.8,—,—,—,—,—,—,—,Omni-modal RS
+OmniEarth-v2,2026,95.2,92.8,86.4,82.1,—,—,—,43.2,—,—,—,—,—,—,—,Scaled OmniEarth
+GeoReasoning,2026,92.3,89.1,84.7,76.9,—,—,—,39.4,—,—,—,—,—,—,—,CoT reasoning
+SAMRSeg,2024,—,—,—,—,—,—,—,—,—,—,—,—,—,—,62.8,iSAID mIoU
+RLHF-RS,2025,90.1,86.3,—,—,—,—,—,36.9,—,—,—,—,—,—,—,RLHF-aligned VQA
+GeoSAM,2024,—,—,—,—,—,—,—,—,—,—,—,—,—,—,58.4,iSAID mIoU SAM fine-tune

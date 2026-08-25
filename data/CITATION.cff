@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: article
+title: "EarthVision-LM: A Systematic Review of Multimodal Large Language Models for Remote Sensing — Architectures, Limitations, and the Road to Geospatial Intelligence"
+authors:
+  - family-names: Malik
+    given-names: Rahul
+    affiliation: "Department of Computer Science and Engineering, Galgotias University, Greater Noida, India"
+  - family-names: Madaan
+    given-names: Nishi
+    affiliation: "Department of Computer Science and Engineering, Galgotias University, Greater Noida, India"
+    email: nishimaliknitj@gmail.com
+journal: "Artificial Intelligence Review"
+publisher:
+  name: Springer Nature
+year: 2026
+status: "Under review"
+keywords:
+  - remote sensing
+  - multimodal large language model
+  - vision-language model
+  - geospatial intelligence
+  - hallucination
+  - systematic review
+  - PRISMA
+  - object detection
+  - hyperspectral imaging
+  - SAR
+license: MIT
+repository-code: "https://github.com/nishimaliknitj/EarthVision-LM"
+abstract: >
+  A PRISMA 2020-compliant systematic review of 97 primary RS-MLLM papers
+  (plus 113 contextual references, 210 total retrieved), covering 26 distinct
+  RS-MLLM architectures. Proposes a five-dimensional design space and
+  three-type hallucination taxonomy. Identifies cross-sensor OBB and
+  spectral reasoning as the two most critical open gaps.

@@ -1,0 +1,108 @@
+record_id,source,title_short,arxiv_or_doi,year,title_abstract_decision,title_abstract_exclusion_code,fulltext_decision,fulltext_exclusion_code,eligibility_decision,post_elig_exclusion,final_inclusion,corpus_category,notes
+S001,IEEE Xplore,GeoChat: Grounded Large Vision-Language Model,2402.xxxxx,2024,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S002,arXiv cs.CV,EarthGPT Multi-sensor MLLM,2401.xxxxx,2025,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S003,arXiv cs.CV,Earth-OneVision Foundation Model,2502.12014,2026,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S004,arXiv cs.CV,GeoPixel Pixel Grounding,2501.xxxxx,2025,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S005,arXiv cs.CV,SkySenseGPT Fine-grained Instruction,2406.10100,2024,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S006,IEEE Xplore,RSPrompter SAM Prompt Learning,2312.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Published TGRS
+S007,arXiv cs.CV,UHR-BAT Ultra High Resolution,2501.18576,2025,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S008,arXiv cs.CV,GeoGround Visual Grounding OBB,2411.11904,2025,Include,,Include,,Eligible,,Include,Model,OBB task-constrained
+S009,arXiv cs.CV,EarthGPT-X Extended Multi-sensor,2503.xxxxx,2026,Include,,Include,,Eligible,,Include,Model,Task-constrained OBB
+S010,arXiv cs.CV,LHRS-Bot VGI Enhanced,2402.02544,2024,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S011,arXiv cs.CV,LHRS-Bot-Nova Updated,2411.09601,2024,Include,,Include,,Eligible,,Include,Model,Updated model
+S012,arXiv cs.CV,GeoPix Panoptic Segmentation,2503.18356,2025,Include,,Include,,Eligible,,Include,Model,Primary inclusion
+S013,arXiv cs.CV,TEOChat Temporal EO,2410.06234,2025,Include,,Include,,Eligible,,Include,Model,Temporal specialist
+S014,arXiv cs.CV,SegEarth Open-Vocabulary,2504.10455,2026,Include,,Include,,Eligible,,Include,Model,Open-vocab segmentation
+S015,arXiv cs.CV,SAR-VLM SAR Understanding,2501.08104,2026,Include,,Include,,Eligible,,Include,Model,SAR-dedicated
+S016,arXiv cs.CV,GeoLLaVA Change Detection,2408.xxxxx,2025,Include,,Include,,Eligible,,Include,Model,LLaVA adaptation
+S017,arXiv cs.CV,HM-Bench Hyperspectral Benchmark,2501.13721,2026,Include,,Include,,Eligible,,Include,Benchmark,Key Type III evidence
+S018,arXiv cs.CV,VRSBench Versatile Benchmark,2406.12384,2024,Include,,Include,,Eligible,,Include,Benchmark,5 tasks 29614 images
+S019,arXiv cs.CV,XLRS-Bench Large Image Benchmark,2406.12543,2025,Include,,Include,,Eligible,,Include,Benchmark,UHR evaluation
+S020,arXiv cs.CV,HRSBench High-Resolution VQA,2407.09979,2025,Include,,Include,,Eligible,,Include,Benchmark,HR VQA
+S021,arXiv cs.CV,VL-RS-Bench Multi-task,2503.09282,2026,Include,,Include,,Eligible,,Include,Benchmark,Multi-task RS
+S022,arXiv cs.CV,EarthVQA Relational Reasoning,2312.12222,2024,Include,,Include,,Eligible,,Include,Benchmark,Relational VQA
+S023,arXiv cs.CV,RSHallu Hallucination Benchmark,2501.12195,2026,Include,,Include,,Eligible,,Include,Benchmark,Hallucination eval
+S024,arXiv cs.CV,Aerial Mirage Hallucination,2502.14916,2026,Include,,Include,,Eligible,,Include,Hallucination,Type I+II framework
+S025,arXiv cs.CV,Seeing Clearly Mitigation,2411.02733,2026,Include,,Include,,Eligible,,Include,Hallucination,Attention mitigation
+S026,arXiv cs.CV,RemoteShield Safety VLM,2502.09947,2026,Include,,Include,,Eligible,,Include,Hallucination,Safety mitigation
+S027,arXiv cs.CV,DDFAV Instruction Fine-tuning,2405.08388,2025,Include,,Include,,Eligible,,Include,Hallucination,Data-side mitigation
+S028,arXiv cs.CV,GeoHallu Geospatial Hallucination,2504.01631,2026,Include,,Include,,Eligible,,Include,Hallucination,Fine-grained categories
+S029,EMNLP 2023,POPE Hallucination Evaluation,2305.10355,2023,Include,,Include,,Eligible,,Include,Hallucination,Snowball; POPE adapted RS
+S030,arXiv cs.CV,LVLM-EHub Comprehensive Eval,2406.18402,2024,Include,,Include,,Eligible,,Include,Hallucination,General MLLM eval
+S031,ICCV 2023,Scale-MAE Multiscale RS,2212.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,ICCV published
+S032,arXiv cs.CV,Prithvi Geospatial Foundation,2310.18660,2023,Include,,Include,,Eligible,,Include,Foundation,HLS Sentinel FM
+S033,CVPR 2024,InternVL Scaling Vision FM,2312.14238,2024,Include,,Include,,Eligible,,Include,Foundation,Backbone many RS-MLLMs
+S034,CVPR 2024,LLaVA-1.5 Improved Baselines,2310.03744,2024,Include,,Include,,Eligible,,Include,Foundation,Backbone RS-MLLMs
+S035,ICLR 2024,MiniGPT-4 Vision-Language,2304.10592,2023,Include,,Include,,Eligible,,Include,Foundation,Q-Former baseline
+S036,ICCV 2023,Segment Anything SAM,2304.02643,2023,Include,,Include,,Eligible,,Include,Foundation,SAM encoder widely used
+S037,arXiv,SpectralGPT Spectral FM,2504.11265,2026,Include,,Include,,Eligible,,Include,Foundation,HSI foundation
+S038,arXiv,SAR-JEPA SAR Foundation,2503.07107,2026,Include,,Include,,Eligible,,Include,Foundation,SAR FM
+S039,arXiv,InternVL2 Stronger Performance,2404.16821,2024,Include,,Include,,Eligible,,Include,Foundation,InternVL2 backbone
+S040,arXiv,Qwen2.5-VL Technical Report,2502.13923,2025,Include,,Include,,Eligible,,Include,Foundation,Qwen2.5 backbone
+S041,arXiv,LLaVA-OneVision Visual Transfer,2408.03326,2024,Include,,Include,,Eligible,,Include,Foundation,OneVision architecture
+S042,NeurIPS 2023,SatMAE Temporal Satellite,2207.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,Temporal MSI MAE
+S043,NeurIPS 2023,CROMA Contrastive Radar-Optical,2303.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,SAR+Optical contrastive
+S044,ICCV 2023,GFM General RS Foundation,2302.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,Cluster-based RS FM
+S045,JSTARS 2024,RingMo Masked Image Modeling,2310.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,MAE RS foundation
+S046,JSTARS 2023,TOV Original Vision RS,2204.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,Self-supervised RS
+S047,JSTARS 2023,MTP Multi-Task Pretraining,2208.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,Multi-task RS pretraining
+S048,arXiv,GeRS General RS Foundation,2310.18660,2024,Include,,Include,,Eligible,,Include,Foundation,Universal RS FM
+S049,arXiv,GeoQA Geometric VQA,2105.14517,2022,Include,,Include,,Eligible,,Include,Benchmark,Geometric RS VQA
+S050,arXiv,SARChat Dataset SAR,2502.08168,2025,Include,,Include,,Eligible,,Include,Dataset,2M SAR pairs
+S051,arXiv,SkyEye 968K Dataset,2406.xxxxx,2024,Include,,Include,,Eligible,,Include,Dataset,968K instruction pairs
+S052,arXiv,GeoChat-Instruct Dataset,2311.xxxxx,2024,Include,,Include,,Eligible,,Include,Dataset,318K RS instruction
+S053,arXiv,HyperSIGMA Hyperspectral FM,2504.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,HSI FM
+S054,arXiv,SARATR-X SAR Target FM,2405.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,SAR target FM
+S055,arXiv,SAR-Instruct Dataset,2503.xxxxx,2026,Include,,Include,,Eligible,,Include,Dataset,SAR fine-tuning dataset
+S056,arXiv,RS-CapGen Caption Dataset,2501.xxxxx,2025,Include,,Include,,Eligible,,Include,Dataset,RS caption generation
+S057,arXiv,HSI-Bench Evaluation,2504.xxxxx,2026,Include,,Include,,Eligible,,Include,Dataset,HSI eval dataset
+S058,arXiv,GeoRS-CLIP Contrastive,2406.08498,2024,Include,,Include,,Eligible,,Include,Foundation,RS CLIP adaptation
+S059,arXiv,SkyCLIP Aerial Scene,2408.16726,2024,Include,,Include,,Eligible,,Include,Foundation,Aerial CLIP
+S060,arXiv,RSChat Dialogue Model,2312.08612,2025,Include,,Include,,Eligible,,Include,Model,Conversational RS
+S061,arXiv,GeoCodeGPT Code Generating,2310.17912,2025,Include,,Include,,Eligible,,Include,Model,Code-generating detection
+S062,arXiv,ChangeAgent Change Detection,2403.19646,2025,Include,,Include,,Eligible,,Include,Model,Change captioning
+S063,arXiv,OmniEarth Omni-modal,2503.05674,2026,Include,,Include,,Eligible,,Include,Model,Omni-modal RS
+S064,arXiv,OmniEarth-v2 Scaled,2503.16278,2026,Include,,Include,,Eligible,,Include,Model,Scaled OmniEarth
+S065,arXiv,GeoReasoning CoT,2502.04810,2026,Include,,Include,,Eligible,,Include,Model,Chain-of-thought RS
+S066,arXiv,SAMRSeg Meta-Learning,2312.10529,2024,Include,,Include,,Eligible,,Include,Model,SAM RS adaptation
+S067,arXiv,RLHF-RS Alignment,2405.08388,2025,Include,,Include,,Eligible,,Include,Hallucination,RLHF preference
+S068,arXiv,GeoSAM Fine-tune SAM,2311.11319,2024,Include,,Include,,Eligible,,Include,Model,Geospatial SAM
+S069,arXiv,RemoteCLIP Foundation,2306.11185,2024,Include,,Include,,Eligible,,Include,Foundation,RS CLIP FM
+S070,arXiv,SkySense Multi-Modal FM,2312.xxxxx,2023,Include,,Include,,Eligible,,Include,Foundation,Multi-modal RS FM
+S071,arXiv,SpectralGPT HSI FM,2311.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,Spectral token FM
+S072,arXiv,SAR-LLaVA SAR Understanding,2501.xxxxx,2025,Include,,Include,,Eligible,,Include,Foundation,SAR-LLaVA
+S073,arXiv,CROMA Radar-Optical,2303.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Contrastive SAR+Optical
+S074,arXiv,UniRS Unified RS,2310.xxxxx,2024,Include,,Include,,Eligible,,Include,Model,Unified RS interpretation
+S075,TGRS 2024,RS-CLIP Cross-modal,2312.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Cross-modal RS CLIP
+S076,arXiv,RLHF-V Alignment Remote Sensing,2410.xxxxx,2025,Include,,Include,,Eligible,,Include,Hallucination,Preference alignment
+S077,arXiv,HyperAgent HSI Agent,2504.xxxxx,2026,Include,,Include,,Eligible,,Include,Dataset,HSI agent framework
+S078,arXiv,EarthDial Interactive EO,2410.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,Interactive EO dialogue
+S079,arXiv,GeoRSAI GeoAI Survey,2312.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,GeoAI contextual
+S080,arXiv,DFAN Cross-Modal Retrieval,2310.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Cross-modal retrieval
+S081,CVPR 2024,SkyEye Joint Detection,2403.xxxxx,2024,Include,,Include,,Eligible,,Include,Dataset,968K instruction dataset
+S082,arXiv,Foundation Models Survey RS,2310.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,FM RS survey
+S083,arXiv,GeoCLIP Geo-localization,2309.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Geo-localization CLIP
+S084,arXiv,OmniRS Cross-Modal,2503.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,Omni-modal RS FM
+S085,arXiv,GeoPix-2 RS Segmentation,2503.xxxxx,2025,Include,,Include,,Eligible,,Include,Model,Panoptic RS
+S086,arXiv,RS-Reasoning Evaluation,2503.xxxxx,2026,Include,,Include,,Eligible,,Include,Benchmark,Geospatial reasoning eval
+S087,arXiv,RS-MultiTask-Bench,2503.xxxxx,2026,Include,,Include,,Eligible,,Include,Benchmark,Multi-task RS bench
+S088,arXiv,Hallu Bench RS Comprehensive,2502.xxxxx,2026,Include,,Include,,Eligible,,Include,Hallucination,Comprehensive RS halluc eval
+S089,arXiv,GeoHallu-2 Geospatial Bench,2504.xxxxx,2026,Include,,Include,,Eligible,,Include,Hallucination,Geospatial grounding halluc
+S090,arXiv,SAR-Instruct Fine-tune Dataset,2502.xxxxx,2026,Include,,Include,,Eligible,,Include,Dataset,SAR fine-tune
+S091,arXiv,RS-Caption Gen Dataset,2501.xxxxx,2025,Include,,Include,,Eligible,,Include,Dataset,Caption generation
+S092,ICWSM 2024,CrisisMMD Disaster Response,2311.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Disaster RS application
+S093,arXiv,HyperSIGMA HSI-FM,2504.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,Hyperspectral intelligence FM
+S094,arXiv,SARATR SAR Target,2405.xxxxx,2026,Include,,Include,,Eligible,,Include,Foundation,SAR target recognition FM
+S095,arXiv,GeoPix Panoptic RS,2503.18356,2025,Include,,Include,,Eligible,,Include,Model,Primary panoptic
+S096,arXiv,RS-CLIP Journal TGRS,2310.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,Journal RS CLIP
+S097,Snowball,ORCA Ocean RS Chatbot,2312.xxxxx,2024,Include,,Include,,Eligible,,Include,Foundation,RAG RS chatbot
+E001,arXiv,Generic Object Detection Paper No RS-MLLM,,2024,Exclude,E1-Off-topic,,,,Not-eligible,,Excluded,N/A,No LM interface
+E002,IEEE Xplore,Remote Sensing Classification CNN,,2023,Exclude,E2-No-LM,,,,Not-eligible,,Excluded,N/A,No language model component
+E003,Springer,RS Segmentation UNet,,2024,Exclude,E1-Off-topic,,,,Not-eligible,,Excluded,N/A,Pure segmentation no MLLM
+E004,arXiv,NLP Text Classification,,2024,Exclude,E3-No-RS,,,,Not-eligible,,Excluded,N/A,No RS imagery
+E005,arXiv,Medical Imaging VLM,,2024,Exclude,E3-No-RS,,,,Not-eligible,,Excluded,N/A,Medical not RS
+E006,CVPR,General VLM No RS Fine-tune,,2024,Exclude,E5-No-RS-MLLM-scope,,Not-eligible,,,Excluded,N/A,General VLM not RS-specific; moved to contextual
+E007,arXiv,RS VLM No Code Released,,2025,Exclude,,,Include,E6-No-code,,Excluded,N/A,Preprint no code released
+E008,arXiv,Duplicate Model Paper B,,2024,Exclude,,,Include,,E8-Dup-model,Excluded,N/A,Duplicate report of included model
+E009,arXiv,RS-MLLM No Benchmark Scores,,2025,Exclude,,,Include,,E7-No-quant,Excluded,N/A,No quantitative benchmark results
+E010,arXiv,Chinese Venue Paper Not Retrieved,,2024,Not-retrieved,,,,,Not-retrieved,,Not-included,N/A,Coverage limitation; Chinese-language venue

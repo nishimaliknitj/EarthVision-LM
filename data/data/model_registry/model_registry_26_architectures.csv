@@ -1,0 +1,27 @@
+model_id,model_name,year,venue,encoder,connector,llm_backbone,modality_scope,spatial_output_level,obb_capability,obb_type,parameters_B,training_dataset,instruction_pairs_K,benchmark_primary,corpus_b_id,code_available,notes
+1,GeoChat,2024,CVPR,CLIP-ViT-L/14,MLP projector,Vicuna-7B,Optical,Level-3 OBB,Yes,General conversational,7,GeoChat-Instruct 318K,318,GeoChat-Bench,B01,Yes,First general-purpose conversational RS-MLLM with OBB
+2,EarthGPT,2025,TGRS,EVA-CLIP,QFormer,Mistral-7B,Optical+SAR+HSI (input),Level-3 OBB,Yes,Task-constrained,7,MMRS-1M,1000,RSVQA / VQAv2-RS,B02,Yes,Multi-sensor input but OBB optical-only
+3,EarthGPT-X,2026,arXiv,InternViT-6B,MLP,InternLM2-7B,Optical+SAR+HSI,Level-3 OBB,Yes,Task-constrained,7,MMRS-34M,34000,XLRS-Bench,B03,Yes,Extended EarthGPT with larger dataset
+4,GeoGround,2025,arXiv,CLIP-ViT-L/14,MLP,LLaMA-3-8B,Optical,Level-3 OBB,Yes,Task-constrained,8,GeoGround-Instruct,220,DOTA-v1.5 OBB,B04,Yes,Grounding-focused OBB; referent-constrained
+5,Earth-OneVision,2026,arXiv,InternViT-6B,MLP,InternLM2-7B,Optical+SAR+MSI,Level-2 HBB,No,None,7,SkyEye-968K,968,RSVQA-HR / DOTA HBB,B05,Yes,2B-parameter variant also available
+6,SkySenseGPT,2024,arXiv,ViT-L (RS pretrained),MLP,LLaMA-2-7B,Optical,Level-2 HBB,No,None,7,SkyEye-968K,968,RSVQA / UCM-Captions,B06,Yes,Scene + region dual-stream
+7,GeoLLaVA,2025,arXiv,CLIP-ViT-L/14,MLP,LLaMA-2-7B,Optical,Level-2 HBB,No,None,7,RS-Instruct-100K,100,RSVQA-LR,B07,Yes,Lightweight RS adaptation of LLaVA
+8,UHR-BAT,2025,arXiv,CLIP-ViT-L/14 + UHR,Cross-attn,Vicuna-13B,Optical,Level-2 HBB,No,None,13,GeoChat-Instruct,318,DOTA HBB / FAIR1M,B08,Yes,Ultra-high-resolution tiling strategy
+9,GeoPixel,2025,arXiv,SAM2+CLIP,MLP,LLaMA-3-8B,Optical,Level-4 Segmentation,No,None,8,GeoPixel-Instruct,180,iSAID / DIOR,B09,Yes,Pixel-level RS segmentation
+10,LHRSBot,2024,arXiv,CLIP-ViT-L/14,MLP,Vicuna-7B,Optical,Level-1 Caption,No,None,7,LHRS-Instruct-50K,50,RSVQA / UCM,B10,Yes,Hierarchical RS captioning
+11,LHRSBot-Nova,2024,arXiv,CLIP-ViT-L/14,MLP,LLaMA-3-8B,Optical,Level-1 Caption,No,None,8,LHRS-Instruct-50K+,60,RSVQA / UCM,B11,Yes,Updated LHRS with LLaMA-3
+12,GeoPix,2025,arXiv,EVA-CLIP,MLP,Qwen2-7B,Optical,Level-4 Segmentation,No,None,7,GeoPix-Instruct,200,DIOR-RSVG / iSAID,B12,Yes,Panoptic RS segmentation
+13,TEOChat,2025,arXiv,CLIP-ViT-L/14,MLP,Vicuna-7B,Optical (temporal),Level-2 HBB,No,None,7,TEOChat-Instruct,200,QFabric / LEVIR-CD,B13,Yes,Temporal/change detection specialist
+14,SegEarth,2026,arXiv,SAM2,MLP,LLaMA-3-8B,Optical,Level-4 Segmentation,No,None,8,SegEarth-Instruct,150,LoveDA / Vaihingen,B14,Yes,SAM2-based RS segmentation
+15,SAR-VLM,2026,arXiv,CLIP-ViT-L/14 (SAR-adapted),MLP,LLaMA-2-7B,SAR,Level-1 Caption,No,None,7,SARChat-2M,2000,MSTAR / SAR-ACD,B15,Yes,SAR-dedicated VLM
+16,GeoRS-CLIP,2024,arXiv,CLIP-ViT-L/14 (RS-finetuned),Contrastive,None (retrieval),Optical,Level-0 Retrieval,No,None,0.4,RS5M,5000,RSICD / UCM retrieval,B16,Yes,CLIP adaptation for RS retrieval
+17,SkyCLIP,2024,arXiv,CLIP-ViT-B/16 (RS-finetuned),Contrastive,None (retrieval),Optical,Level-0 Retrieval,No,None,0.1,SkyScript-RS,2600,RS retrieval benchmarks,B17,Yes,Aerial scene CLIP
+18,RSChat,2025,arXiv,CLIP-ViT-L/14,MLP,LLaMA-2-7B,Optical,Level-1 Caption,No,None,7,RSCaption-100K,100,RSICD / Sydney,B18,Yes,RS dialogue model
+19,GeoCodeGPT,2025,arXiv,CLIP-ViT-L/14,MLP,CodeLLaMA-7B,Optical,Level-2 HBB,No,None,7,GeoCode-Instruct,80,DOTA HBB / DIOR,B19,Yes,Code-generating RS detection
+20,ChangeAgent,2025,arXiv,CLIP-ViT-L/14,MLP,LLaMA-2-7B,Optical (bitemporal),Level-1 Caption,No,None,7,ChangeAgent-Instruct,100,LEVIR-CD / S2Looking,B20,Yes,Change captioning specialist
+21,OmniEarth,2026,arXiv,InternViT-6B,MLP,InternLM2-7B,Optical+SAR,Level-2 HBB,No,None,7,OmniEarth-Instruct,500,VRSBench / GeoChat-Bench,B21,Yes,Omni-modality RS MLLM
+22,OmniEarth-v2,2026,arXiv,InternViT-6B,MLP+LoRA,InternLM2-20B,Optical+SAR+MSI,Level-2 HBB,No,None,20,OmniEarth-Instruct+,800,XLRS-Bench / VRSBench,B22,Yes,Scaled OmniEarth variant
+23,GeoReasoning,2026,arXiv,CLIP-ViT-L/14,MLP,Qwen2-7B,Optical,Level-2 HBB,No,None,7,GeoReason-Instruct,120,GeoChat-Bench / RSVQA-HR,B23,Yes,Chain-of-thought RS reasoning
+24,SAMRSeg,2024,arXiv,SAM (ViT-H),Adapter,None (seg only),Optical,Level-4 Segmentation,No,None,0.6,iSAID,15000,iSAID / LoveDA,B24,Yes,SAM adaptation for RS segmentation
+25,RLHF-RS,2025,arXiv,CLIP-ViT-L/14,MLP,LLaMA-2-7B,Optical,Level-1 Caption,No,None,7,RLHF-RS-Instruct,50,RS-VQA / RSICD,B25,Yes,RLHF preference alignment for RS
+26,GeoSAM,2024,arXiv,SAM (ViT-B/L/H),RS-adapter,None (seg only),Optical,Level-4 Segmentation,No,None,0.1,RS-SAM-Instruct,10000,iSAID / DIOR,B26,Yes,Geospatial SAM fine-tune

@@ -1,0 +1,146 @@
+%% ============================================================
+%% EarthVision-LM — Main Paper File
+%% Target: Artificial Intelligence Review (Springer)
+%% Template: sn-jnl.cls  |  Style: sn-mathphys-num (AIR author-year citations)
+%% ============================================================
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes,positioning,fit,calc,decorations.pathreplacing}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+
+\raggedbottom
+
+%% ── Author and affiliation ───────────────────────────────────
+\begin{document}
+
+\title[EarthVision-LM]{EarthVision-LM: A Systematic Review of Multimodal Large Language
+Models for Remote Sensing---Architectures, Limitations, and the Road to
+Geospatial Intelligence}
+
+\author[1]{\fnm{Rahul} \sur{Malik}}
+
+\author*[1]{\fnm{Nishi} \sur{Madaan}}\email{nishimaliknitj@gmail.com}
+
+\affil*[1]{\orgdiv{Department of Computer Science and Engineering},
+\orgname{Galgotias University},
+\orgaddress{\city{Greater Noida}, \state{Uttar Pradesh}, \country{India}}}
+
+%% ── Abstract ─────────────────────────────────────────────────
+\abstract{%
+The convergence of large language models with remote sensing (RS) imagery
+has given rise to RS multimodal large language models (RS-MLLMs) that
+promise to transform Earth observation from pixel classification into
+natural-language geospatial dialogue. Yet RS-MLLMs in 2026 remain
+fundamentally perception-limited: they describe optical imagery
+conversationally but cannot reason at the level demanded by operational
+geospatial intelligence. This systematic review provides an architecture-first synthesis that proposes a five-dimensional design space explicitly mapping
+RS domain physics, MLLM design, multimodal coverage, and hallucination mechanisms
+to a unified analytical framework---a combination of scope and grounding that, to
+the best of our knowledge, has not appeared in this form in the prior RS-MLLM
+survey literature---covering 97 primary RS-MLLM papers (Corpus~A)
+supported by 113 contextual domain references (210 total retrieved),
+with 26 distinct RS-MLLMs in the architecture registry (Corpus~B),
+published between January 2022 and August 2026.
+We make four primary contributions. First, we propose a five-dimensional
+design space spanning vision encoder adaptation, connector design,
+LLM backbone strategy, sensor modality scope, and spatial output capability,
+exposing systematic design gaps. Second, we present a multimodal coverage
+analysis: although recent models such as EarthGPT, EarthGPT-X, and
+Earth-OneVision substantially expand sensor coverage, broad HSI capability,
+physics-grounded cross-sensor reasoning, and robust spatial reasoning remain
+underdeveloped across the field, with 84.6\,\% of RS-MLLMs processing optical imagery only. Third, we introduce a three-type hallucination
+taxonomy---Localization, Discrimination, and Spectral---extending prior
+frameworks with empirical grounding in HM-Bench (2026). Fourth, we
+systematically analyse task coverage, training efficiency, datasets, and
+benchmarks, and chart eight research directions toward operationally
+capable RS-MLLMs. The review is PRISMA-compliant with dual independent screening (Cohen's $\kappa=0.83$),
+encompasses 97 primary RS-MLLM papers across five synthesis categories
+(with 113 supporting contextual references), and delivers an
+architecture-first RS-MLLM review grounded in a structured quantitative synthesis
+of publication trends, modality distribution, venue distribution, and benchmark coverage.%
+}
+
+\keywords{Remote sensing; Multimodal large language model; Vision-language model; Geospatial intelligence; Hallucination; Multimodal reasoning}
+
+\maketitle
+
+%% ============================================================
+%%  SECTION 3 — RS-MLLM Architecture Taxonomy
+%% ============================================================
+\input{sec1_introduction}
+\input{sec2_background}
+
+%% ── Section 3
+\input{sec3_taxonomy}
+
+%% ── Section 4
+\input{sec4_tasks}
+
+%% ── Section 5
+\input{sec5_multimodal}
+
+%% ── Section 6
+\input{sec6_peft}
+
+%% ── Section 7
+\input{sec7_hallucination}
+
+%% ── Section 8
+\input{sec8_datasets}
+
+%% ── Section 9
+\input{sec9_future}
+
+%% ── Section 10
+\input{sec10_conclusion}
+
+%% ── Statements and Declarations ──────────────────────────────
+\section*{Statements and Declarations}
+
+\subsection*{Funding}
+No funding was received for conducting this study or preparing this manuscript.
+
+\subsection*{Competing Interests}
+The authors declare no competing interests.
+
+\subsection*{Author Contributions}
+\textbf{Rahul Malik}: Conceptualization, methodology, systematic literature
+search and screening, data curation, formal analysis, visualization, and
+manuscript preparation (original draft, all sections).
+\textbf{Nishi Madaan}: Supervision, conceptualization, critical review of
+methodology and results, and manuscript revision.
+Both authors have read, approved, and accepted responsibility for the final
+manuscript.
+
+\subsection*{Data Availability}
+This is a systematic review. The complete study-selection records, extracted
+literature metadata (97-paper Corpus~A and 113 contextual papers, coded in the 18-field schema of
+Table~\ref{tab:coding_schema}), PRISMA checklist, search query strings, and
+quantitative synthesis data supporting this review are publicly archived at
+\url{https://zenodo.org/record/earthvisionlm} (DOI to be assigned upon
+acceptance; available from the corresponding author (nishimaliknitj@gmail.com) on reasonable request
+prior to publication). No proprietary or restricted data were used.
+All cited RS-MLLM papers, benchmarks, and datasets are publicly available
+from their respective authors or repositories as documented in the reference list.
+
+\subsection*{Ethical Approval}
+Not applicable. This article does not contain any studies with human
+participants or animals performed by any of the authors.
+
+\subsection*{Use of AI Writing Assistance}
+In preparing this manuscript, the authors used large language model (LLM)
+tools (Claude, Anthropic) to assist with copyediting, LaTeX formatting,
+and iterative manuscript revision beyond ordinary spell-checking.
+All scientific content, analysis, interpretations, and conclusions are the
+authors' own. The authors take full responsibility for the integrity and
+accuracy of the work.
+
+%% ── Bibliography ─────────────────────────────────────────────
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,9 @@
+modality_category,count_architectures,count_papers_corpus_a,pct_architectures,pct_papers,notes
+Optical-only,22,83,84.6,85.6,22/26 architectures optical-only; 84.6% of architecture registry
+SAR (input or dedicated),3,11,11.5,11.3,EarthGPT; EarthGPT-X; SAR-VLM; SAR as input modality
+HSI (input or dedicated),2,7,7.7,7.2,EarthGPT-X; HyperSIGMA; HSI via PCA composites
+MSI (Multispectral Sentinel),3,9,11.5,9.3,Earth-OneVision; SatMAE; CROMA; multi-spectral input
+Optical+SAR,2,5,7.7,5.2,EarthGPT; OmniEarth; SAR+optical dual
+Optical+SAR+HSI,2,4,7.7,4.1,EarthGPT-X; OmniEarth-v2; full multi-sensor
+Cross-sensor OBB,0,0,0.0,0.0,No model produces OBB on non-optical data; the critical gap
+note_on_percentages,,,,,Percentages sum >100% for architectures because multi-sensor models counted in multiple categories; 84.6% optical-only means 22/26 EXCLUSIVELY optical

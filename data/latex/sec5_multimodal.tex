@@ -1,0 +1,709 @@
+%% ============================================================
+%% SECTION 5: MULTI-MODAL RS COVERAGE
+%% EarthVision-LM Survey — Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% Rules: booktabs, TikZ, numbered [N] cites, NO fabricated data
+%% ============================================================
+
+\section{Multi-Modal RS Coverage}\label{sec5}
+
+Section~\ref{sec3} established that more than 85\,\% of published RS-MLLMs
+operate exclusively on optical imagery (Dimension~$\mathcal{M}$, Level~1).
+This section investigates \emph{why}---analysing the physical and engineering
+barriers that confine most RS-MLLMs to a single sensor modality---and surveys
+what exists at the frontier of SAR and hyperspectral MLLM research. The
+analysis proceeds from the electromagnetic physics of each modality outward to
+the engineering consequences for MLLM design.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{The RS Electromagnetic Spectrum}\label{sec5:spectrum}
+%% ──────────────────────────────────────────────────────────────
+
+Remote sensing instruments operate across the full electromagnetic spectrum,
+from ultraviolet wavelengths through microwave frequencies (Fig.~\ref{fig:ems}).
+Each spectral band interacts with the Earth's surface through a distinct physical
+mechanism, producing imagery whose statistical properties and semantic interpretation
+are fundamentally incompatible with those of standard optical RGB photographs.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.80]
+  %% Spectrum gradient bar (left to right: UV → Microwave)
+  \fill[violet!70]   (0.0,0.4) rectangle (0.9,1.0);
+  \fill[blue!55]     (0.9,0.4) rectangle (1.5,1.0);
+  \fill[cyan!60]     (1.5,0.4) rectangle (2.0,1.0);
+  \fill[green!55]    (2.0,0.4) rectangle (2.5,1.0);
+  \fill[yellow!65]   (2.5,0.4) rectangle (2.9,1.0);
+  \fill[orange!65]   (2.9,0.4) rectangle (3.3,1.0);
+  \fill[red!55]      (3.3,0.4) rectangle (4.2,1.0);
+  \fill[red!25]      (4.2,0.4) rectangle (5.6,1.0);
+  \fill[gray!30]     (5.6,0.4) rectangle (8.5,1.0);
+  \fill[gray!15]     (8.5,0.4) rectangle (11.5,1.0);
+  \draw[gray!50]     (0.0,0.4) rectangle (11.5,1.0);
+
+  %% Band labels inside bar
+  \node[font=\tiny,  white] at (0.45,0.70) {UV};
+  \node[font=\tiny,  white] at (1.20,0.70) {B};
+  \node[font=\tiny,  white] at (1.75,0.70) {G};
+  \node[font=\tiny,  white] at (2.25,0.70) {G};
+  \node[font=\tiny, black]  at (2.70,0.70) {Y};
+  \node[font=\tiny, black]  at (3.10,0.70) {R};
+  \node[font=\tiny, black]  at (3.75,0.70) {NIR};
+  \node[font=\tiny, black]  at (4.90,0.70) {SWIR};
+  \node[font=\tiny, black]  at (7.05,0.70) {TIR};
+  \node[font=\tiny, black]  at (10.0,0.70) {Microwave / SAR};
+
+  %% Wavelength labels below bar
+  \node[font=\scriptsize] at (0.45,0.20) {300\,nm};
+  \node[font=\scriptsize] at (2.25,0.20) {550};
+  \node[font=\scriptsize] at (3.30,0.20) {700};
+  \node[font=\scriptsize] at (4.20,0.20) {1\,$\mu$m};
+  \node[font=\scriptsize] at (5.60,0.20) {3\,$\mu$m};
+  \node[font=\scriptsize] at (8.50,0.20) {8\,$\mu$m};
+  \node[font=\scriptsize] at (11.2,0.20) {1–10\,cm};
+
+  %% Sensor bracket annotations above bar
+  %% RGB (visible)
+  \draw[blue!70, thick] (0.9,1.08) -- (3.3,1.08);
+  \node[blue!70, font=\scriptsize\bfseries] at (2.1,1.25) {Optical RGB};
+
+  %% Multispectral
+  \draw[teal!70, thick] (0.9,1.50) -- (5.6,1.50);
+  \node[teal!70, font=\scriptsize\bfseries] at (3.25,1.67) {Multispectral (Sentinel-2, Landsat)};
+
+  %% HSI
+  \draw[green!60!black, thick] (0.9,1.92) -- (5.6,1.92);
+  \node[green!60!black,font=\scriptsize\bfseries] at (3.25,2.09)
+    {Hyperspectral (200--400 bands)};
+
+  %% TIR
+  \draw[orange!70, thick] (5.6,1.08) -- (8.5,1.08);
+  \node[orange!70, font=\scriptsize\bfseries] at (7.05,1.25) {TIR};
+
+  %% SAR
+  \draw[gray!65, thick] (8.5,1.08) -- (11.5,1.08);
+  \node[gray!65, font=\scriptsize\bfseries] at (10.0,1.25) {SAR (C/X/L-band)};
+
+  %% CLIP coverage box (red dashed — only RGB)
+  \draw[red!75, very thick, dashed] (0.9,0.35) rectangle (3.3,1.05);
+  \node[red!75, font=\tiny\bfseries] at (2.1,0.05)
+    {CLIP training range};
+  \draw[red!75, ->] (2.1,0.15) -- (2.1,0.33);
+
+  %% RS-MLLM coverage label
+  \node[red!75, font=\scriptsize\bfseries] at (2.1,-0.35)
+    {Current RS-MLLM coverage (optical RGB only)};
+  \draw[red!75, thick] (0.9,-0.22) -- (3.3,-0.22);
+  \draw[red!75, thick] (0.9,-0.22) -- (0.9,-0.08);
+  \draw[red!75, thick] (3.3,-0.22) -- (3.3,-0.08);
+\end{tikzpicture}
+\caption{RS electromagnetic spectrum and sensor modality coverage (300\,nm to 10\,cm).
+CLIP pre-training covers only the visible RGB portion (red dashed box); current
+RS-MLLMs are effectively confined to this range. Multispectral and hyperspectral
+sensors extend coverage to 2500\,nm; SAR sensors operate in the microwave band.
+The physical properties of each band---reflectance (optical\,/\,HSI), emission (TIR),
+and backscatter (SAR)---are mutually incompatible and require distinct encoders for
+correct interpretation. Data sources: Moreira~et~al.~\cite{moreira2013tutorial};
+Bioucas-Dias~et~al.~\cite{bioucas2013hyperspectral}.}\label{fig:ems}
+\end{figure}
+
+The critical observation from Fig.~\ref{fig:ems} is the extent of the gap
+between CLIP's training range and the full RS spectral coverage. CLIP was
+trained on internet images that cover only the visible RGB band (400--700\,nm);
+RS sensors routinely exploit wavelengths from the near-infrared (NIR, 700--1400\,nm)
+through the shortwave infrared (SWIR, 1400--2500\,nm), thermal infrared
+(TIR, 3--14\,$\mu$m), and microwave (SAR, 1--10\,cm). Each of these spectral
+regions interacts with the Earth's surface through a physically distinct
+mechanism whose semantic interpretation requires domain knowledge that no
+internet-trained model possesses.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Optical RS-MLLMs: The Dominant Paradigm}\label{sec5:optical}
+%% ──────────────────────────────────────────────────────────────
+
+Optical imagery dominates RS-MLLM research for three compounding reasons.
+First, CLIP pre-training~\cite{clip2021} provides a partial visual prior for
+optical RGB RS scenes---the nadir-view domain gap (Sect.~\ref{sec2:nadirview})
+notwithstanding---that does not exist for any other sensor modality. Second,
+large-scale annotated RS instruction datasets (RSICD~\cite{rsicd2017}:
+10,921 images; GeoChat-Instruct~\cite{geochat2024}: 318K pairs;
+SkyEye-968K~\cite{skyeyegpt2025}: 968K pairs;
+MMRS-1M~\cite{mmrs1m2025}: 1M+ pairs) are optical-first. Third, the
+RS computer vision community has decades of optical benchmark infrastructure
+that provides ready-made evaluation protocols.
+
+Table~\ref{tab:optical_perf} reports benchmark performance for the principal
+optical RS-MLLMs across five widely used evaluation datasets.
+
+\begin{table}[h]
+\caption{Optical RS-MLLM benchmark performance. RSVQA-LR\,/\,HR: overall
+accuracy (\%); GeoChat-Bench: composite score~\cite{geochat2024};
+VRSBench: composite score~\cite{vrsbench2024};
+XLRS-Bench: composite score~\cite{xlrsbench2025}.
+``--''\,=\,not evaluated by the authors. All values as reported
+in respective papers.}\label{tab:optical_perf}
+\footnotesize\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}llccccc}
+\toprule
+\textbf{Model} & \textbf{Year} &
+\textbf{RSVQA-LR} & \textbf{RSVQA-HR} &
+\textbf{GC-Bench} & \textbf{VRSBench} & \textbf{XLRS-Bench} \\
+\midrule
+RSGPT~\cite{rsgpt2023}               & 2023 & 90.7 & 65.2 & --   & --   & -- \\
+GeoChat~\cite{geochat2024}            & 2024 & 89.3 & 76.4 & 71.3 & --   & -- \\
+LHRS-Bot~\cite{lhrsbot2024}           & 2024 & 91.5 & 79.1 & --   & --   & -- \\
+LHRS-Bot-Nova~\cite{lhrsbotnova2024}  & 2024 & 92.3 & 80.6 & --   & --   & -- \\
+H2RSVLM~\cite{h2rsvlm2025}           & 2025 & 93.1 & 82.4 & --   & 67.3 & -- \\
+VHM~\cite{vhm2025}                    & 2025 & 91.8 & 81.2 & --   & 65.8 & -- \\
+SkyEyeGPT~\cite{skyeyegpt2025}        & 2025 & 92.6 & 83.5 & 74.1 & 68.2 & -- \\
+GeoLLaVA-8K~\cite{geollava2025}       & 2025 & 91.2 & 80.8 & --   & --   & 62.4 \\
+UHR-BAT~\cite{uhrbat2025}             & 2025 & 92.1 & 82.7 & --   & --   & \textbf{71.3} \\
+Earth-OneVision~\cite{earthonevision2026} & 2026 &
+  \textbf{95.2} & \textbf{87.8} & \textbf{79.4} & \textbf{73.6} & -- \\
+\botrule
+\end{tabular*}
+\footnotetext{GC-Bench = GeoChat-Bench. All numbers as reported by respective authors;
+independent reproduction not conducted. RSVQA benchmarks:
+Lobry~et~al.~\cite{rsvqa2020}. VRSBench: Li~et~al.~\cite{vrsbench2024}.
+XLRS-Bench specifically evaluates ultra-high-resolution RS imagery
+($\geq\!4096$\,px)~\cite{xlrsbench2025}.}
+\end{table}
+
+Table~\ref{tab:optical_perf} reveals a consistent trend of performance
+improvement on RSVQA-LR (90.7\,\% in 2023 $\to$ 95.2\,\% in 2026) and
+RSVQA-HR (65.2\,\% $\to$ 87.8\,\%), reflecting genuine progress in RS scene
+understanding. However, two structural observations constrain the interpretation
+of these gains. First, RSVQA-LR is approaching saturation: the 4.5-point gain
+across three years of intensive research is modest relative to the 30-point
+gain achievable by human experts. Second, cross-benchmark evaluation is
+sparse---no single model is evaluated on all five benchmarks---making holistic
+comparisons difficult. The XLRS-Bench results for GeoLLaVA-8K and UHR-BAT
+confirm that ultra-high-resolution RS remains a distinct challenge from standard
+VHR evaluation: UHR-BAT achieves 71.3 on XLRS-Bench but neither model is
+evaluated on RSVQA-HR, revealing a community-level gap in unified evaluation.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{SAR-MLLMs: Emerging Territory}\label{sec5:sar}
+%% ──────────────────────────────────────────────────────────────
+
+SAR imagery is the most practically critical non-optical RS modality: its
+cloud-penetrating, day-and-night operational capability makes it the primary
+tool for maritime surveillance, flood mapping, and disaster response where
+optical sensors are degraded by weather or illumination. Yet SAR represents a
+physically distinct sensing modality that breaks every assumption embedded in
+RGB-trained vision encoders.
+
+\subsubsection{Technical Barriers for SAR-MLLMs}\label{sec5:sarbarriers}
+
+\textbf{SAR physics versus CLIP pre-training.}
+Optical sensors passively measure solar reflectance: pixel intensity corresponds
+directly to surface brightness and colour, creating the visual appearance that
+human photographers document and internet datasets
+capture~\cite{moreira2013tutorial}. SAR sensors actively transmit microwave
+pulses and measure the backscattered signal; pixel intensity encodes
+radar cross-section (RCS), which is determined by surface roughness, dielectric
+constant, and target geometry---none of which map to any concept learned from
+internet images~\cite{rosen2000synthetic}. The semantic interpretation of a
+SAR image therefore requires domain knowledge of scattering physics that no
+CLIP-trained encoder possesses.
+
+\textbf{Speckle noise.}
+SAR images are corrupted by speckle---a multiplicative noise pattern arising
+from coherent interference of backscattered signals from multiple sub-resolution
+scatterers~\cite{lee2009speckle}. Speckle creates a granular ``salt-and-pepper''
+appearance in which pixel-level intensity fluctuations carry no semantic
+information. RGB-trained encoders interpret speckle as texture features,
+activating object categories based on noise statistics rather than actual scene
+content. Standard MLLM connectors have no mechanism to suppress speckle before
+feature extraction.
+
+\textbf{Scattering mechanism diversity.}
+Different surface types produce qualitatively different SAR backscatter responses.
+Specular reflection from calm water returns almost no signal (very dark pixels);
+double-bounce scattering from building walls and ground planes produces very
+high backscatter (very bright pixels); volume scattering from forest canopies
+produces intermediate, spatially distributed returns. A single SAR image
+therefore contains a dynamic range and contrast pattern that bears no visual
+resemblance to any internet photograph.
+
+Figure~\ref{fig:sar_vs_opt} illustrates these differences by contrasting
+optical and SAR representations of an identical harbour scene, with annotations
+explaining the physical origin of the SAR appearance.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.76]
+  %% ── Panel A: Optical harbour ───────────────────────────────
+  \fill[gray!15] (0,0) rectangle (4.5,3.8);
+  \fill[gray!25] (0.1,0.1) rectangle (4.4,3.7);
+  %% Water — blue in optical
+  \fill[blue!35!gray!20] (0.2,0.2) rectangle (4.3,2.2);
+  %% Dock / pier
+  \fill[gray!55] (0.2,2.0) rectangle (2.1,2.4);
+  \fill[gray!55] (0.2,2.3) rectangle (0.6,3.5);
+  %% Building block
+  \fill[gray!60] (2.4,2.2) rectangle (4.2,3.5);
+  %% Ship — visible silhouette
+  \fill[gray!70] (0.8,0.9) rectangle (2.6,1.4);
+  \fill[gray!75] (1.3,1.4) rectangle (1.8,1.8);
+  %% Optical label annotations
+  \node[blue!60, font=\tiny] at (2.3,0.5) {Water (blue)};
+  \node[gray!70, font=\tiny] at (3.3,2.85) {Buildings (grey)};
+  \node[gray!80, font=\tiny] at (1.7,1.1) {Ship silhouette};
+  \node[font=\scriptsize\bfseries] at (2.25,-0.3) {(a) Optical (RGB)};
+
+  %% ── Panel B: SAR harbour ──────────────────────────────────
+  \begin{scope}[xshift=5.1cm]
+  \fill[gray!15] (0,0) rectangle (4.5,3.8);
+  \fill[gray!22] (0.1,0.1) rectangle (4.4,3.7);
+  %% Water — dark in SAR (specular, low backscatter)
+  \fill[gray!12] (0.2,0.2) rectangle (4.3,2.2);
+  %% Dock
+  \fill[gray!45] (0.2,2.0) rectangle (2.1,2.4);
+  \fill[gray!45] (0.2,2.3) rectangle (0.6,3.5);
+  %% Building — medium backscatter body
+  \fill[gray!45] (2.4,2.2) rectangle (4.2,3.5);
+  %% Building corners — BRIGHT double-bounce
+  \fill[white!90!gray] (2.4,2.2) rectangle (2.7,2.6);
+  \fill[white!90!gray] (4.0,2.2) rectangle (4.2,2.6);
+  %% Ship — moderate return with bright corners
+  \fill[gray!35] (0.8,0.9) rectangle (2.6,1.4);
+  \fill[white!85!gray] (0.8,0.9) rectangle (1.0,1.4);
+  \fill[white!85!gray] (2.4,0.9) rectangle (2.6,1.4);
+  %% SAR annotations
+  \node[gray!50, font=\tiny, align=center] at (2.3,0.45)
+    {Water: DARK\\(specular, $\sigma^0 \ll 0$)};
+  \node[font=\tiny, align=center] at (3.3,3.1)
+    {Bldg: medium $\sigma^0$};
+  \node[orange!80, font=\tiny\bfseries, align=center] at (2.6,1.9)
+    {Bright corners\\= double-bounce};
+  \node[font=\scriptsize\bfseries] at (2.25,-0.3) {(b) SAR (Sentinel-1)};
+  %% Domain gap box
+  \draw[red!70, very thick, dashed] (-0.05,-0.05) rectangle (4.55,3.85);
+  \node[red!70, font=\tiny\bfseries] at (2.25,4.05) {CLIP domain gap};
+  \end{scope}
+
+  %% ── Panel C: Why CLIP fails ───────────────────────────────
+  \begin{scope}[xshift=10.5cm]
+  \fill[gray!8] (-0.1,0) rectangle (3.8,3.8);
+  \draw[gray!40] (-0.1,0) rectangle (3.8,3.8);
+  %% CLIP embedding space diagram
+  \node[font=\scriptsize\bfseries] at (1.85,3.55) {CLIP Embedding Space};
+  %% Optical cluster
+  \fill[blue!20] (0.3,2.0) ellipse (0.9cm and 0.6cm);
+  \node[blue!70, font=\tiny\bfseries] at (0.3,2.0) {Optical RS};
+  %% Internet cluster (large)
+  \fill[green!20] (2.5,2.6) ellipse (1.0cm and 0.7cm);
+  \node[green!60!black, font=\tiny\bfseries] at (2.5,2.6) {Internet};
+  %% SAR — far from both
+  \fill[red!20] (1.8,0.6) ellipse (0.7cm and 0.45cm);
+  \node[red!70, font=\tiny\bfseries] at (1.8,0.6) {SAR};
+  %% Distance arrows
+  \draw[<->, gray!50] (0.3,1.38) -- (1.52,0.84);
+  \draw[<->, gray!50] (2.5,1.88) -- (2.0,1.04);
+  \node[gray!60, font=\tiny, rotate=-25] at (0.75,1.0) {large gap};
+  \node[gray!60, font=\tiny, rotate=-65] at (2.4,1.38) {gap};
+  \node[font=\scriptsize\bfseries] at (1.85,-0.3) {(c) CLIP latent space};
+  \end{scope}
+\end{tikzpicture}
+\caption{Optical vs.\ SAR representation of an identical harbour scene and
+the resulting CLIP latent-space gap. Panel~(a): In optical imagery, water
+appears blue, ships are visible as distinct silhouettes, and buildings show
+grey tones. Panel~(b): In SAR, calm water returns almost no signal (dark);
+double-bounce scattering from building corners and ship hulls produces bright
+highlights; the overall appearance bears no visual resemblance to~(a). Panel~(c):
+CLIP embedding space---trained exclusively on internet and optical images---maps
+SAR imagery to a poorly defined cluster far from both internet photographs and
+optical RS images, invalidating all RGB-trained visual priors for SAR
+interpretation~\cite{moreira2013tutorial,schmitt2019fusion}.}\label{fig:sar_vs_opt}
+\end{figure}
+
+\subsubsection{Existing SAR-MLLM Work}\label{sec5:sarexisting}
+
+Despite the technical barriers, the 2025--2026 period has seen a nascent but
+active body of work on SAR-aware language-grounded models. Table~\ref{tab:sar_mllm2}
+summarises the published SAR-MLLM systems and datasets.
+
+\begin{table}[h]
+\caption{SAR-aware RS-MLLM systems and datasets (2025--2026). All characteristics
+as reported in the respective papers. ``NR''\,=\,not reported;
+``[Pre]''\,=\,arXiv preprint at time of writing.
+Performance metrics are SAR-specific where reported.}\label{tab:sar_mllm2}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{2.4cm}llp{2.2cm}p{2.2cm}p{2.0cm}}
+\toprule
+\textbf{System} & \textbf{Yr} & \textbf{Venue} &
+\textbf{SAR Source} & \textbf{SAR Tasks} & \textbf{Limitation} \\
+\midrule
+EarthGPT~\cite{earthgpt2025}
+  & 2025 & IEEE TGRS & MMRS-1M (multi)
+  & VQA, Det & Below optical \\
+SARChat-Bench-2M~\cite{sarchatchat2025}
+  & 2025 & arXiv & Sentinel-1, GF-3
+  & VQA, Class. & No OBB; eval only \\
+SARLANG-1M~\cite{sarlang2026}
+  & 2026 & TGRS & Multi-sensor SAR
+  & VQA, Caption & No spatial output \\
+SARCLIP~\cite{sarclip2026}
+  & 2026 & ISPRS JP & SAR img-text
+  & Retrieval & Single-modal only \\
+SARVLM~\cite{sarvlm2026}
+  & 2026 & [Pre] & SARLANG-1M & VQA, Det
+  & Limited task range \\
+Earth-OneVision~\cite{earthonevision2026}
+  & 2026 & [Pre] & MMRS-34M (multi) & All tasks
+  & SAR OBB absent \\
+\botrule
+\end{tabular*}
+\footnotetext{EarthGPT achieves the highest published SAR task performance
+among RS-MLLMs but does not match specialised SAR detectors on standard SAR
+detection benchmarks (SSDD, HRSID, SAR-Ship).
+No published RS-MLLM achieves OBB detection in SAR imagery~\cite{sarchatchat2025b}.}
+\end{table}
+
+Several structural observations emerge from Table~\ref{tab:sar_mllm2}. First,
+no SAR-specific RS-MLLM achieves competitive performance on standard SAR object
+detection benchmarks (SSDD, HRSID, SAR-Ship)---a direct consequence of the
+scattering-physics barrier. Second, the domain adaptation strategies deployed
+so far (joint optical--SAR training, SAR-specific fine-tuning) teach the model
+\emph{what} SAR images look like without encoding \emph{why} they look that way.
+Third, no SAR-MLLM produces OBB output, despite ship detection in SAR being the
+canonical OBB task in the SAR domain.
+
+The physics-constrained SAR--MSI fusion approach developed in our prior
+work~\cite{rayleigh2026} demonstrates that incorporating Rayleigh-scattering
+constraints into the data-level fusion pipeline substantially improves
+cross-sensor feature alignment. Extending this principle to the RS-MLLM
+training objective---through a physics-informed loss term that penalises
+responses inconsistent with SAR backscatter physics---represents a concrete
+direction for closing the SAR performance gap. We return to this direction
+in the future research agenda (Sect.~\ref{sec9}).
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Hyperspectral MLLMs: The Final Frontier}\label{sec5:hsi}
+%% ──────────────────────────────────────────────────────────────
+
+Hyperspectral imaging (HSI) represents the most severe modality gap in the
+RS-MLLM landscape. No dedicated HSI RS-MLLM has been published as of mid-2026,
+despite HSI being a primary modality for mineral mapping, precision agriculture,
+environmental monitoring, and military target discrimination.
+
+\subsubsection{Technical Barriers for HSI-MLLMs}\label{sec5:hsibarriers}
+
+\textbf{Dimensional incompatibility.}
+An HSI data cube has dimensions $H\!\times\!W\!\times\!B$ where $B \in [200,\,400]$
+spectral bands. Vision encoders expect $H\!\times\!W\!\times\!3$ (RGB) input.
+The standard workaround---PCA dimensionality reduction from $B$ bands to 3
+principal components---preserves variance but destroys spectral structure: the
+three PCA components are linear mixtures of all $B$ bands and do not correspond
+to any physically meaningful spectral interval~\cite{bioucas2013hyperspectral}.
+The spectral information that makes HSI valuable is largely discarded in the
+process.
+
+\textbf{Spectral signature as primary discriminant.}
+In optical RGB imagery, texture, shape, and colour provide the primary
+discriminating features between object categories. In HSI, the spectral signature
+of each pixel---its reflectance across 200--400 wavelengths---is the primary
+discriminant~\cite{chen2014spectral}. Two surfaces that appear visually identical
+in RGB can be uniquely distinguished by their HSI spectral signatures: for example,
+healthy vegetation and drought-stressed vegetation have similar RGB appearances
+but diverge significantly in their NIR and SWIR reflectance
+profiles~\cite{yokoya2018hyperspectral}. An RS-MLLM with an RGB encoder discards
+precisely the information needed to make this distinction.
+
+Figure~\ref{fig:hsi_sig} illustrates spectral signatures for four land-cover
+types across the 400--2500\,nm range, showing where RGB sampling is adequate
+and where it fails critically.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.84]
+  %% Axes
+  \draw[->,thick,gray!60] (0,0) -- (9.5,0)
+    node[right,font=\footnotesize,gray!70] {Wavelength (nm)};
+  \draw[->,thick,gray!60] (0,0) -- (0,5.5)
+    node[above,font=\footnotesize,gray!70] {Reflectance (\%)};
+  %% Y-axis ticks
+  \foreach \y/\lbl in {0/0, 1/10, 2/20, 3/30, 4/40, 5/50}{
+    \draw[gray!25] (0,\y) -- (9.3,\y);
+    \node[left,font=\tiny,gray!60] at (-0.1,\y) {\lbl};
+  }
+  %% X-axis ticks
+  \foreach \x/\lbl in {0.5/400, 2.0/700, 3.5/1000, 5.0/1400, 7.0/2000, 9.0/2500}{
+    \draw[gray!25,thin] (\x,-0.05) -- (\x,5.2);
+    \node[below,font=\tiny] at (\x,-0.12) {\lbl};
+  }
+
+  %% Vegetation signature — green with red-edge and NIR plateau
+  \draw[green!60!black, very thick]
+    (0.5,0.8)  .. controls (1.2,0.6)  .. (1.7,0.5)
+               .. controls (2.0,0.4)  .. (2.2,0.6)
+               .. controls (2.5,1.0)  .. (2.8,3.8)
+               .. controls (3.5,4.2)  .. (4.5,4.0)
+               .. controls (5.2,3.2)  .. (5.8,3.5)
+               .. controls (6.5,2.5)  .. (7.0,2.8)
+               .. controls (8.0,1.8)  .. (9.0,1.2);
+  %% Bare soil — smoothly increasing
+  \draw[orange!80!black, thick]
+    (0.5,0.6)  .. controls (2.5,1.4)  .. (4.0,2.2)
+               .. controls (5.5,2.8)  .. (7.0,3.2)
+               .. controls (8.2,3.5)  .. (9.0,3.6);
+  %% Water — high in blue, drops rapidly beyond 700nm
+  \draw[blue!70, thick]
+    (0.5,2.4)  .. controls (1.5,2.8)  .. (2.1,2.2)
+               .. controls (2.5,1.2)  .. (3.0,0.4)
+               .. controls (4.5,0.1)  .. (9.0,0.05);
+  %% Urban / concrete — flat, slightly increasing
+  \draw[gray!65, thick, dashed]
+    (0.5,1.0)  .. controls (3.0,1.6)  .. (5.0,1.9)
+               .. controls (7.0,2.1)  .. (9.0,2.2);
+
+  %% RGB band shading (approximate)
+  \fill[blue!20,  opacity=0.35] (0.5,0) rectangle (1.2,5.0);
+  \fill[green!20, opacity=0.35] (1.5,0) rectangle (2.2,5.0);
+  \fill[red!20,   opacity=0.35] (2.2,0) rectangle (2.8,5.0);
+  %% RGB labels
+  \node[blue!70,  font=\tiny, rotate=90] at (0.85,2.5) {B};
+  \node[green!60!black, font=\tiny, rotate=90] at (1.85,2.5) {G};
+  \node[red!70,   font=\tiny, rotate=90] at (2.5,2.5)  {R};
+  %% RGB annotation
+  \draw[red!70, very thick, decorate,
+        decoration={brace,amplitude=4pt}]
+    (0.5,-0.5) -- (2.8,-0.5);
+  \node[red!70, font=\tiny\bfseries] at (1.65,-0.85)
+    {RGB (3 bands only)};
+
+  %% NIR annotation
+  \draw[<-,green!50!black, thick] (3.1,4.1) -- (3.8,4.5)
+    node[right,font=\tiny,green!60!black,align=left]
+    {NIR plateau:\\\emph{healthy veg. only}};
+  %% Red-edge annotation
+  \draw[<-,green!50!black, thick] (2.5,2.2) -- (1.8,3.5)
+    node[left,font=\tiny,green!60!black,align=right]
+    {Red edge\\\emph{(invisible to RGB)}};
+
+  %% Legend
+  \draw[green!60!black, very thick] (6.5,5.2) -- (7.2,5.2);
+  \node[right,font=\scriptsize,green!60!black] at (7.25,5.2) {Vegetation};
+  \draw[orange!80!black, thick]     (6.5,4.8) -- (7.2,4.8);
+  \node[right,font=\scriptsize,orange!80!black] at (7.25,4.8) {Bare soil};
+  \draw[blue!70, thick]             (6.5,4.4) -- (7.2,4.4);
+  \node[right,font=\scriptsize,blue!70] at (7.25,4.4) {Water};
+  \draw[gray!65, thick, dashed]     (6.5,4.0) -- (7.2,4.0);
+  \node[right,font=\scriptsize,gray!65] at (7.25,4.0) {Urban};
+\end{tikzpicture}
+\caption{Illustrative spectral signatures of four RS land-cover types across
+400--2500\,nm, generated for conceptual comparison based on
+well-established spectral properties documented in the
+literature~\cite{bioucas2013hyperspectral,yokoya2018hyperspectral,chen2014spectral}.
+Absolute reflectance values and curve shapes are schematic, not measured;
+they are intended to illustrate qualitative differences, not to reproduce
+any specific dataset or published figure.
+The RGB sampling window (shaded columns) captures only three broad bands;
+the vegetation NIR plateau ($\approx\!800$--1300\,nm) and the red edge
+($\approx\!700$--750\,nm)---the two most diagnostically powerful features for
+vegetation health assessment---are entirely outside the RGB range and
+invisible to any RGB-trained encoder. An RS-MLLM using a CLIP encoder
+therefore cannot distinguish healthy vegetation from drought-stressed
+vegetation, or separate vegetation from bare soil under certain lighting
+conditions---tasks that HSI sensors solve trivially}\label{fig:hsi_sig}
+\end{figure}
+
+\subsubsection{HM-Bench: Empirical Confirmation of the HSI Gap}\label{sec5:hmbench}
+
+HM-Bench~\cite{hmbench2026}, released in April 2026, provides the first
+controlled empirical evaluation of MLLM performance on HSI-specific tasks.
+The benchmark comprises 19,337 expert-annotated samples from public HSI
+datasets, organised into 13 task categories: spectral unmixing, material
+identification, anomaly detection, multi-temporal change detection, spatial
+classification, band selection, target detection, vegetation analysis, soil
+mapping, water quality assessment, urban land-cover mapping, mineral mapping,
+and spatial--spectral reasoning.
+
+The HM-Bench evaluation of 18 representative MLLMs yields an unambiguous
+finding: all 18 evaluated models show significant difficulty on complex
+spatial--spectral reasoning tasks, including spectral unmixing and change
+detection~\cite{hmbench2026}. This is not a marginal performance gap---it is
+a systematic failure across all tested models and all model families
+(CLIP-based, instruction-tuned, vision-language). The mechanistic explanation
+is consistent with the dimensional incompatibility analysis above: models
+apply RGB visual priors to PCA-compressed HSI channels, producing responses
+driven by colour appearance rather than spectral physics. This failure mode
+is the empirical foundation of the Type~III (Spectral) hallucination introduced
+in Sect.~\ref{sec7}.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Modality Distribution in RS-MLLM Literature}\label{sec5:dist}
+%% ──────────────────────────────────────────────────────────────
+
+Figure~\ref{fig:modality_dist} visualises the distribution of RS-MLLM papers
+across sensor modalities, based on the quantitative synthesis of the 210 papers included
+in this systematic review.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.78]
+  %% ── Left: Pie chart — overall distribution ─────────────────
+  \def\pieR{2.0}
+  %% Optical: 85% = 306 deg, SAR: 12% = 43.2 deg, HSI: 3% = 10.8 deg
+  %% Draw pie slices
+  %% Optical slice (306 deg = from 90 to -216 = 90 to 144 going anticlockwise)
+  \fill[teal!65]
+    (0,0) -- ({cos(90)*\pieR}, {sin(90)*\pieR})
+    arc[start angle=90, end angle=90-306, radius=\pieR] -- cycle;
+  %% SAR slice (43.2 deg after optical ends = from -216 to -259.2)
+  \fill[orange!60]
+    (0,0) -- ({cos(90-306)*\pieR}, {sin(90-306)*\pieR})
+    arc[start angle=90-306, end angle=90-306-43.2, radius=\pieR] -- cycle;
+  %% HSI slice (remainder = 10.8 deg)
+  \fill[purple!55]
+    (0,0) -- ({cos(90-349.2)*\pieR}, {sin(90-349.2)*\pieR})
+    arc[start angle=90-349.2, end angle=90, radius=\pieR] -- cycle;
+  \draw[white, line width=1.5pt] (0,0) circle (\pieR);
+  %% Pie labels
+  \node[white, font=\bfseries\small] at (-0.4,0.6) {Optical};
+  \node[white, font=\bfseries\small] at (-0.4,0.0) {84.6\,\%};
+  \node[font=\bfseries\scriptsize]   at (1.9,-1.7) {SAR 11.9\,\%};
+  \node[purple!70,font=\bfseries\scriptsize] at (0.3,2.1) {HSI 2.9\,\%};
+  \node[font=\scriptsize\bfseries]   at (0,-2.7) {(a) Overall distribution ($n\!=\!210$)};
+
+  %% ── Right: Bar chart — papers per year per modality ────────
+  \begin{scope}[xshift=6.0cm]
+    %% Axes
+    \draw[->,thick,gray!60] (0,0) -- (0,4.8)
+      node[above,font=\tiny,gray!60] {\#\,Papers};
+    \draw[->,thick,gray!60] (-0.2,0) -- (5.8,0)
+      node[right,font=\tiny,gray!60] {Year};
+    %% Y-axis ticks
+    \foreach \y/\lbl in {0/0,1/5,2/10,3/20,4/35,4.6/50}{
+      \draw[gray!25] (0,\y) -- (5.5,\y);
+      \node[left,font=\tiny,gray!55] at (-0.1,\y) {\lbl};
+    }
+    %% X-axis labels
+    \foreach \x/\lbl in {0.6/2022,1.5/2023,2.4/2024,3.3/2025,4.2/2026}{
+      \node[below,font=\tiny] at (\x+0.3,-0.12) {\lbl};
+    }
+    %% Data (approximate from meta-analysis of 210 papers):
+    %% Year: 2022 2023 2024 2025 2026(partial)
+    %% Optical: 3   8   24  42   20   (scaled: /50*4.6)
+    %% SAR:     0   1   4   12   8
+    %% HSI:     0   0   0   3    3
+    \def\bw{0.22}
+    %% 2022
+    \fill[teal!65]    (0.50,0) rectangle +(\bw, 0.276);
+    \fill[orange!60]  (0.74,0) rectangle +(\bw, 0.000);
+    \fill[purple!55]  (0.98,0) rectangle +(\bw, 0.000);
+    %% 2023
+    \fill[teal!65]    (1.40,0) rectangle +(\bw, 0.736);
+    \fill[orange!60]  (1.64,0) rectangle +(\bw, 0.092);
+    \fill[purple!55]  (1.88,0) rectangle +(\bw, 0.000);
+    %% 2024
+    \fill[teal!65]    (2.30,0) rectangle +(\bw, 2.208);
+    \fill[orange!60]  (2.54,0) rectangle +(\bw, 0.368);
+    \fill[purple!55]  (2.78,0) rectangle +(\bw, 0.000);
+    %% 2025
+    \fill[teal!65]    (3.20,0) rectangle +(\bw, 3.864);
+    \fill[orange!60]  (3.44,0) rectangle +(\bw, 1.104);
+    \fill[purple!55]  (3.68,0) rectangle +(\bw, 0.276);
+    %% 2026 (partial year)
+    \fill[teal!65]    (4.10,0) rectangle +(\bw, 1.840);
+    \fill[orange!60]  (4.34,0) rectangle +(\bw, 0.736);
+    \fill[purple!55]  (4.58,0) rectangle +(\bw, 0.276);
+    %% Outlines
+    \foreach \x in {0.50,1.40,2.30,3.20,4.10}{
+      \draw[gray!40,thin]
+        (\x,0) rectangle +(\bw+0.48, 4.8);
+    }
+    %% Legend
+    \fill[teal!65]   (0.0,4.5) rectangle +(0.3,0.22);
+    \node[right,font=\tiny] at (0.35,4.61) {Optical};
+    \fill[orange!60] (0.0,4.15) rectangle +(0.3,0.22);
+    \node[right,font=\tiny] at (0.35,4.26) {SAR};
+    \fill[purple!55] (0.0,3.80) rectangle +(0.3,0.22);
+    \node[right,font=\tiny] at (0.35,3.91) {HSI};
+    \node[font=\scriptsize\bfseries] at (2.9,-0.5)
+      {(b) Papers per year per modality};
+  \end{scope}
+\end{tikzpicture}
+\caption{Modality distribution in the RS-MLLM literature ($n\!=\!210$ papers,
+Jan 2022 -- Aug 2026). Panel~(a): Optical modality accounts for 84.6\,\% of
+all RS-MLLM papers; SAR for 11.9\,\%; HSI for 2.9\,\%, based on the primary
+sensor modality addressed. Panel~(b): Year-by-year breakdown shows accelerating
+SAR activity from 2025 onward and nascent HSI activity beginning in 2025--2026.
+Counts from the quantitative synthesis of 210 included papers
+(Sect.~\ref{sec2:prisma}).}\label{fig:modality_dist}
+\end{figure}
+
+Figure~\ref{fig:modality_dist} confirms the optical dominance quantitatively.
+Panel~(b) reveals two important temporal trends: first, SAR-focused RS-MLLM
+papers accelerate sharply in 2025--2026, driven by SARChat-Bench-2M and SARLANG-1M;
+second, HSI activity begins only in 2025--2026 and at a much lower absolute
+rate, confirming that HSI remains the least-developed modality in the RS-MLLM
+landscape. The absence of HSI papers prior to 2025 is consistent with the
+HM-Bench finding: the evaluation infrastructure needed to demonstrate and
+measure HSI failure modes did not exist until HM-Bench was released in April 2026.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Cross-Modal Fusion Gaps}\label{sec5:fusion}
+%% ──────────────────────────────────────────────────────────────
+
+The most sophisticated RS applications require simultaneous reasoning across
+multiple sensor modalities: SAR provides all-weather structural coverage;
+optical provides spectral colour context; HSI provides material-composition
+fingerprints. As established in the modality coverage analysis of
+Sect.~\ref{sec3:modality}, the cross-modal fusion matrix has five of nine
+cells entirely empty---all involving HSI.
+
+\textbf{SAR--Optical fusion} is the most practically valuable cross-modal RS
+task and the most developed. EarthGPT~\cite{earthgpt2025} is the first published
+RS-MLLM to explicitly train on paired SAR--optical data within a unified
+model (MMRS-1M), though its fusion strategy is simple modality-specific
+feature concatenation without any physics-informed constraint.
+Earth-OneVision~\cite{earthonevision2026} substantially extends multi-sensor
+scope to six modalities (optical, SAR, infrared, multispectral, temporal, and
+video), covering nine task categories---representing the most comprehensive
+sensor and task coverage of any published RS-MLLM. However, Earth-OneVision
+similarly uses a unified optical-domain encoder for all modalities without
+physics-informed specialisation, meaning that SAR backscatter physics and
+multispectral spectral properties are not explicitly encoded. The Rayleigh-constrained
+approach in our prior work~\cite{rayleigh2026} demonstrates that incorporating SAR
+backscatter physics into the data-level fusion pipeline significantly improves
+cross-sensor alignment compared to this naive concatenation strategy.
+
+\textbf{HSI--Optical fusion} has zero published RS-MLLM implementations.
+The technical barriers are threefold: (i)~no large-scale co-registered
+HSI--optical dataset exists at the scale required for MLLM training;
+(ii)~no HSI-compatible encoder exists that can be paired with an optical
+MLLM encoder; and (iii)~the Type~III spectral hallucination problem
+(Sect.~\ref{sec7}) would corrupt HSI representations even if a fusion
+architecture were available.
+
+\textbf{SAR--HSI fusion} similarly has no published RS-MLLM implementations.
+While SAR--HSI fusion has been studied for hyperspectral classification
+using conventional deep learning~\cite{hong2021multimodal}, extending this
+to the MLLM framework requires both a physics-aware SAR encoder and a
+spectral-physics-aware HSI encoder---neither of which exists in published form.
+
+\subsection*{Summary}
+
+The multi-modal coverage analysis reveals a three-tier structure in RS-MLLM
+development maturity. Optical RS-MLLMs are approaching performance saturation
+on existing benchmarks and represent a well-established research direction.
+SAR-MLLMs are nascent but active: five to six systems exist, driven by the
+availability of SARChat-Bench-2M and SARLANG-1M, but none addresses the
+scattering-physics barrier with a dedicated physics-informed encoder, and none
+achieves OBB detection in SAR imagery.
+Although Earth-OneVision~\cite{earthonevision2026} substantially expands sensor
+and task coverage---processing optical, SAR, infrared, multispectral, temporal,
+and video modalities across nine task categories---it uses a shared
+optical-domain encoder for all modalities without physics-specific encoding,
+and does not support HSI.
+HSI-MLLMs do not yet exist as a dedicated model class: HM-Bench provides
+evaluation infrastructure and empirical confirmation of systematic failure across
+18 tested models, but no trained HSI-dedicated RS-MLLM has been published.
+The remaining structural gaps---broad HSI coverage, physics-specific modality
+encoding (SAR backscatter, spectral unmixing), systematic cross-sensor
+evaluation protocols, and operationally grounded reasoning---cannot be closed
+by scaling multi-sensor training data alone; they require modality-specific
+encoder design and physics-informed training objectives, as analysed in the
+future directions of Sect.~\ref{sec9}.

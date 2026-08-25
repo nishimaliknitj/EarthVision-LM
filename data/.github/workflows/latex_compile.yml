@@ -1,0 +1,37 @@
+name: Compile LaTeX Paper
+
+on:
+  push:
+    paths:
+      - 'latex/**'
+  pull_request:
+    paths:
+      - 'latex/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: earthvision_main.tex
+          working_directory: latex
+          args: -pdf -interaction=nonstopmode -halt-on-error
+
+      - name: Run BibTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: earthvision_main.tex
+          working_directory: latex
+          args: -pdf -interaction=nonstopmode
+
+      - name: Upload compiled PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: EarthVision-LM-compiled
+          path: latex/earthvision_main.pdf
+          retention-days: 30

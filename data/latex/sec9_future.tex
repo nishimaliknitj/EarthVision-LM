@@ -1,0 +1,576 @@
+%% ============================================================
+%% SECTION 9: FUTURE RESEARCH DIRECTIONS
+%% EarthVision-LM Survey -- Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% Self-citations framed as "promising direction" -- not "we prove"
+%% Rules: booktabs, TikZ, numbered [N] cites, NO fabricated data
+%% ============================================================
+
+\section{Future Research Directions}\label{sec9}
+
+The analyses of Sects.~\ref{sec3}--\ref{sec8} collectively expose a set of
+structural gaps between current RS-MLLM capability and the requirements of
+operational geospatial intelligence. This section first quantifies those
+gaps through an Operational Readiness Matrix, then organises eight concrete
+research directions grounded in the specific deficits identified throughout
+the survey.
+
+\subsection{Operational Readiness Matrix}\label{sec9:orm}
+
+Table~\ref{tab:orm} assesses the current RS-MLLM field against operational
+requirements across nine capability dimensions. The matrix makes the
+``Road to Geospatial Intelligence'' argument of the title concrete and
+falsifiable: each row identifies a measurable gap between where the field
+stands today and what operational deployment requires.
+
+\begin{table*}[t]
+\caption{Operational Readiness Matrix for RS-MLLMs. \textbf{Current RS-MLLM}:
+capability level across published models as of August 2026.
+\textbf{Operational requirement}: capability level needed for reliable
+geospatial deployment (disaster response, infrastructure monitoring,
+agricultural management, border surveillance).
+\textbf{Gap}: difference between current and required.
+Ratings: Very High\,/\,High\,/\,Moderate\,/\,Low\,/\,Emerging.
+Evidence tier per Sect.~\ref{sec2:prisma}: A\,=\,peer-reviewed controlled;
+B\,=\,peer-reviewed benchmark; C\,=\,preprint; D\,=\,conceptual.
+}\label{tab:orm}
+\small\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{2.4cm}p{2.6cm}p{2.8cm}p{1.6cm}p{3.2cm}p{0.7cm}}
+\toprule
+\textbf{Capability} & \textbf{Current RS-MLLM} & \textbf{Operational requirement} & \textbf{Gap} & \textbf{Key evidence} & \textbf{Tier} \\
+\midrule
+VQA (optical)        & Strong (95.2\,\% RSVQA-LR)    & Strong                  & Low         & Earth-OneVision RSVQA-LR score~\cite{earthonevision2026}             & C \\
+Captioning           & Strong (CIDEr 91.4)            & Moderate                & Low         & Earth-OneVision RSICD CIDEr~\cite{earthonevision2026}                & C \\
+HBB Grounding        & Moderate (Acc@0.5 84.6)        & High                    & Medium      & RSVG benchmark~\cite{rsvg2023}                                       & B \\
+OBB Detection        & Weak (28.6 zero-shot mAP)      & Critical                & Very High   & Specialist: 75.9; RS-MLLM: 28.6~\cite{xie2021orientedrcnn,geochat2024} & A \\
+SAR reasoning        & Weak (no physics encoder)      & Critical                & Very High   & No SAR-physics RS-MLLM published~\cite{sarchatchat2025}              & C \\
+HSI reasoning        & Weak (all 18 models fail)      & Critical                & Very High   & HM-Bench: systematic failure~\cite{hmbench2026}                      & B \\
+Temporal reasoning   & Emerging (Earth-OV temporal; VLRS-Bench) & Critical                & Very High   & Earth-OneVision~\cite{earthonevision2026}; VLRS-Bench~\cite{vlrsbench2026}     & C \\
+Uncertainty output   & None (no calibrated output)    & Critical                & Very High   & Not addressed in any RS-MLLM                                         & D \\
+Safety / alignment   & Emerging (1 paper)             & Critical                & Very High   & RemoteShield~\cite{remoteshield2026}; RLHF~\cite{rlhfrs2025}         & C \\
+\botrule
+\end{tabular*}
+\footnotetext{``Operational requirement'' is assessed against the functional needs
+of geospatial intelligence applications including disaster response, infrastructure
+monitoring, and agricultural management---applications where incorrect spatial
+output (wrong bounding box, missed object, incorrect land cover label) carries
+real-world consequences.
+``Gap'' ratings are qualitative assessments derived from the quantitative gaps
+documented in Sects.~\ref{sec4}--\ref{sec7}; they represent the editors'
+synthesis of the evidence, not formal meta-analytic effect sizes.}
+\end{table*}
+
+The matrix reveals a clear two-tier structure: optical VQA and captioning
+are approaching operational capability (low gap), while OBB detection, SAR
+reasoning, HSI reasoning, temporal reasoning, uncertainty quantification,
+and safety are all in a ``critical gap'' state (very high gap). This
+pattern directly motivates the eight research directions below.
+
+\subsection{Critical Synthesis: Five Common Evaluation Fallacies}\label{sec9:fallacies}
+
+The Operational Readiness Matrix reveals not only capability gaps but also
+a systematic pattern of evaluation practices that overstate RS-MLLM capability.
+We identify five evaluation fallacies that consistently inflate reported performance
+and obscure genuine operational readiness.
+
+\textbf{F1: Overall VQA score $\neq$ spatial reasoning.}
+RSVQA-LR accuracy above 90\,\% is reported by multiple models, but RSVQA-LR
+tests existence, counting, and comparison queries over low-resolution Sentinel-2
+imagery. High RSVQA-LR scores do not imply the ability to locate objects, reason
+about spatial relationships at sub-pixel resolution, or produce grounded bounding
+boxes. Papers citing RSVQA-LR as evidence of RS understanding conflate
+classification accuracy with spatial intelligence.
+
+\textbf{F2: Single-dataset performance $\neq$ generalisation.}
+The majority of RS-MLLM evaluations report results on one or two benchmarks
+(typically RSVQA-LR/HR and RSICD), trained on instruction data from the same
+distribution. Cross-dataset evaluation---testing a model trained on GeoChat-Instruct
+on VRSBench, for instance---is rare. Without it, reported scores measure
+in-distribution fitting, not generalisation.
+
+\textbf{F3: Optical-only performance $\neq$ multimodal RS intelligence.}
+A model achieving state-of-the-art on RSICD captioning has demonstrated optical
+RS capability only. The 84.6\,\% optical dominance in the corpus means that most
+published performance numbers reflect optical-only capability; they say nothing
+about SAR interpretation, HSI spectral reasoning, or cross-sensor generalisation,
+all of which are required for operational RS.
+
+\textbf{F4: Textual answer accuracy $\neq$ spatial grounding.}
+VQA tasks accept free-text answers matched against reference strings.
+A model answering ``yes, there is a ship'' correctly scores the same as one that
+could also localize the ship to sub-10-pixel precision. The VQA metric collapses
+the distinction between perceptual identification and spatial grounding---a
+distinction that is operationally critical for disaster response and maritime
+surveillance.
+
+\textbf{F5: Model scale $\neq$ geospatial intelligence.}
+The shift from 7B to 13B or larger LLM backbones does not close the OBB gap,
+the SAR physics gap, or the HSI spectral gap. These gaps are architectural in
+origin---they require encoder redesign and physics-informed training, not parameter
+scaling. Papers claiming geospatial intelligence improvements from backbone scaling
+alone should be scrutinised carefully against the Operational Readiness Matrix
+(Table~\ref{tab:orm}).
+
+These five fallacies are not attributable to intentional misrepresentation but
+to the natural incentive structure of benchmark optimisation. Addressing them
+requires the field to adopt the richer evaluation protocol implied by the
+Operational Readiness Matrix: cross-dataset evaluation, multimodal tasks,
+spatial grounding metrics, and physics-informed probing.
+
+\subsection{Research Directions}\label{sec9:directions}
+
+Each direction is connected to the gap it addresses, the technical
+approach it proposes, and---where applicable---to relevant methodological foundations
+in the literature. Figure~\ref{fig:future_roadmap} presents
+a roadmap organising the eight directions by implementation horizon and
+estimated impact.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth,
+    box/.style={draw, rounded corners=3pt, fill=#1, minimum width=4.6cm,
+                minimum height=0.72cm, align=center, font=\scriptsize},
+    arr/.style={->, thick, gray!50}]
+
+  %% Y-axis label
+  \node[rotate=90, gray!65, font=\footnotesize] at (-0.7,2.5)
+    {Estimated Impact};
+  \draw[->,thick,gray!50] (0,0) -- (0,5.4);
+  \foreach \y/\lbl in {0/Low, 2.7/Medium, 5.4/High}{
+    \node[left,font=\tiny,gray!55] at (-0.05,\y) {\lbl};
+  }
+  %% X-axis
+  \draw[->,thick,gray!50] (0,0) -- (11.2,0);
+  \node[below,font=\footnotesize,gray!65] at (5.5,-0.5)
+    {Implementation Horizon};
+  \foreach \x/\lbl in {1.5/Near (1--2\,yr), 5.5/Mid (2--4\,yr), 9.5/Long (4+\,yr)}{
+    \node[below,font=\scriptsize] at (\x,-0.2) {\lbl};
+    \draw[gray!30,dashed] (\x,0) -- (\x,5.2);
+  }
+
+  %% ── Near-term (high impact) ─────────────────────────────
+  \node[box=teal!18]   at (1.5,5.0) {D1: RS-Specific OBB\\MLLM Training};
+  \node[box=teal!18]   at (1.5,4.2) {D2: Type~III Hallucination\\Benchmark};
+  \node[box=orange!18] at (1.5,3.2) {D3: Physics-Informed\\SAR Encoder};
+
+  %% ── Mid-term ─────────────────────────────────────────────
+  \node[box=teal!22]   at (5.5,5.1) {D4: Unified Multi-Sensor\\RS-MLLM};
+  \node[box=orange!22] at (5.5,4.1) {D5: Spectral-Physics\\HSI Encoder};
+  \node[box=purple!18] at (5.5,3.0) {D6: Spatiotemporal\\Reasoning};
+
+  %% ── Long-term ────────────────────────────────────────────
+  \node[box=red!14]    at (9.5,5.0) {D7: RS Geospatial\\Foundation Model};
+  \node[box=gray!20]   at (9.5,3.5) {D8: Operational RS-MLLM\\Safety Framework};
+
+  %% Arrows connecting related directions
+  \draw[arr] (3.8,5.0) -- (3.2,5.0);  % D1 feeds D4
+  \draw[arr] (3.8,3.2) -- (3.2,3.2);  % D3 feeds D4
+  \draw[arr] (7.8,5.1) -- (7.2,5.1);  % D4 feeds D7
+  \draw[arr] (7.8,4.1) -- (7.2,4.1);  % D5 feeds D7
+
+\end{tikzpicture}
+\caption{Future research roadmap for RS-MLLMs, organised by implementation
+horizon (near: 1--2 years; mid: 2--4 years; long: 4+ years) and estimated
+impact on operational geospatial intelligence. Near-term directions (D1--D3)
+address structural gaps identifiable within the current architectural paradigm;
+long-term directions (D7--D8) require new paradigms and research
+infrastructure.}\label{fig:future_roadmap}
+\end{figure}
+
+%% ----------------------------------------------------------
+\subsection{D1: RS-Specific OBB-Capable MLLM Training}\label{sec9:d1}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} As established in Sects.~\ref{sec3:spatial}
+and~\ref{sec4:obb}, four Corpus~B models (GeoChat, EarthGPT, GeoGround, EarthGPT-X)
+support OBB output, but all are confined to optical DOTA~\cite{xia2018dota}
+imagery; cross-sensor OBB reasoning is essentially unaddressed.
+No RS-MLLM achieves OBB detection competitive with specialised detectors
+such as Oriented R-CNN~\cite{xie2021orientedrcnn}.
+
+\textbf{Research direction.} The fundamental challenge is extending MLLM
+output heads from text-only generation to structured angular coordinate
+prediction. Two complementary approaches are tractable in the near term.
+First, a \emph{dedicated OBB output head} can be appended after the LLM
+decoder, trained with an $\ell_1$ regression loss on the five OBB
+parameters $(x, y, w, h, \theta)$ while the LLM backbone is kept
+frozen\,+\,LoRA. This requires a training dataset with OBB annotations
+in conversational format---currently sparse. Second, a
+\emph{text-formatted OBB} approach encodes the five OBB parameters as
+special tokens in the LLM output vocabulary, extending GeoChat's existing
+design to multi-class, multi-sensor OBB settings.
+
+\textbf{Methodological foundation.} Several candidate approaches exist for
+constructing OBB-rich instruction datasets. Annotation efficiency methods
+for long-tail RS object categories---including class-rebalancing
+strategies~\cite{ding2021object} and semi-supervised pseudo-label
+propagation~\cite{sm2lf2026}---provide a basis for scaling OBB annotation
+to tail categories. Physics-informed augmentation~\cite{dsc_aug2025} and
+optimisation-driven feature learning approaches~\cite{odfe2025} further
+address the class imbalance and annotation scarcity problems identified
+in Sect.~\ref{sec2:longtail}. Taken together, these methods provide
+a concrete starting point for the OBB instruction data pipeline that
+this direction requires.
+
+%% ----------------------------------------------------------
+\subsection{D2: A Comprehensive Type~III Hallucination Benchmark}\label{sec9:d2}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} Section~\ref{sec7:bench} established that no
+evaluation benchmark provides comprehensive Type~III (Spectral Hallucination)
+evaluation. HM-Bench~\cite{hmbench2026} addresses HSI tasks but does not
+provide per-query hallucination labels or SAR-specific evaluation.
+
+\textbf{Research direction.} A dedicated Type~III benchmark requires three
+components: (i)~co-registered optical, SAR, and HSI image triplets of the
+same geographic scenes, providing ground-truth sensor-physics information
+independent of colour appearance; (ii)~per-modality query-response pairs
+annotated with a hallucination label indicating whether the model's
+response was driven by spectral physics or by RGB visual priors; and
+(iii)~at least 5,000--10,000 triplets at diverse geographic locations and
+land-cover types to enable statistically meaningful cross-modality analysis.
+The DFC 2018 dataset (Sentinel-1 SAR, Sentinel-2 multispectral, and ISPRS
+Vaihingen DSM)~\cite{yokoya2018hyperspectral} provides a starting point
+for co-registered multi-sensor annotation.
+
+\textbf{Estimated effort.} Constructing a 10,000-triplet benchmark with
+expert annotation is a tractable 12--18 month effort for a well-staffed
+research group. The resulting benchmark would directly enable evaluation of
+all future SAR-aware and HSI-aware RS-MLLM architectures.
+
+%% ----------------------------------------------------------
+\subsection{D3: Physics-Informed SAR Encoder for RS-MLLMs}\label{sec9:d3}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} Section~\ref{sec5:sarbarriers} established that all
+current RS-MLLM encoders are trained on RGB imagery and have no mechanism
+for SAR backscatter physics interpretation. This causes Type~III spectral
+hallucination on SAR inputs.
+
+\textbf{Research direction.} A physics-informed SAR encoder should be
+pre-trained with objectives derived from SAR scattering physics rather than
+contrastive image-text alignment. Concretely, three complementary objectives
+are proposed. First, a \emph{backscatter prediction objective} trains the
+encoder to predict the normalised radar cross-section ($\sigma^0$) value
+from SAR amplitude, providing a physical grounding absent from CLIP-style
+contrastive training. Second, a \emph{scattering-mechanism classification
+objective} trains the encoder to distinguish specular, double-bounce, and
+volume scattering regimes within SAR patches, equipping the model with
+the interpretive vocabulary needed for SAR scene description. Third, a
+\emph{cross-sensor consistency objective} trains the encoder to produce
+representations consistent between co-registered optical and SAR images
+of the same scene, directly addressing the cross-sensor alignment problem.
+
+\textbf{Methodological foundation.} Several prior works demonstrate the
+feasibility of physics-informed SAR--optical alignment. SAR domain adaptation
+approaches~\cite{schmitt2019fusion} and multi-modal RS image understanding
+frameworks~\cite{zhang2024phi} establish that cross-sensor alignment improves
+when domain-specific constraints are incorporated. Rayleigh-constrained
+augmentation~\cite{rayleigh2026} shows that incorporating SAR backscatter
+physics into the data-level fusion pipeline substantially improves cross-sensor
+feature alignment; extending this principle from the data pipeline to the
+encoder training objective is a concrete and tractable next step grounded
+in established physical optics methodology.
+
+%% ----------------------------------------------------------
+\subsection{D4: Unified Multi-Sensor RS-MLLM}\label{sec9:d4}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} Section~\ref{sec5:fusion} established that the
+cross-modal fusion matrix has five of nine cells unoccupied, with all
+HSI-involving cells empty and SAR-optical fusion limited to a single
+model without physics grounding.
+
+\textbf{Research direction.} A unified multi-sensor RS-MLLM requires
+three architectural innovations beyond the current state of the art.
+First, a \emph{modality-specific encoder bank}: separate encoder branches
+for optical (CLIP-based), SAR (physics-informed, as in D3), and HSI
+(spectral-physics-aware, as in D5), each pre-trained with modality-appropriate
+objectives. Second, a \emph{modality-aware connector}: an extension of
+the ACSA connector~\cite{earthonevision2026} that explicitly conditions
+token compression on the modality type, preventing optical-optimised
+compression strategies from discarding spectral or backscatter features.
+Third, a \emph{modality prompt token}: a learnable token prepended to
+the LLM input that signals the active sensor modality, analogous to
+language tokens in multilingual LLMs~\cite{touvron2023llama}, enabling
+the model to switch its interpretation context without architectural
+modification.
+
+Earth-OneVision~\cite{earthonevision2026} is the closest existing
+system to this direction, processing six sensor modalities within a
+single model. However, it uses a unified optical-optimised encoder for
+all modalities without physics-informed specialisation, and does not
+include HSI. A true unified multi-sensor RS-MLLM would close both gaps.
+
+%% ----------------------------------------------------------
+\subsection{D5: Spectral-Physics-Aware HSI Encoder}\label{sec9:d5}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} Section~\ref{sec5:hsi} established that no
+published RS-MLLM encoder handles HSI input correctly, and
+HM-Bench~\cite{hmbench2026} confirms systematic Type~III spectral
+hallucination across 18 tested models.
+
+\textbf{Research direction.} An HSI-compatible encoder must address the
+dimensional incompatibility problem (HSI data cubes have $B\!\in\![200,400]$
+spectral bands versus the 3-channel RGB assumption of CLIP) without
+discarding the spectral information that makes HSI valuable.
+
+Two encoder designs are tractable. First, a \emph{spectral tokeniser}:
+a 1D convolutional network that maps the full spectral signature of each
+spatial pixel to a fixed-length feature vector, applied independently
+at each spatial position before spatial ViT processing. This preserves
+spectral structure across the full $B$-band range while producing a
+representation compatible with standard MLLM connectors. Second, a
+\emph{band-grouping ViT}: the $B$ spectral bands are partitioned into
+physically meaningful groups (visible, NIR, SWIR, etc.) and processed
+by separate ViT branches whose outputs are fused, aligning the encoder's
+inductive bias with the spectral structure of the data. Both designs
+should be pre-trained with spectral unmixing objectives that predict
+endmember abundances, equipping the encoder with the spectral
+discrimination capabilities documented as absent in
+HM-Bench~\cite{hmbench2026}.
+
+%% ----------------------------------------------------------
+\subsection{D6: Spatiotemporal Reasoning in RS-MLLMs}\label{sec9:d6}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} Section~\ref{sec4:reason} established that
+Level-4 spatiotemporal reasoning---tracking object state changes,
+inferring causal relationships across temporal acquisitions, answering
+multi-hop questions---is effectively absent from published RS-MLLMs.
+
+\textbf{Research direction.} Spatiotemporal reasoning requires three
+capabilities beyond current RS-MLLM design: (i)~\emph{temporal token
+fusion}, in which visual tokens from multiple temporal acquisitions
+of the same area are jointly encoded with explicit temporal position
+embeddings, analogous to temporal encoding in video transformers;
+(ii)~\emph{change-aware attention}, in which cross-attention between
+temporal tokens is guided by a pre-computed change mask, focusing the
+model's attention budget on the regions that differ across time; and
+(iii)~\emph{causal reasoning training data}, in which instruction pairs
+explicitly require multi-step inference connecting observed changes to
+physical or anthropogenic causes.
+
+Temporal consistency is an active area in RS: TEOChat~\cite{teochat2025}
+and Change-Agent~\cite{changeagent2025} represent the most advanced existing
+work in conversational temporal RS reasoning. Semi-supervised temporal
+consistency approaches---including pseudo-label agreement across temporal
+frames~\cite{sm2lf2026} and video-MLLM architectures~\cite{llava_onevision2024}---provide
+methodological foundations for extending these to causal multi-temporal
+reasoning. Extending them to causal reasoning is the most tractable near-term step.
+Two post-cutoff works corroborate this gap: LongEarth-R1~\cite{longearth_r1_2026}
+introduces LongEarth-Bench ($\sim$120k QA, 12 long-sequence EO reasoning tasks),
+and RSVideo~\cite{rsvideo_2026} introduces RSVideo-10K and RSVideo-Bench for
+continuous RS video understanding---both confirming that long-horizon spatiotemporal
+reasoning is the most active open frontier at the time of this survey's submission.
+
+%% ----------------------------------------------------------
+\subsection{D7: RS Geospatial Foundation Model}\label{sec9:d7}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} The current RS-MLLM landscape consists of
+dozens of task-specific or domain-specific models, each optimised for
+a narrow capability (VQA, captioning, OBB detection, or specific sensor
+type). This fragmentation prevents the cross-task and cross-sensor
+generalisation required for operational geospatial intelligence.
+
+\textbf{Research direction.} A geospatial foundation model for RS
+should be pre-trained on a diverse corpus of RS data across all sensor
+modalities, spatial resolutions, geographic regions, and temporal
+scales, with a training objective that jointly optimises for multiple
+downstream tasks. Prithvi-100M~\cite{prithvi2023} and its multi-sensor
+successor Prithvi-EO~\cite{geofm2024} represent early steps in this direction for
+multitemporal optical RS; extending the foundation model paradigm to include SAR
+and HSI modalities with physics-informed objectives is the critical next step.
+
+The scale required for a true RS geospatial foundation model---estimated
+at 100M--1B parameters with training data in the 100M+ sample
+range---is beyond current academic compute budgets but is achievable
+through national-scale research infrastructure or industrial partnerships.
+The InternVL~\cite{internvl2024} and GeoLLM~\cite{geollm2025} architectures demonstrate that scaling
+vision-language foundation models with careful multi-task training
+produces emergent cross-task generalisation; an analogous approach
+applied to RS-specific data with physics-aware objectives represents
+the long-term target for the field.
+
+%% ----------------------------------------------------------
+\subsection{D8: Operational RS-MLLM Safety Framework}\label{sec9:d8}
+%% ----------------------------------------------------------
+
+\textbf{Gap addressed.} Section~\ref{sec7:danger} established that
+RS-MLLM hallucinations carry qualitatively higher stakes than their
+natural-image counterparts, with direct consequences for disaster
+response, infrastructure monitoring, and agricultural policy. The
+field currently lacks a systematic safety framework for operational
+RS-MLLM deployment.
+
+\textbf{Research direction.} An operational RS-MLLM safety framework
+should include four components. First, \emph{calibrated confidence
+estimation}: RS-MLLMs should output calibrated uncertainty scores
+alongside their responses, enabling downstream systems to flag low-confidence
+outputs for human review. Second, \emph{domain-specific hallucination
+detection}: automated detection of Type~I, Type~II, and Type~III
+hallucinations during inference, building on the benchmark infrastructure
+of RSHallu~\cite{rshallu2026} and the Type~III benchmark proposed in D2.
+Third, \emph{cross-sensor consistency checking}: for applications with
+access to multiple sensor modalities, inconsistencies between RS-MLLM
+responses to different sensor views of the same scene should trigger
+automatic flagging. Fourth, \emph{operational evaluation protocols}:
+standardised benchmarks that measure RS-MLLM performance specifically
+in operational contexts (disaster response, infrastructure inspection,
+precision agriculture), complementing the general VQA and captioning
+benchmarks that dominate current evaluation.
+
+\subsection*{Summary}
+
+Table~\ref{tab:future_summary} summarises the eight future research
+directions, cross-referenced to the gaps they address and the
+prior-work foundations that make each direction tractable.
+
+\begin{table}[h]
+\caption{Summary of eight future research directions for RS-MLLMs.
+``Gap'' column references the relevant section; ``Foundation'' lists
+the methodological building block most directly applicable.
+Cited prior work (ODFE~\cite{odfe2025}, SM$^2$-LF~\cite{sm2lf2026}, Rayleigh~\cite{rayleigh2026}) provides methodological
+foundations that make these directions tractable; these are starting
+points, not completed solutions.}\label{tab:future_summary}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lp{3.0cm}p{3.2cm}p{3.5cm}}
+\toprule
+\textbf{Dir.} & \textbf{Title} & \textbf{Gap (Sect.)} & \textbf{Foundation} \\
+\midrule
+D1 & OBB-Capable MLLM
+   & Sec.~\ref{sec3:spatial}, Sec.~\ref{sec4:obb}
+   & Ding et al.~\cite{ding2021object}; ODFE~\cite{odfe2025}; SM$^2$-LF~\cite{sm2lf2026} \\[3pt]
+D2 & Type~III Hallucin.\ Bench
+   & Sec.~\ref{sec7:bench}
+   & HM-Bench~\cite{hmbench2026}; DFC 2018~\cite{yokoya2018hyperspectral} \\[3pt]
+D3 & Physics SAR Encoder
+   & Sec.~\ref{sec5:sarbarriers}, Sec.~\ref{sec7:type3}
+   & Schmitt et al.~\cite{schmitt2019fusion}; Rayleigh~\cite{rayleigh2026} \\[3pt]
+D4 & Unified Multi-Sensor MLLM
+   & Sec.~\ref{sec5:fusion}
+   & Earth-OneVision~\cite{earthonevision2026}; D3, D5 \\[3pt]
+D5 & Spectral HSI Encoder
+   & Sec.~\ref{sec5:hsibarriers}
+   & HM-Bench~\cite{hmbench2026}; bioucas2013~\cite{bioucas2013hyperspectral} \\[3pt]
+D6 & Spatiotemporal Reasoning
+   & Sec.~\ref{sec4:reason}
+   & TEOChat~\cite{teochat2025}; Change-Agent~\cite{changeagent2025}; SM$^2$-LF~\cite{sm2lf2026} \\[3pt]
+D7 & RS Foundation Model
+   & Sec.~\ref{sec3:master}
+   & Prithvi-100M~\cite{prithvi2023}; InternVL~\cite{internvl2024} \\[3pt]
+D8 & Safety Framework
+   & Sec.~\ref{sec7:danger}
+   & RSHallu~\cite{rshallu2026}; RemoteShield~\cite{remoteshield2026}, RLHF approaches~\cite{rlhfrs2025}, \\
+\botrule
+\end{tabular*}
+\end{table}
+
+The eight directions form two priority tiers. Directions D1--D3 are
+near-term: they address structural gaps (OBB output, Type~III benchmark,
+SAR encoder) that can be closed within the current MLLM architectural
+paradigm with targeted engineering effort. Directions D4--D6 are mid-term:
+they require new architectures and training objectives but build directly
+on the near-term work. Directions D7--D8 are long-term: D7 requires a
+scale of compute and data not currently available in academia; D8 requires
+community consensus on operational evaluation protocols that does not yet
+exist. Together, the eight directions chart a concrete path from current
+RS-MLLMs---perception-limited systems that describe optical imagery
+conversationally---to geospatially intelligent systems that reason
+operationally across all sensor modalities, spatial scales, and temporal
+acquisitions.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Limitations of This Survey}\label{sec9:limitations}
+%% ──────────────────────────────────────────────────────────────
+
+We acknowledge nine limitations of this systematic review; transparency about
+these limitations increases rather than decreases the trustworthiness of the synthesis.
+
+\textbf{L1: Protocol pre-registration.} The review protocol was not
+pre-registered in PROSPERO or an equivalent registry before search
+execution. This is a common limitation of rapidly evolving technology
+surveys, where the literature landscape changes faster than the standard
+pre-registration cycle allows. We report our methods in full detail
+(Sect.~\ref{sec2:prisma}, Tables~\ref{tab:inclusion_exclusion},
+\ref{tab:search_strategy}, \ref{tab:quality}, \ref{tab:prisma_checklist})
+to compensate for the absence of pre-registration.
+
+\textbf{L2: Rapidly changing field.} The RS-MLLM field is evolving
+rapidly, with multiple new RS-MLLM and benchmark releases appearing
+throughout 2026. Any specific quantitative finding (model rankings,
+benchmark scores) should be
+interpreted as a snapshot of the August 2026 state of the field rather
+than a durable ranking. Sensitivity analysis SA2 (Sect.~\ref{sec2:prisma})
+confirms that all structural conclusions hold across the 2022--2025
+window.
+
+\textbf{L3: Preprint-heavy literature.} arXiv preprints account for
+92 of the 210 total retrieved papers (44\,\%). Preprints have not completed peer
+review, and reported results may not be independently replicated. We
+applied the I2 reproducibility gate (public code or weights required)
+to mitigate this, but benchmark scores from preprints should be
+interpreted with greater caution than those from peer-reviewed papers.
+
+\textbf{L4: Database coverage.} Searches covered 8 databases/proceedings.
+Chinese-language conferences (e.g., CCVS, CSIG), niche RS proceedings,
+and institutional technical reports are not covered, which may introduce
+coverage bias toward English-language and Western-venue publications.
+
+\textbf{L5: Terminology inconsistency.} The RS-MLLM field uses
+inconsistent terminology: ``MLLM'', ``VLM'', ``vision-language model'',
+``multimodal LLM'', and ``foundation model'' are used interchangeably
+across papers. Our Boolean search covered all major variants; however,
+novel terminological variants introduced after August 2026 may not be
+captured.
+
+\textbf{L6: Heterogeneous benchmarks.} Performance comparisons across
+papers are limited by benchmark heterogeneity: different papers use
+different test splits, prompt formats, and evaluation scripts for the
+same benchmark. Table~\ref{tab:cvmllm_comparison} (Sect.~\ref{sec6:cvmllm})
+distinguishes same-protocol from cross-paper comparisons and marks the
+latter as not directly comparable.
+
+\textbf{L7: Incomplete reporting.} 44\,\% of included papers do not
+explicitly acknowledge limitations (quality criterion Q7, Table~\ref{tab:quality}).
+Architecture details were recorded as ``NR'' (not reported) when absent
+from both the paper and its associated code repository; these gaps
+reduce the completeness of the quantitative synthesis.
+
+\textbf{L8: Publication and preprint bias.} Papers with positive or
+strong results are more likely to be submitted and accepted. Performance
+figures reported in the synthesis may therefore be optimistic relative
+to the true distribution of RS-MLLM capability. We note that 15\,\%
+of included papers are classified as Low quality (Table~\ref{tab:quality}),
+providing some evidence of the lower tail of the distribution.
+
+\textbf{L9: Evolving model versions.} Several included models released
+updated versions after the search cutoff (e.g., Earth-OneVision, GeoChat).
+We report results for the version available at the time of search;
+later versions may differ substantially in performance.
+
+\textbf{L10: Cross-paper metric incomparability.} Even where the same
+benchmark is used, different papers employ different test splits, prompt
+formats, evaluation scripts, and answer normalisation procedures. As a
+result, numerical scores from different papers on the same benchmark
+(e.g., RSVQA-LR accuracy) are frequently not directly comparable.
+Table~\ref{tab:cvmllm_comparison} (Sect.~\ref{sec6:cvmllm}) explicitly
+distinguishes same-protocol from cross-paper comparisons and marks the
+latter as not directly comparable; readers should exercise the same
+caution when interpreting all performance figures in this survey.
+
+\textbf{L11: Cutoff-date limitation.} The primary search cutoff is
+14 August 2026; a targeted update search was conducted on 24 August 2026
+(Sect.~\ref{sec2:update_search}), identifying three post-cutoff works
+(LongEarth-R1~\cite{longearth_r1_2026}, RSVideo~\cite{rsvideo_2026},
+and the IGARSS 2026 RS-VLM session papers) consistent with but not
+altering any survey finding. Papers submitted after 24 August 2026 are
+not included. Given the RS-MLLM field's rapid growth rate (42 papers in
+2025 alone), further relevant works will have appeared between the update
+search and final publication. The structured quantitative findings
+(Sect.~\ref{sec8}) should be interpreted as a 24 August 2026 snapshot;
+the five-dimensional design-space taxonomy and hallucination framework
+(Sects.~\ref{sec3},~\ref{sec7}) are structural and expected to remain
+valid across the next generation of RS-MLLM development.

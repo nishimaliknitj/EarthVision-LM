@@ -1,0 +1,39 @@
+# LaTeX build artifacts
+latex/*.aux
+latex/*.log
+latex/*.out
+latex/*.blg
+latex/*.fls
+latex/*.fdb_latexmk
+latex/*.synctex.gz
+latex/*.toc
+latex/*.lof
+latex/*.lot
+latex/_minted-*/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large data files (use Git LFS or Zenodo for these)
+*.pdf
+!paper/EarthVision_LM_SystematicReview.pdf
+*.xlsx
+*.db

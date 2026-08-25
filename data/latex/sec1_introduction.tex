@@ -1,0 +1,251 @@
+%% ============================================================
+%% SECTION 1: INTRODUCTION
+%% EarthVision-LM Survey -- Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% Written last -- after all content sections are complete
+%% ============================================================
+
+\section{Introduction}\label{sec1}
+
+The past decade has witnessed two convergent revolutions in artificial intelligence, underpinned by large-scale datasets~\cite{geoprivacy2024,long2021creating} and novel architectures.
+The first is the emergence of deep learning as the dominant paradigm for visual
+perception~\cite{lecun2015deep}: convolutional neural networks, and subsequently
+vision transformers~\cite{dosovitskiy2021vit}, have achieved superhuman performance
+on image classification, object detection~\cite{ren2015faster,cheng2016rotated}, and semantic
+segmentation benchmarks. The second is the rise of large language models
+(LLMs)~\cite{brown2020gpt3,touvron2023llama}: transformer-based architectures
+pre-trained on trillions of tokens have acquired broad world knowledge, instruction
+following, and multi-step reasoning capabilities that were previously inaccessible
+to automated systems.
+
+The convergence of these two revolutions has produced \emph{multimodal large language
+models} (MLLMs)---systems that jointly process visual and linguistic inputs to enable
+natural language dialogue grounded in image content. Models such as
+Flamingo~\cite{flamingo2022}, BLIP-2~\cite{blip22023}, LLaVA~\cite{llava2023}, LLaVA-1.5~\cite{llava15_2023},
+GPT-4V~\cite{gpt4v2023}, Gemini~\cite{gemini2023}, Qwen-VL~\cite{qwen_vl2023}, and Pixtral~\cite{pixtral2024} have demonstrated that a single
+model can describe, question, and reason about photographs, charts, and documents
+through open-ended text interaction. These systems have transformed the interface
+between human users and visual information.
+
+\textbf{Remote sensing as the next frontier.}
+Remote sensing (RS) imagery---acquired by satellites, aircraft, and unmanned aerial
+vehicles across the full electromagnetic spectrum---provides the primary data
+source for global monitoring of Earth's land surface, oceans, atmosphere, and
+built environment. The scale and frequency of RS data production has grown
+dramatically: the Sentinel constellation~\cite{esa2023sentinel} alone generates
+more than 12 TB of new imagery per day, and commercial VHR providers collectively
+image the entire Earth's land surface at sub-metre resolution multiple times per
+year~\cite{globalsat2024}. Extracting actionable intelligence from this data
+torrent requires automated analysis systems capable of semantic interpretation
+at a level that exceeds what specialised task-specific models can provide.
+
+The emergence of RS-specific MLLMs---systems that apply the conversational
+intelligence of general MLLMs to RS imagery---offers a transformative opportunity:
+to replace the pipeline of specialised models (classifier for land cover, detector
+for objects, captioner for scenes) with a single conversational system that can
+answer any spatially grounded question about any RS image in natural language. Since
+the first dedicated RS-MLLM (RSGPT~\cite{rsgpt2023}) appeared in mid-2023, the
+field has grown to 42 published papers in 2025 alone, representing a 75\,\% annual
+growth rate from 2024 (Sect.~\ref{sec8:pubtrend}).
+
+\textbf{The fundamental tension.}
+Despite this explosive growth, a fundamental tension characterises the current
+RS-MLLM landscape: the architectures, training paradigms, and evaluation protocols
+of general MLLMs are poorly suited to the specific constraints of remote sensing.
+RS images differ from internet photographs along every dimension that vision models
+exploit---viewpoint (nadir versus ground-level), scale (sub-metre to kilometre
+resolution within a single dataset), spectral content (optical, SAR, and
+hyperspectral), object orientation (arbitrary rotation), and annotation economics
+(expert annotation versus crowdsourcing). A CLIP-trained encoder that describes a
+ship accurately from a ground-level photograph fails systematically when the same
+ship is presented from 500\,m altitude in an RS tile. An LLM fine-tuned on
+internet-scale VQA has no framework for interpreting SAR backscatter or
+hyperspectral spectral signatures.
+
+The result, as we demonstrate in this survey, is that RS-MLLMs in 2026 remain
+fundamentally \emph{perception-limited} despite encouraging recent progress.
+More than 85\,\% process only optical imagery despite RS being
+inherently multi-sensor; although recent systems such as
+Earth-OneVision~\cite{earthonevision2026} substantially expand sensor and task
+coverage (optical, SAR, infrared, multispectral, temporal, and video), current
+RS-MLLMs as a field still lack broad hyperspectral (HSI) coverage,
+physics-specific modality encoding, systematic cross-sensor evaluation protocols,
+and operationally grounded reasoning. OBB output remains substantially underrepresented: although GeoChat, EarthGPT,
+and GeoGround demonstrate OBB-capable grounding or detection, this capability is
+limited to optical imagery and uncommon across the field; cross-sensor OBB
+reasoning is essentially unaddressed; and all 18 models
+evaluated in HM-Bench~\cite{hmbench2026} exhibit systematic spectral hallucination when
+presented with non-RGB sensor data---a finding consistent with structural encoder limitations
+across the evaluated sample. These are not incidental engineering gaps---they reflect
+structural mismatches between the RS domain and the general MLLM paradigm.
+
+\textbf{Research questions.}
+This survey is organised around six research questions (RQs) that map
+directly to its analytical sections:
+
+\begin{itemize}
+\item \textbf{RQ1} (Sect.~\ref{sec3}): How have RS-MLLM architectures evolved across vision encoder adaptation, connector design, LLM backbone strategy, sensor modality scope, and spatial output capability?
+\item \textbf{RQ2} (Sect.~\ref{sec4}): Which RS tasks and sensor modalities are adequately represented, and which remain underdeveloped?
+\item \textbf{RQ3} (Sect.~\ref{sec5},~\ref{sec6}): What architectural and training strategies govern the trade-off between RS-specific adaptation, computational cost, and generalisation?
+\item \textbf{RQ4} (Sect.~\ref{sec7}): What hallucination mechanisms are reported or empirically supported in RS-MLLMs, and how do they differ from general MLLM hallucination?
+\item \textbf{RQ5} (Sect.~\ref{sec8}): How adequate are current datasets and benchmarks for evaluating spatial, multimodal, and operational RS-MLLM intelligence?
+\item \textbf{RQ6} (Sect.~\ref{sec9}): What research directions are necessary to advance RS-MLLMs from descriptive perception toward reliable geospatial intelligence?
+\end{itemize}
+
+\textbf{Contributions of this survey.}
+EarthVision-LM provides an architecture-first systematic synthesis that connects
+RS domain physics, MLLM design, multimodal coverage, hallucination mechanisms,
+benchmark evidence, and operational research priorities within a unified analytical
+framework (RQ1--RQ6). We make four primary contributions:
+
+\begin{enumerate}
+
+\item \textbf{Five-dimensional RS-MLLM design space} (Sect.~\ref{sec3}). We
+introduce a taxonomy organising RS-MLLM architectures across five dimensions:
+vision encoder adaptation ($\mathcal{E}$), vision-language connector design
+($\mathcal{C}$), LLM backbone and freezing strategy ($\mathcal{L}$), sensor modality
+scope ($\mathcal{M}$), and spatial output capability ($\mathcal{S}$). To the best of
+our knowledge, no existing RS-MLLM survey maps these five domain challenges to
+design dimensions within a single analytical framework, and the taxonomy exposes
+systematic design gaps responsible for current RS-MLLM limitations.
+
+\item \textbf{Unified multi-modal coverage analysis} (Sect.~\ref{sec5}). We present
+a systematic analysis of RS-MLLM capability across all sensor modalities.
+Although recent models such as EarthGPT~\cite{earthgpt2025},
+EarthGPT-X~\cite{earthgptx2026}, and Earth-OneVision~\cite{earthonevision2026}
+substantially expand sensor coverage, broad HSI capability, physics-grounded
+cross-sensor reasoning, and robust spatial reasoning remain underdeveloped
+across the field (84.6\,\% of Corpus~B models are optical-only).
+Physics-informed analysis explains why these gaps persist and what architectural
+changes are required to close them.
+
+\item \textbf{Three-type RS-MLLM hallucination taxonomy} (Sect.~\ref{sec7}). We
+introduce a systematic hallucination taxonomy for RS-MLLMs, distinguishing
+Type~I (Localization), Type~II (Discrimination), and Type~III (Spectral Hallucination).
+To the best of our knowledge, prior RS-MLLM hallucination studies have not
+explicitly isolated spectral hallucination as a distinct failure category;
+our taxonomy extends prior localisation/discrimination frameworks by
+incorporating spectral failure evidence from HM-Bench~\cite{hmbench2026},
+which evaluates 18 MLLMs on HSI-specific tasks and finds systematic failure
+across all 18 evaluated models.
+
+\item \textbf{Comprehensive task, dataset, and benchmark quantitative synthesis}
+(Sects.~\ref{sec4},~\ref{sec8}). We systematically analyse task coverage across 26
+models and 9 task types, catalogue 13 training datasets and 8 evaluation benchmarks,
+and present a structured quantitative synthesis grounded in 97 primary
+RS-MLLM papers, establishing publication trends, venue distribution,
+backbone usage, and modality distribution.
+
+\end{enumerate}
+
+\textbf{Scope and methodology.}
+Scene understanding surveys~\cite{earthvision2024,hrben2022} provide additional RS context. This survey is PRISMA 2020-compliant~\cite{prisma2020}, with a full systematic
+search process documented in Sect.~\ref{sec2:prisma}. The search covered IEEE
+Xplore, arXiv (cs.CV, eess.IV), Springer Link, CVPR, ICCV, NeurIPS, AAAI, and
+ISPRS proceedings between January 2022 and August 2026. The database search
+yielded 847 records; snowballing added 18 new records; after eligibility review
+and post-eligibility exclusion, the full reference corpus comprises 210 papers.
+Of these, \textbf{97 constitute the primary RS-MLLM synthesis corpus
+(Corpus~A)}: 31 model studies, 18 benchmark studies, 14 dataset studies,
+9 hallucination studies, and 25 foundation-model papers published within
+the 2022--2026 window. The remaining \textbf{113 papers serve as contextual
+supporting literature} (RS domain baselines, pre-2022 foundation models)
+and are cited throughout but do not enter the primary evidence synthesis.
+To prevent denominator confusion, we define three analytical levels (Sect.~\ref{sec2:corpus_def}):
+\textbf{Corpus~A} ($n=97$): the primary RS-MLLM synthesis corpus;
+\textbf{Corpus~B} ($n=26$ RS-MLLMs): the architecture registry of 26 distinct
+models arising from the 31 model papers (5 papers describe variants of
+already-counted architectures); \textbf{Corpus~C} ($n=18$ models): the
+task-comparable subset with sufficient benchmark data for cross-model
+quantitative analysis.
+The 97 primary papers span five categories (Table~\ref{tab:corpus_taxonomy});
+the 113 contextual papers cover RS object detection, segmentation, SAR, HSI,
+change detection, and scene classification providing domain baseline methods.
+
+\textbf{How this survey differs from prior work.}
+Table~\ref{tab:survey_comparison} positions EarthVision-LM against the closest existing
+RS-MLLM and geospatial-LLM reviews. A recent systematic review in this journal
+(Dorabantu \& Badea~\cite{dorabantu2026geollm}, AIR, February 2026) addresses geospatial
+reasoning and awareness in LLMs broadly---covering GeoLLMs, GIS integration, spatial
+reasoning, and multimodal geospatial systems. EarthVision-LM is complementary and distinct:
+its scope is specifically RS-MLLMs, not GeoLLMs in general, and its analytical frame
+is architecture-first rather than application-first.
+
+Unlike broader reviews of geospatial large language models and recent RS-MLLM surveys
+organised primarily around tasks, training paradigms, or general model evolution,
+EarthVision-LM adopts an architecture-first perspective that jointly connects encoder
+adaptation, connector design, LLM adaptation, sensor modality scope, and spatial output
+capability. This framework is further integrated with quantitative literature synthesis,
+cross-modal coverage analysis, a formal hallucination taxonomy, and an operational
+research roadmap. Our contribution is not simply additional coverage; it is the
+integration of these analytical dimensions into a single
+architecture-to-evidence-to-gap framework.
+
+\begin{table*}[t]
+\caption{Comparison of EarthVision-LM with the closest existing RS-MLLM and geospatial-LLM
+reviews across nine dimensions.
+\checkmark\,=\,covered; \checkmark\checkmark\,=\,primary contribution / in-depth coverage;
+$\circ$\,=\,partially covered; --\,=\,not covered.
+\textbf{Domain}: RS-VLM\,=\,RS vision-language; RS-MLLM\,=\,RS multimodal LLM;
+GeoLLM\,=\,geospatial LLM (broader, includes GIS and GeoQA).
+\textbf{Sensor physics}: SAR/HSI physics grounded analysis.
+\textbf{PRISMA}: explicit PRISMA-2020-compliant systematic review.
+}\label{tab:survey_comparison}
+\small\setlength\tabcolsep{2.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{2.8cm}p{1.0cm}p{1.1cm}p{1.1cm}p{1.1cm}p{1.0cm}p{1.0cm}p{1.1cm}p{1.1cm}p{0.85cm}}
+\toprule
+\textbf{Survey} & \textbf{Domain} &
+\textbf{Archit.} &
+\textbf{Sensor physics} &
+\textbf{Spatial output} &
+\textbf{Hallucin.} &
+\textbf{Benchmark} &
+\textbf{CV-MLLM comp.} &
+\textbf{Roadmap} &
+\textbf{PRISMA} \\
+\midrule
+Li~et~al.~\cite{li2024survey}
+  & RS-VLM & \checkmark & -- & \checkmark & -- & \checkmark & -- & -- & -- \\
+Weng~et~al.~\cite{weng2025isprs}
+  & RS-MLLM & \checkmark & -- & \checkmark & -- & \checkmark & -- & -- & -- \\
+Dorabantu \& Badea~\cite{dorabantu2026geollm}
+  & GeoLLM & -- & -- & -- & -- & -- & -- & \checkmark & -- \\
+Ma~et~al.~\cite{ma2026dsorsp}
+  & RS-MLLM & \checkmark & -- & \checkmark & -- & \checkmark & \checkmark & \checkmark & -- \\
+\textbf{EarthVision-LM (ours)}
+  & \textbf{RS-MLLM} & \checkmark\checkmark & \checkmark\checkmark & \checkmark\checkmark & \checkmark\checkmark & \checkmark\checkmark & \checkmark & \checkmark\checkmark & \checkmark \\
+\botrule
+\end{tabular*}
+\footnotetext{Dorabantu \& Badea~\cite{dorabantu2026geollm} (AIR, February 2026) is a systematic review in
+\emph{this journal} covering geospatial reasoning and awareness in LLMs broadly---including
+GeoLLMs, GIS integration, spatial reasoning, and multimodal geospatial systems---but does not
+focus on RS-specific architectures, sensor physics, or hallucination in multi-sensor RS-MLLMs.
+Ma~et~al.~\cite{ma2026dsorsp} (arXiv:2607.20284, 22~July~2026) covers RS-MLLM evolution,
+multimodal learning, training data, benchmark comparison, and RS-vs-CV-MLLM diagnostic evaluation.
+EarthVision-LM's contribution is the \emph{integration} of architectural taxonomy, sensor-physics
+analysis, hallucination taxonomy, and evidence-graded synthesis into a single architecture-to-gap
+framework---a combination not found in any of the above surveys.}
+\end{table*}
+
+\textbf{Claim--evidence discipline.}
+Every quantitative claim in this survey is grounded in a specific evidence
+source. Key examples: the claim that ``only one RS-MLLM supports conversational
+OBB output'' is supported by Table~\ref{tab:master_comparison} and three cited
+primary model papers; the claim that ``84.6\,\% of models process optical only''
+is derived from the 210-paper coded corpus (Table~\ref{tab:coding_schema}); the
+claim that ``all 18 evaluated models exhibit spectral hallucination'' is grounded
+in HM-Bench~\cite{hmbench2026}. Evidence tiers (A--D, defined in
+Sect.~\ref{sec2:prisma}) are stated throughout. Claims not directly supported by
+a cited paper or the corpus analysis are explicitly flagged as author inference
+(``consistent with'', ``suggests'') rather than empirical finding.
+
+\textbf{Paper organisation.}
+Section~\ref{sec2} establishes the six RS domain challenges and MLLM foundations
+that motivate the survey structure. Section~\ref{sec3} addresses \textbf{RQ1} through
+the five-dimensional design space and master architecture comparison. Section~\ref{sec4}
+addresses \textbf{RQ2} through task-coverage analysis. Sections~\ref{sec5}
+and~\ref{sec6} address \textbf{RQ3} through multimodal coverage and PEFT strategies.
+Section~\ref{sec7} addresses \textbf{RQ4} through the three-type hallucination taxonomy.
+Section~\ref{sec8} addresses \textbf{RQ5} through dataset and benchmark cataloguing
+with structured quantitative synthesis. Section~\ref{sec9} addresses \textbf{RQ6}
+through eight concrete future research directions. Section~\ref{sec10} concludes.

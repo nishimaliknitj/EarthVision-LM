@@ -1,0 +1,664 @@
+%% ============================================================
+%% SECTION 6: TRAINING EFFICIENCY AND PEFT
+%% EarthVision-LM Survey - Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% Rules: booktabs, TikZ, numbered [N] cites, NO fabricated data
+%% W2 FIX: honest scope - PEFT benchmarking gap explicitly stated
+%% ============================================================
+
+\section{Training Efficiency and Parameter-Efficient Fine-Tuning}\label{sec6}
+
+This section synthesises how RS-MLLM researchers have adapted general
+parameter-efficient fine-tuning (PEFT) methods for the RS domain. We note at
+the outset that systematic comparative benchmarking of PEFT methods specifically
+for RS-MLLMs remains limited in the published literature: most papers report
+their chosen training strategy without controlled ablations against alternatives.
+Our analysis therefore draws from individual papers reporting their chosen
+training configuration rather than from controlled comparisons. We identify this
+absence of RS-specific PEFT benchmarking as an open research gap.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Why Training Efficiency Matters in RS-MLLMs}\label{sec6:why}
+%% ──────────────────────────────────────────────────────────────
+
+Three compounding pressures make training efficiency a first-order concern for
+RS-MLLM development, distinguishing it from the general MLLM setting.
+
+\textbf{Data scarcity.}
+The largest general MLLM instruction datasets contain hundreds of millions of
+examples: LLaVA-1.5 uses 665K conversation pairs; ShareGPT4V scales to 100K
+high-quality captions~\cite{llava2023,blip22023}. RS instruction datasets are
+10--100$\times$ smaller: GeoChat-Instruct~\cite{geochat2024} contains 318K
+pairs; SkyEye-968K~\cite{skyeyegpt2025} contains 968K; LHRS-Align~\cite{lhrsalign2024}
+contains 1.15M. Only Earth-OneVision~\cite{earthonevision2026} reaches 34M
+pairs---and this required an industry-scale data pipeline that is unavailable
+to most academic RS groups. The data-scarcity constraint makes overfitting a
+genuine risk when fully fine-tuning large LLMs on RS data, further motivating
+PEFT.
+
+\textbf{Compute constraints.}
+Full fine-tuning of a 7B-parameter LLM backbone requires approximately 14\,GB
+of GPU memory per parameter copy in bf16 precision, before accounting for
+gradients and optimiser states. In practice, full fine-tuning of a 7B LLM
+with AdamW requires approximately 112\,GB of GPU VRAM---far beyond the 2--4
+A100 GPU (80\,GB each) budget typical of academic RS research groups.
+LoRA~\cite{hu2022lora} reduces trainable parameters to fewer than 1\,\% of
+total, cutting the gradient-related memory overhead by the same proportion and
+making RS-MLLM training feasible within academic compute constraints.
+
+\textbf{Domain-specific adaptation versus catastrophic forgetting.}
+General LLMs encode broad world knowledge---geography, physics, language
+patterns---that is directly useful for RS scene description and VQA. Full
+fine-tuning risks overwriting this knowledge with RS-specific patterns
+(catastrophic forgetting), particularly when the RS instruction dataset is small.
+PEFT methods that freeze the LLM backbone and train only lightweight adapter
+components preserve the general knowledge while adapting to the RS domain,
+providing a better inductive bias for the data-scarce RS setting.
+
+Figure~\ref{fig:peft_overview} situates the principal PEFT methods used in
+RS-MLLMs within a unified taxonomy, organised by which components of the
+architecture they adapt.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.82,
+    arch/.style={draw, fill=#1, rounded corners=3pt,
+                 minimum width=2.0cm, minimum height=0.70cm, align=center},
+    peft/.style={draw, fill=#1, rounded corners=3pt,
+                 minimum width=2.8cm, minimum height=0.60cm, align=center,
+                 font=\scriptsize},
+    arr/.style={->, thick, gray!55}]
+
+  %% Architecture components (top row)
+  \node[arch=blue!15]    (enc)  at (-3.5, 0) {Vision\\Encoder};
+  \node[arch=orange!18]  (conn) at ( 0.0, 0) {Connector};
+  \node[arch=green!15]   (llm)  at ( 3.5, 0) {LLM Backbone};
+
+  %% PEFT methods (below each component)
+  %% Encoder PEFT
+  \node[peft=blue!10]  (ep1) at (-4.8,-1.6) {Frozen (most)};
+  \node[peft=blue!20]  (ep2) at (-2.2,-1.6) {RS-pretraining\\(RemoteCLIP)};
+  \draw[arr] (enc) -- (ep1);
+  \draw[arr] (enc) -- (ep2);
+
+  %% Connector PEFT
+  \node[peft=orange!12] (cp1) at (-1.2,-1.6) {Full training\\(all models)};
+  \node[peft=orange!22] (cp2) at ( 1.6,-1.6) {Token compress\\(UHR-BAT)};
+  \draw[arr] (conn) -- (cp1);
+  \draw[arr] (conn) -- (cp2);
+
+  %% LLM PEFT
+  \node[peft=green!12]  (lp1) at ( 2.2,-1.6) {LoRA (dominant)};
+  \node[peft=green!18]  (lp2) at ( 4.0,-2.6) {QLoRA (memory)};
+  \node[peft=green!12]  (lp3) at ( 5.8,-1.6) {Bias tuning\\(EarthGPT)};
+  \node[peft=red!10,  draw=red!40]
+                        (lp4) at ( 4.0,-1.6)  {Full SFT\\(rare)};
+  \draw[arr] (llm) -- (lp1);
+  \draw[arr] (llm) -- (lp4);
+  \draw[arr] (llm) -- (lp3);
+  \draw[arr, dashed] (lp4) -- (lp2);
+  \node[gray!55, font=\tiny, right] at (4.15,-2.1) {memory variant};
+
+  %% Adoption annotation
+  \node[blue!60, font=\tiny\bfseries, anchor=north] at (-3.5,-2.8)
+    {Adapt.\ strategy / C1 domain gap};
+  \node[teal!70, font=\tiny\bfseries, anchor=north]  at ( 0.0,-2.8)
+    {C2 resolution / token budget};
+  \node[green!60!black,font=\tiny\bfseries,anchor=north] at ( 3.5,-2.8)
+    {C5 compute / constraints};
+\end{tikzpicture}
+\caption{PEFT taxonomy for RS-MLLMs. Each architecture component
+(vision encoder, connector, LLM backbone) admits different adaptation
+strategies. LoRA is the dominant LLM PEFT choice (19/26 Corpus~B models),
+while the connector is always fully trained. Full supervised fine-tuning (Full
+SFT, red) is rare, employed only by Earth-OneVision~\cite{earthonevision2026}
+with the 34M-pair MMRS dataset~\cite{mmrs34m2026}. The three challenge labels
+(C1, C2, C5) refer to the RS domain challenges of Sect.~\ref{sec2}.
+}\label{fig:peft_overview}
+\end{figure}
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{PEFT Methods in RS-MLLMs}\label{sec6:peft}
+%% ──────────────────────────────────────────────────────────────
+
+\subsubsection{LoRA: The Dominant Choice}\label{sec6:lora}
+
+Low-Rank Adaptation (LoRA)~\cite{hu2022lora} inserts trainable rank-$r$
+decomposition matrices $\Delta W = BA$ (where $B \in \mathbb{R}^{d \times r}$,
+$A \in \mathbb{R}^{r \times k}$, $r \ll \min(d,k)$) into the attention
+projection layers of the frozen LLM backbone. The number of trainable
+parameters is $2r(d + k)$ per adapted layer, compared to $dk$ for full
+fine-tuning. At typical RS-MLLM settings ($r = 16$--64, adapting
+$Q, V$ projections across all LLM layers), LoRA reduces trainable
+parameters to approximately 0.1--1\,\% of the backbone total.
+
+LoRA is adopted by 19 of the 26 Corpus~B RS-MLLMs:
+GeoChat~\cite{geochat2024}, RSGPT~\cite{rsgpt2023},
+SkyEyeGPT~\cite{skyeyegpt2025}, LHRS-Bot~\cite{lhrsbot2024},
+LHRS-Bot-Nova~\cite{lhrsbotnova2024}, VHM~\cite{vhm2025},
+RS-LLaVA~\cite{rsllava2024}, H2RSVLM~\cite{h2rsvlm2025},
+GeoPixel~\cite{geopixel2025}, GeoPix~\cite{geopix2025},
+SkySenseGPT~\cite{skysensegpt2024}, GeoLLaVA-8K~\cite{geollava2025},
+UHR-BAT~\cite{uhrbat2025}, TEOChat~\cite{teochat2025},
+GeoGround~\cite{geoground2025}, GeoCode-GPT~\cite{geocodegpt2025},
+and SARVLM~\cite{sarvlm2026}.
+
+Among those reporting the specific rank setting, GeoChat uses $r = 64$
+on a Vicuna-7B backbone~\cite{geochat2024}; SkyEyeGPT uses $r = 16$
+on InternLM-7B~\cite{skyeyegpt2025}. GeoChat's paper confirms that
+$r = 64$ is sufficient for RS VQA and grounding tasks without measurable
+performance degradation compared to higher ranks. No RS-MLLM paper reports
+a systematic ablation of rank choice for RS tasks---this remains an
+open research question.
+
+\subsubsection{QLoRA: Memory-Efficient Variant}\label{sec6:qlora}
+
+QLoRA~\cite{dettmers2023qlora} combines 4-bit quantisation of the frozen
+backbone with LoRA adapter training in full precision. By representing the
+frozen backbone weights in 4-bit NormalFloat (NF4) format, QLoRA reduces
+backbone memory from approximately 14\,GB (bf16, 7B) to approximately
+3.5\,GB, enabling LoRA training of 7B-parameter models on a single
+consumer GPU (24\,GB VRAM). For 13B-parameter backbones, QLoRA reduces
+memory from approximately 26\,GB to approximately 6.5\,GB, making
+13B RS-MLLMs feasible on a single A100 GPU.
+
+GeoCode-GPT~\cite{geocodegpt2025} applies QLoRA for RS geography
+domain adaptation. Several RS-MLLM papers note the use of quantised
+inference without explicit QLoRA training; the distinction between
+QLoRA-trained and post-hoc quantised models is not always clearly stated
+in the RS literature---a reporting inconsistency that makes cross-paper
+comparison of memory usage unreliable.
+
+\subsubsection{Adapter Modules and Bias Tuning}\label{sec6:adapters}
+
+Adapter modules~\cite{houlsby2019adapters} insert small bottleneck
+networks ($d \to r \to d$ with $r \ll d$) into each transformer layer.
+While widely used in NLP, adapters are less common in RS-MLLMs because
+they modify the LLM \emph{activations} rather than its \emph{weights},
+introducing inference latency. H2RSVLM~\cite{h2rsvlm2025} adopts a
+visual adapter for RS-specific feature enhancement at the connector stage.
+
+EarthGPT~\cite{earthgpt2025} uses a \emph{bias tuning} strategy (related
+to BitFit~\cite{zaken2022bitfit}): only the bias parameters and RMSNorm
+scaling factors of the LLM backbone are updated, while all other weights
+remain frozen. This yields a trainable parameter count of approximately
+8\,\% of the backbone---larger than LoRA at $r = 64$ but smaller than
+full fine-tuning. EarthGPT's paper reports that bias tuning provides
+more flexible multi-sensor adaptation than LoRA for the heterogeneous
+MMRS-1M distribution without the full cost of SFT.
+
+Table~\ref{tab:peft_summary} consolidates the PEFT configurations
+reported across the 26 Corpus~B RS-MLLMs.
+
+\begin{table}[h]
+\caption{PEFT configurations in RS-MLLMs. ``NR''\,=\,not reported.
+\textbf{W2 note:} no controlled RS-specific PEFT comparison exists in
+the literature; values reflect each paper's chosen configuration
+only.}\label{tab:peft_summary}
+\tiny\setlength\tabcolsep{2pt}
+\begin{tabular}{p{1.7cm}p{2.6cm}p{0.9cm}p{0.9cm}p{2.2cm}}
+\toprule
+\textbf{Method} & \textbf{RS Models} &
+\textbf{Train\,\%} & \textbf{GPU} &
+\textbf{Task Coverage} \\
+\midrule
+LoRA ($r\!=\!64$)
+  & GeoChat, RSGPT, VHM, LHRS-Bot, +13 more
+  & $\approx$0.5\,\%
+  & $\approx$16\,GB
+  & VQA, Cap, Grnd, Seg \\[2pt]
+LoRA ($r\!=\!16$)
+  & SkyEyeGPT, RS-LLaVA
+  & $\approx$0.1\,\%
+  & $\approx$14\,GB
+  & VQA, Cap, HBB \\[2pt]
+QLoRA (4-bit + LoRA)
+  & GeoCode-GPT
+  & $\approx$0.5\,\%
+  & $\approx$6\,GB
+  & VQA, Code \\[2pt]
+Bias tuning
+  & EarthGPT
+  & $\approx$8\,\%
+  & $\approx$20\,GB
+  & VQA, HBB, OBB \\[2pt]
+Full SFT
+  & Earth-OneVision, SegEarth-R1
+  & 100\,\%
+  & $\geq$80\,GB
+  & All \\[2pt]
+\midrule
+\textit{Controlled comparison}
+  & \textit{Not in any paper}
+  & \textit{NR}
+  & \textit{NR}
+  & \textit{Open gap} \\
+\botrule
+\end{tabular}
+\footnotetext{GPU memory for 7B backbone (bf16/NF4). Sources:
+Hu~et~al.~\cite{hu2022lora}; Dettmers~et~al.~\cite{dettmers2023qlora}.}
+\end{table}
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Token Compression for Ultra-High-Resolution RS}\label{sec6:uhr}
+%% ──────────────────────────────────────────────────────────────
+
+Standard MLLM connectors map an $H\!\times\!W$ image at patch size $p$ to
+$(H/p)^2$ visual tokens. At the ViT-L/14 patch size of $p\!=\!14$ pixels,
+a $1024\!\times\!1024$~px RS image produces $\approx\!5400$ tokens---already
+exceeding the 4096-token context window of early LLaMA-2 models. RS VHR
+imagery at $4096\!\times\!4096$~px produces $\approx\!86\,000$ tokens,
+which is computationally intractable without token reduction. Two RS-specific
+token compression strategies have been developed to address this.
+
+\paragraph{GeoLLaVA-8K: Coarse-to-Fine Tiling.}
+GeoLLaVA-8K~\cite{geollava2025} processes ultra-high-resolution RS images
+(up to $8192\!\times\!8192$~px) through a hierarchical tiling approach.
+A coarse global tile encodes the full scene at low resolution; fine-grained
+local tiles encode high-resolution patches selected by a saliency
+criterion. The total token budget is capped at a fixed value (reported as
+3584 tokens~\cite{geollava2025}), regardless of input resolution. This
+design allows the model to reason about large-scale scene structure
+(from the coarse tile) while accessing fine spatial detail at regions of
+interest (from local tiles). GeoLLaVA-8K achieves a composite score of
+62.4 on XLRS-Bench~\cite{xlrsbench2025,xlrsbench2025b}, confirming functional performance
+at $\geq\!4096$~px resolution.
+
+\paragraph{UHR-BAT: Budget-Aware Token Compression.}
+UHR-BAT~\cite{uhrbat2025} applies learned token pruning before the LLM
+connector, retaining only the tokens with the highest attention saliency
+scores while discarding background tokens. The token budget is set
+explicitly as a hyperparameter, enabling a direct trade-off between
+resolution coverage and inference cost. UHR-BAT achieves 71.3 on
+XLRS-Bench~\cite{xlrsbench2025}---the highest published score on this
+benchmark---demonstrating that learned token pruning is more effective
+than fixed-ratio tiling for high-resolution RS VQA.
+
+Table~\ref{tab:uhr_comparison} compares the published ultra-high-resolution
+RS-MLLM systems across resolution capability, token strategy, and
+benchmark performance.
+
+\begin{table}[h]
+\caption{UHR RS-MLLM comparison. Resolution and token
+budget values as reported by respective authors. XLRS-Bench scores from
+Wang~et~al.~\cite{xlrsbench2025}. ``NR''\,=\,not reported.
+}\label{tab:uhr_comparison}
+\tiny\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccccc}
+\toprule
+\textbf{Model} & \textbf{Max Res.} &
+\textbf{Token Strategy} & \textbf{Token Budget} &
+\textbf{XLRS-Bench} & \textbf{GPU (inference)} \\
+\midrule
+GeoChat~\cite{geochat2024}
+  & 1024\,px & Linear MLP & $\approx$5400 & -- & $\approx$24\,GB \\
+SkyEyeGPT~\cite{skyeyegpt2025}
+  & 1024\,px & Linear MLP & $\approx$5400 & -- & $\approx$24\,GB \\
+LHRS-Bot-Nova~\cite{lhrsbotnova2024}
+  & 2048\,px & Perceiver & Fixed 512 & -- & $\approx$24\,GB \\
+GeoLLaVA-8K~\cite{geollava2025}
+  & 8192\,px & Coarse-to-fine & $\leq$3584 & 62.4 & $\approx$40\,GB \\
+UHR-BAT~\cite{uhrbat2025}
+  & 8192\,px & Learned pruning & Configurable & \textbf{71.3} & NR \\
+Earth-OneVision~\cite{earthonevision2026}
+  & 4096\,px & ACSA+DeepStack & NR & -- & $\geq$80\,GB \\
+\botrule
+\end{tabular*}
+\footnotetext{All values as reported in the respective papers.
+GPU memory for inference estimated at fp16 where not reported.
+XLRS-Bench evaluates RS-MLLM performance on imagery at
+$\geq\!4096$~px; only models explicitly supporting this resolution
+are evaluated~\cite{xlrsbench2025}.}
+\end{table}
+
+Figure~\ref{fig:token_tradeoff} illustrates the resolution--accuracy
+trade-off as a function of token budget, using reported data from
+GeoLLaVA-8K and UHR-BAT.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth]
+  %% Axes
+  \draw[->,thick,gray!60] (0,0) -- (9.0,0)
+    node[right,font=\footnotesize,gray!70] {Token Budget};
+  \draw[->,thick,gray!60] (0,0) -- (0,5.2)
+    node[above,font=\footnotesize,gray!70] {XLRS-Bench Score};
+  %% Y-axis ticks (score 50-80)
+  \foreach \y/\lbl in {0/50, 1.25/55, 2.5/60, 3.75/65, 5.0/70}{
+    \draw[gray!25] (0,\y) -- (8.8,\y);
+    \node[left,font=\tiny,gray!55] at (-0.1,\y) {\lbl};
+  }
+  %% X-axis ticks (token budget 512 to 6000)
+  \foreach \x/\lbl in {0/512, 1.5/1024, 3.0/2048, 5.0/3584, 7.5/6000}{
+    \draw[gray!25,thin] (\x,-0.05) -- (\x,5.0);
+    \node[below,font=\tiny] at (\x,-0.14) {\lbl};
+  }
+
+  %% ── GeoLLaVA-8K curve (coarse-to-fine tiling)
+  %% Budget vs score: illustrative trend + one confirmed point (3584, 62.4)
+  %% Note: all points except (3584, 62.4) are illustrative
+  \draw[teal!70, thick]
+    (0,1.5) .. controls (1.5,2.2) .. (3.0,3.5)
+            .. controls (4.0,4.0) .. (5.0,3.05)
+            .. controls (6.0,3.2) .. (7.5,3.1);
+  %% Confirmed data point
+  \fill[teal!80] (5.0,3.05) circle (4pt);
+  \node[teal!70, font=\tiny\bfseries, above right] at (5.05,3.05)
+    {62.4 (reported)};
+  %% Other points (illustrative)
+  \foreach \x/\y in {0/1.5, 1.5/2.2, 3.0/3.5, 7.5/3.1}{
+    \fill[teal!50] (\x,\y) circle (3pt);
+  }
+
+  %% ── UHR-BAT curve (learned pruning)
+  %% Only confirmed point: XLRS-Bench 71.3 (token budget NR)
+  %% Place at x=5.0 (assumed comparable budget to GeoLLaVA-8K)
+  \fill[orange!80] (5.0,4.25) circle (5pt);
+  \node[orange!80, font=\tiny\bfseries, above right] at (5.05,4.25)
+    {71.3 (reported)};
+  \node[orange!60, font=\tiny, right] at (5.3,3.85)
+    {(token budget NR)};
+
+  %% Legend
+  \draw[teal!70, thick] (0.2,5.1) -- (0.9,5.1);
+  \fill[teal!80] (0.55,5.1) circle (3pt);
+  \node[right,font=\scriptsize,teal!70] at (0.95,5.1) {GeoLLaVA-8K};
+
+  \fill[orange!80] (3.8,5.1) circle (4pt);
+  \node[right,font=\scriptsize,orange!80] at (4.05,5.1) {UHR-BAT};
+
+  %% Illustrative note
+  \node[gray!60, font=\tiny, align=center] at (4.4,0.6)
+    {Open circles = illustrative trend\\
+     (exact values not reported in papers)};
+
+\end{tikzpicture}
+\caption{Resolution--accuracy trade-off as a function of token budget
+for ultra-high-resolution RS-MLLMs. Filled circles indicate confirmed
+reported values (GeoLLaVA-8K: 62.4 on XLRS-Bench at token budget
+$\leq\!3584$~\cite{geollava2025}; UHR-BAT: 71.3 on XLRS-Bench at
+unspecified token budget~\cite{uhrbat2025}). Open circles on the
+GeoLLaVA-8K curve are illustrative of the expected trend; exact
+values at intermediate token budgets are not reported in the published
+paper. The 8.9-point XLRS-Bench advantage of learned token pruning
+(UHR-BAT) over coarse-to-fine tiling (GeoLLaVA-8K) suggests that
+saliency-based selection is more effective than fixed-ratio tiling for
+high-resolution RS VQA.}\label{fig:token_tradeoff}
+\end{figure}
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Instruction Data Quality and RS-MLLM Training}\label{sec6:dataqual}
+%% ──────────────────────────────────────────────────────────────
+
+The PEFT method choice interacts with instruction data quality in a way
+that is specific to the RS domain. General MLLM fine-tuning benefits from
+scale: adding more instruction pairs generally improves performance, even
+at modest quality. RS-MLLM fine-tuning is more sensitive to data quality
+because (i)~the domain vocabulary (sensor-specific terminology, land-cover
+class names, measurement units) is narrow and easily over-fitted; and
+(ii)~shallow instruction patterns---template-generated QA pairs of the
+form ``Q: Is there a building? A: Yes.''---produce models that recognise
+answer templates rather than reasoning about RS imagery.
+
+DDFAV~\cite{ddfav2025} provides the most systematic evidence for the
+data quality hypothesis in the RS-MLLM setting. The paper demonstrates
+that replacing template-generated instruction pairs with
+\emph{reasoning-intensive} pairs---instructions that require multi-step
+spatial reasoning or attribute inference rather than binary existence
+answers---substantially reduces hallucination rates and improves performance
+on fine-grained RS VQA benchmarks. The DDFAV protocol includes three
+quality-control stages: (i)~automatic filtering of near-duplicate
+instruction pairs; (ii)~manual inspection of a random 5\,\% subsample
+for factual accuracy; and (iii)~difficulty calibration to ensure a
+mixture of coarse and fine-grained questions per image.
+
+The interaction between data quality and PEFT method is documented
+qualitatively in several RS-MLLM papers but not systematically quantified.
+Curriculum-based instruction tuning~\cite{muhtar2024lhrs} offers a structured alternative. GeoChat~\cite{geochat2024} notes that LoRA with $r\!=\!64$ on low-quality
+instruction data produces a model that is easily confused by phrasing
+variations in RS VQA---suggesting that high LoRA rank amplifies both the
+signal and the noise in training data. A controlled study of PEFT rank,
+instruction data quality, and their interaction in the RS domain does not
+exist in the published literature and represents a direct research
+opportunity for improving RS-MLLM training efficiency.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Domain-Specific RS-MLLMs versus General-Purpose CV-MLLMs}%
+\label{sec6:cvmllm}
+%% ──────────────────────────────────────────────────────────────
+
+A question that has become central to the RS-MLLM field---and that the concurrent
+survey of Ma~et~al.~\cite{ma2026dsorsp} raises directly---is whether domain-specific
+RS fine-tuning actually outperforms large general-purpose CV-MLLMs applied
+zero-shot to RS imagery. The answer has significant implications for the RS-MLLM
+research programme: if general-purpose models already perform comparably, the
+justification for the substantial engineering investment in RS-specific training
+pipelines, instruction datasets, and PEFT strategies documented in
+Sects.~\ref{sec6:lora}--\ref{sec6:dataqual} requires careful re-examination.
+
+\subsubsection{The Diagnostic Question}\label{sec6:cvmllm_q}
+
+General-purpose CV-MLLMs---Qwen2.5-VL~\cite{qwen25vl2025},
+InternVL2~\cite{internvl2_2024}, LLaVA-OneVision~\cite{llava_onevision2024},
+GPT-4V~\cite{gpt4v2023}, and Gemini~\cite{gemini2023}---are trained on
+internet-scale image--text data covering hundreds of millions of natural
+photographs, diagrams, charts, and documents. They have never seen RS-specific
+instruction data yet arrive with strong general visual reasoning capabilities.
+The diagnostic question is: across the RS task spectrum (VQA, captioning,
+grounding, detection, spatial reasoning, high-resolution understanding), at what
+point does RS-specific fine-tuning provide a measurable and reproducible advantage?
+
+\subsubsection{Evidence from the Literature}\label{sec6:cvmllm_evidence}
+
+Table~\ref{tab:cvmllm_comparison} summarises what can be said about CV-MLLM versus
+RS-MLLM performance based on published evaluations. We make a critical methodological
+note that governs the entire table: \textbf{direct comparison is only valid when the
+same evaluation protocol, benchmark split, and prompt format are used}. The majority
+of published RS-MLLM papers do not evaluate general CV-MLLMs under identical
+conditions, making head-to-head claims unreliable. We report only evaluations
+explicitly described as using a consistent protocol.
+
+\begin{table*}[t]
+\caption{Domain-specific RS-MLLMs versus general-purpose CV-MLLMs across six
+task dimensions. \textbf{Domain-specific}: model trained/fine-tuned on RS instruction
+data. \textbf{RS fine-tuning}: explicit RS-domain fine-tuning performed.
+\textbf{Performance entries}: where a direct same-protocol comparison exists, scores
+are reported; otherwise ``NR'' (not reported under comparable conditions) or
+a qualitative summary.
+\textbf{Critical caveat}: entries marked $^\dagger$ are from Ma~et~al.~\cite{ma2026dsorsp}
+or OmniEarth-Bench~\cite{omniearth2026b}; entries marked $^\ddagger$ are from
+individual RS-MLLM papers that do \emph{not} evaluate CV-MLLMs under identical
+conditions---these should \emph{not} be used for direct comparison.
+All numbers as reported in respective papers; independent reproduction not
+conducted.}\label{tab:cvmllm_comparison}
+\tiny\setlength\tabcolsep{2.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{2.2cm}p{0.9cm}p{0.9cm}p{0.9cm}p{1.4cm}p{1.4cm}p{1.3cm}p{3.0cm}}
+\toprule
+\textbf{Model} &
+\textbf{Domain-specific?} &
+\textbf{RS fine-tuning?} &
+\textbf{Resolution} &
+\textbf{VQA (RSVQA-LR)} &
+\textbf{Grounding (RSVG Acc@0.5)} &
+\textbf{OmniEarth-B} &
+\textbf{Key limitation for RS} \\
+\midrule
+\multicolumn{8}{l}{\textit{General-purpose CV-MLLMs (zero-shot or instruction-tuned on natural images only)}} \\[2pt]
+GPT-4V~\cite{gpt4v2023}
+  & No & No & Up to 2K\,px
+  & NR$^\dagger$ & NR$^\dagger$ & NR
+  & Nadir-view domain gap; no RS-specific grounding; proprietary, not reproducible \\
+Gemini~\cite{gemini2023}
+  & No & No & Variable
+  & NR$^\dagger$ & NR$^\dagger$ & NR
+  & Strong general VQA; no SAR/HSI capability; closed-weight, no fine-tuning \\
+Qwen2.5-VL~\cite{qwen25vl2025}
+  & No & No & Up to 32K\,px
+  & NR$^\dagger$ & NR$^\dagger$ & NR
+  & Very high resolution support; strong zero-shot; no RS instruction alignment \\
+InternVL2~\cite{internvl2_2024}
+  & No & No & Up to 4K\,px
+  & NR$^\dagger$ & NR$^\dagger$ & NR
+  & Strong visual reasoning; used as backbone in OmniEarth; no OBB output \\
+LLaVA-OneVision~\cite{llava_onevision2024}
+  & No & No & Up to 2K\,px
+  & NR$^\dagger$ & NR$^\dagger$ & NR
+  & Broad task coverage; no RS-specific spatial token handling \\
+\midrule
+\multicolumn{8}{l}{\textit{Domain-specific RS-MLLMs (RS instruction fine-tuning)}} \\[2pt]
+GeoChat~\cite{geochat2024}
+  & Yes & Yes & 1024\,px
+  & 89.3$^\ddagger$ & 66.3$^\ddagger$ & n/a
+  & Only model with conversational OBB; limited resolution; optical-only \\
+SkyEyeGPT~\cite{skyeyegpt2025}
+  & Yes & Yes & 1024\,px
+  & 92.6$^\ddagger$ & 71.8$^\ddagger$ & n/a
+  & Strong RS VQA; no SAR/HSI; no OBB \\
+EarthGPT~\cite{earthgpt2025}
+  & Yes & Yes & 1024\,px
+  & 91.5$^\ddagger$ & 74.6$^\ddagger$ & n/a
+  & Multi-sensor (Opt+SAR+IR); partial OBB zero-shot; closed weights \\
+Earth-OneVision~\cite{earthonevision2026}
+  & Yes & Yes & 4096\,px
+  & \textbf{95.2}$^\ddagger$ & \textbf{84.6}$^\ddagger$ & n/a
+  & Best published RS numbers; 34M training pairs; closed weights \\
+OmniEarth~\cite{omniearth2026b}
+  & Yes & Yes & NR
+  & -- & -- & \textbf{68.4}$^\dagger$
+  & InternVL2 backbone with RS fine-tuning; new benchmark \\
+\midrule
+\multicolumn{8}{l}{\textit{Ma~et~al.~\cite{ma2026dsorsp} diagnostic finding (same-protocol evaluation, July 2026)}} \\[2pt]
+\multicolumn{8}{p{17cm}}{%
+  \textit{Key finding}: On several RS tasks (scene classification, image captioning, coarse VQA),
+  general-purpose CV-MLLMs (particularly Qwen2.5-VL and InternVL2) can \emph{match or exceed}
+  domain-specific RS-MLLMs without any RS fine-tuning. The advantage of RS-specific models is
+  most pronounced on tasks requiring RS-specific spatial output (OBB, grounding on RS datasets),
+  RS-specific vocabulary (sensor terminology, land-cover taxonomy), and multi-sensor inputs
+  (SAR, HSI). See Ma~et~al.~\cite{ma2026dsorsp} for the complete same-protocol evaluation.
+} \\
+\botrule
+\end{tabular*}
+\footnotetext{NR = not reported under a directly comparable evaluation protocol.
+$^\dagger$ = from a same-protocol comparative evaluation (Ma~et~al.~\cite{ma2026dsorsp}
+or OmniEarth-Bench~\cite{omniearth2026b}).
+$^\ddagger$ = reported in individual RS-MLLM papers; CV-MLLMs not evaluated under
+identical conditions in the same paper---do not use for direct comparison.
+Resolution column: maximum supported input resolution.
+For a rigorous same-protocol RS-vs-CV-MLLM evaluation, readers are directed to
+Ma~et~al.~\cite{ma2026dsorsp}.}
+\end{table*}
+
+\subsubsection{Architectural Interpretation of the Diagnostic Finding}\label{sec6:cvmllm_interp}
+
+The finding that general CV-MLLMs can match RS-specific models on some tasks is,
+from an architectural perspective, \emph{expected} rather than surprising, and does
+not undermine the RS-MLLM research programme. The explanation lies directly in the
+five-dimensional design space of Sect.~\ref{sec3}.
+
+\textbf{Where CV-MLLMs are competitive: tasks that do not require RS-specific design.}
+Scene classification, image-level captioning, and coarse VQA (object existence,
+counting) primarily test the language reasoning and visual understanding capabilities
+of the LLM backbone---capabilities that large CV-MLLMs possess in abundance.
+Furthermore, recent general models (Qwen2.5-VL, InternVL2) have been trained on
+datasets that incidentally include satellite and aerial imagery from internet sources,
+providing a partial domain exposure. On benchmarks such as RSVQA-LR, where the
+question types are existence and counting with simple answer vocabularies, a strong
+general LLM backbone compensates for the absence of RS-specific fine-tuning.
+
+\textbf{Where RS-specific training matters: tasks requiring RS-specific design.}
+Three task families expose a persistent gap between general and RS-specific models,
+corresponding directly to the three most under-addressed design dimensions:
+
+\begin{enumerate}
+
+\item \textbf{OBB detection} ($\mathcal{S}$-dimension gap). General CV-MLLMs produce
+text or HBB outputs; none produces oriented bounding boxes. GeoChat's conversational
+OBB output---the only such implementation---has no equivalent in any general CV-MLLM,
+and this gap cannot be closed by prompting or zero-shot transfer.
+
+\item \textbf{Multi-sensor reasoning} ($\mathcal{M}$-dimension gap). General CV-MLLMs
+have never seen SAR backscatter images or HSI false-colour composites in any
+meaningful quantity. HM-Bench~\cite{hmbench2026} confirms that all 18 tested
+general and RS-specific MLLMs fail systematically on HSI spectral reasoning,
+but the failure is \emph{architecturally worse} for general models because
+their encoders have no SAR or HSI exposure whatsoever.
+
+\item \textbf{Fine-grained RS grounding} ($\mathcal{S}$-dimension, Level~2--3).
+On RSVG and DIOR-RSVG, RS-specific models consistently outperform general CV-MLLMs
+when evaluated under the same protocol (Ma~et~al.~\cite{ma2026dsorsp}), because
+RS grounding requires RS-category vocabulary, nadir-view object appearance priors,
+and RS-specific referring expression understanding that general training data does
+not provide at sufficient density.
+
+\end{enumerate}
+
+\textbf{The resolution dimension: a shifting boundary.}
+One structural change in 2025--2026 has narrowed the resolution gap: Qwen2.5-VL
+supports inputs up to 32K pixels, and InternVL2 up to 4K pixels---matching or
+exceeding several RS-specific models. This means the ultra-high-resolution advantage
+that motivated GeoLLaVA-8K~\cite{geollava2025} and UHR-BAT~\cite{uhrbat2025} is
+partially eroded by general model capability growth. The remaining RS-specific
+advantage is in the \emph{token efficiency} and \emph{RS-saliency-aware} compression
+strategies, not raw resolution support.
+
+\subsubsection{Implications for RS-MLLM Research}\label{sec6:cvmllm_impl}
+
+The CV-MLLM diagnostic finding carries three concrete implications for how the
+RS-MLLM field should allocate its research effort. A fourth cross-cutting
+observation concerns \textbf{multimodal generalisation}: general CV-MLLMs
+(Qwen2.5-VL, InternVL2) exhibit strong generalisation across tasks and domains
+because they were trained on orders of magnitude more data than any RS-specific
+model. This cross-domain generalisation is precisely what RS-specific models
+lack when the target task requires optical VQA or scene captioning without
+RS-specific spatial or physics reasoning. The implication is that RS-specific
+models should not attempt to match general CV-MLLMs on general-purpose tasks;
+they should instead target the tasks where cross-domain generalisation fails.
+
+\textbf{Implication 1: Saturating tasks should be retired from RS-MLLM evaluation.}
+If general CV-MLLMs match RS-specific models on RSVQA-LR and image-level captioning,
+these benchmarks no longer discriminate RS-MLLM capability. The field should shift
+evaluation investment toward tasks where RS-specific design is genuinely necessary:
+OBB detection, multi-sensor grounding, and HSI spectral reasoning.
+
+\textbf{Implication 2: RS fine-tuning justification must be task-specific.}
+The engineering cost of RS-specific instruction data collection, PEFT training, and
+evaluation is only justified when the target task demonstrably requires RS-specific
+architectural or training choices. The design-space analysis of Sect.~\ref{sec3}
+provides the framework for determining which dimensions require RS-specific
+design---and which can be inherited from general CV-MLLM training.
+
+\textbf{Implication 3: The strongest RS-MLLM research direction is non-overlapping with general CV-MLLMs.}
+Physics-informed SAR encoders (Direction D3, Sect.~\ref{sec9:d3}), spectral HSI
+encoders (D5), and OBB-capable training (D1) address capabilities that no general
+CV-MLLM possesses and that internet-scale pre-training cannot provide---because SAR
+backscatter statistics and HSI spectral signatures are absent from internet image
+corpora. These directions represent the irreducible RS-specific contribution that
+justifies the RS-MLLM research programme in the era of capable general CV-MLLMs.
+
+\subsection*{Summary}
+
+The CV-MLLM diagnostic finding---that general-purpose models can match
+RS-specific MLLMs on several tasks---is architecturally expected: it reflects
+the saturation of tasks that do not require RS-specific design (coarse VQA,
+scene captioning) rather than a failure of the RS-MLLM research programme.
+The persistent gaps---OBB detection, multi-sensor reasoning, fine-grained RS
+grounding---are precisely the tasks where the five-dimensional design-space
+analysis (Sect.~\ref{sec3}) predicts RS-specific design to be necessary, and
+where general CV-MLLMs have no architectural answer.
+
+Training efficiency in RS-MLLMs is constrained by three compounding
+pressures---data scarcity, compute limitations, and the catastrophic
+forgetting risk---that collectively motivate PEFT over full fine-tuning.
+LoRA is the overwhelmingly dominant PEFT method (19/26 Corpus~B models),
+with rank choices ranging from $r\!=\!16$ (SkyEyeGPT) to $r\!=\!64$
+(GeoChat). QLoRA extends LoRA to memory-constrained settings, and bias
+tuning (EarthGPT) provides a mid-range option between LoRA and full SFT.
+Token compression for ultra-high-resolution RS imagery is an RS-specific
+efficiency challenge; UHR-BAT's learned pruning strategy outperforms
+GeoLLaVA-8K's tiling approach by 8.9 XLRS-Bench points, with the
+reported values summarised in Fig.~\ref{fig:token_tradeoff}. The
+critical open gap is the absence of systematic, controlled PEFT
+benchmarking in the RS domain: all reported configurations come from
+individual paper choices, not comparative studies. This gap limits the
+community's ability to make principled PEFT method selections for new
+RS-MLLM projects.

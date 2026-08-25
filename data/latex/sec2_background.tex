@@ -1,0 +1,1257 @@
+%% ============================================================
+%% SECTION 2: BACKGROUND — RS DOMAIN AND MLLM FOUNDATIONS
+%% EarthVision-LM Survey — Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% Rules: booktabs, TikZ, numbered [N] cites,
+%%        every float cited before appearance, NO fabricated data
+%% ============================================================
+
+\section{Background}\label{sec2}
+
+This section establishes the domain-specific context necessary to understand
+why RS-MLLMs require architectures, datasets, and evaluation protocols
+substantially different from those of general-purpose MLLMs. We first survey
+the characteristics of RS imagery that make it a uniquely challenging domain
+for language-grounded vision models, then review the MLLM foundations on which
+RS-MLLMs are built, and conclude with the systematic literature review
+methodology used in this survey.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Remote Sensing Imagery: Domain Characteristics}\label{sec2:rs}
+%% ──────────────────────────────────────────────────────────────
+
+Remote sensing imagery is acquired by sensors mounted on satellites, airborne
+platforms, or unmanned aerial vehicles. The resulting images differ from
+ground-level photographs along every dimension that vision models exploit:
+viewpoint, scale, spectral content, object orientation, and scene density.
+Table~\ref{tab:rs_challenges} summarises the six domain-specific challenges
+identified in this survey and maps each to the RS-MLLM design dimension it
+motivates.
+
+\begin{table}[h]
+\caption{Six RS domain challenges and their downstream consequences for
+RS-MLLM design. Each challenge motivates one dimension of the five-dimensional
+design space introduced in Sect.~\ref{sec3}.}\label{tab:rs_challenges}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{2.8cm}p{4.2cm}p{3.8cm}}
+\toprule
+\textbf{Challenge} & \textbf{Description} & \textbf{Design-Space Impact} \\
+\midrule
+Nadir-view domain gap &
+  Ground-level visual priors (CLIP, BLIP-2) fail for top-down imagery &
+  Dim~$\mathcal{E}$: encoder adaptation \\[3pt]
+Extreme resolution range &
+  VHR imagery (0.3--1\,m/px) produces token sequences exceeding LLM context &
+  Dim~$\mathcal{C}$: token-budget connectors \\[3pt]
+Object orientation ambiguity &
+  RS objects appear at arbitrary rotation angles; HBB is a poor fit &
+  Dim~$\mathcal{S}$: OBB spatial output \\[3pt]
+Sensor heterogeneity &
+  Optical, SAR, HSI, LiDAR encode physically incompatible modalities &
+  Dim~$\mathcal{M}$: modality scope \\[3pt]
+Compute constraints &
+  Academic RS groups lack the GPU budget for full LLM fine-tuning &
+  Dim~$\mathcal{L}$: freezing strategy \\[3pt]
+Annotation scarcity &
+  Expert RS annotation is costly; long-tail categories are under-represented &
+  Training data and PEFT strategy \\
+\botrule
+\end{tabular*}
+\end{table}
+
+Figure~\ref{fig:rs_challenges} illustrates the six challenges visually,
+connecting each to the RS imagery properties that produce it.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth,
+    ch/.style={draw, rounded corners=3pt, fill=#1!16,
+               minimum width=3.8cm, minimum height=0.72cm,
+               align=center, font=\small},
+    arr/.style={->, thick, gray!55, shorten >=2pt, shorten <=2pt}]
+
+  %% Central RS image icon
+  \fill[gray!22] (0,-0.4) rectangle (2.0,1.6);
+  \fill[gray!35] (0.1,-0.3) rectangle (1.9,1.5);
+  %% Simulated RS scene features
+  \fill[teal!30] (0.2,0.2) rectangle (0.8,0.8);   % field
+  \fill[gray!55] (1.0,0.6) rectangle (1.7,1.3);   % building
+  \fill[blue!25] (0.1,-0.2) rectangle (0.6,0.15);  % water
+  %% Rotated object (aircraft)
+  \fill[gray!65, rotate around={40:(1.3,0.1)}]
+    (1.0,0.0) rectangle (1.6,0.2);
+  \node[font=\scriptsize\bfseries, gray!80] at (1.0,2.0)
+    {RS Nadir Image};
+
+  %% Six challenge boxes — radial layout
+  %% Top
+  \node[ch=blue]   (c1) at (1.0, 3.6)
+    {C1: Nadir-View\\Domain Gap};
+  %% Top-right
+  \node[ch=orange] (c2) at (5.2, 2.5)
+    {C2: Extreme\\Resolution Range};
+  %% Bottom-right
+  \node[ch=red]    (c3) at (5.2,-1.0)
+    {C3: Object\\Orientation};
+  %% Bottom
+  \node[ch=purple] (c4) at (1.0,-2.5)
+    {C4: Sensor\\Heterogeneity};
+  %% Bottom-left
+  \node[ch=teal]   (c5) at (-3.2,-1.0)
+    {C5: Compute\\Constraints};
+  %% Top-left
+  \node[ch=green!60!black] (c6) at (-3.2, 2.5)
+    {C6: Annotation\\Scarcity};
+
+  %% Arrows from central image to each challenge
+  \draw[arr] (1.0,2.0) -- (c1.south);
+  \draw[arr] (2.0,0.8) -- (c2.west);
+  \draw[arr] (2.0,0.1) -- (c3.west);
+  \draw[arr] (1.0,-0.4)-- (c4.north);
+  \draw[arr] (0.0,0.1) -- (c5.east);
+  \draw[arr] (0.0,0.8) -- (c6.east);
+
+  %% Design-space labels (small, below each box)
+  \node[blue!70, font=\tiny\bfseries] at (1.0,2.80)
+    {$\rightarrow$ Dim $\mathcal{E}$: Encoder};
+  \node[orange!80,font=\tiny\bfseries] at (5.2,1.75)
+    {$\rightarrow$ Dim $\mathcal{C}$: Connector};
+  \node[red!70,   font=\tiny\bfseries] at (5.2,-1.75)
+    {$\rightarrow$ Dim $\mathcal{S}$: Spatial};
+  \node[purple!70,font=\tiny\bfseries] at (1.0,-3.28)
+    {$\rightarrow$ Dim $\mathcal{M}$: Modality};
+  \node[teal!80,  font=\tiny\bfseries] at (-3.2,-1.75)
+    {$\rightarrow$ Dim $\mathcal{L}$: LLM};
+  \node[green!60!black,font=\tiny\bfseries] at (-3.2,1.72)
+    {$\rightarrow$ Training Data};
+\end{tikzpicture}
+\caption{Six RS domain challenges (C1--C6) and their mapping to RS-MLLM
+design dimensions. Each challenge arises directly from the physical
+properties of RS imagery acquisition (nadir viewpoint, sensor physics,
+annotation economics) and motivates a specific architectural or training
+design choice analysed in Sect.~\ref{sec3}.}\label{fig:rs_challenges}
+\end{figure}
+
+\subsubsection{C1: Nadir-View Domain Gap}\label{sec2:nadirview}
+
+All mainstream vision encoders used in MLLMs---CLIP~\cite{clip2021},
+EVA-CLIP~\cite{fang2023evaclip}, DINOv2~\cite{oquab2023dinov2}---were
+pre-trained on internet images depicting objects from human eye-level
+perspectives. RS nadir imagery presents the same physical objects from
+directly above, producing visual appearances that are qualitatively different
+from the training distribution. A passenger aircraft viewed from 500\,m altitude
+appears as a cross-shaped grey silhouette against a tarmac background; from
+ground level, the same aircraft presents fuselage, wings, windows, and livery
+colours that human photographers routinely capture. The cross-shaped aerial
+appearance has no representation in CLIP's training data, creating a fundamental
+domain gap~\cite{long2021creating}. This manifests as the \emph{blind-pair
+problem}: two semantically distinct RS tiles---for example, a dense urban
+neighbourhood and an industrial complex---can receive near-identical CLIP
+embeddings because neither matches any dominant training concept~\cite{bommasani2021}.
+
+The nadir-view gap also invalidates standard RS object detection datasets
+when used for MLLM fine-tuning. Descriptions generated from CLIP embeddings
+for RS images often misidentify land-cover categories, producing noisy
+instruction data that propagates errors into the trained
+RS-MLLM~\cite{ddfav2025}.
+
+\subsubsection{C2: Extreme Resolution Range}\label{sec2:resolution}
+
+RS sensors span an enormous resolution range: spaceborne optical sensors such
+as Sentinel-2 operate at 10--60\,m ground sampling distance (GSD) per pixel;
+commercial VHR satellites (WorldView-3, Pl{\'e}iades) reach 0.3\,m GSD; airborne
+and UAV sensors achieve sub-centimetre GSD. At the VHR end, a single tile
+covering $2\!\times\!2$\,km at 0.3\,m GSD contains approximately
+$6700\!\times\!6700$ pixels---three orders of magnitude more pixels than the
+$224\!\times\!224$ input size of standard CLIP encoders.
+
+Naive rescaling discards the fine spatial detail that distinguishes car models,
+ship classes, or aircraft types. Tiling at native resolution preserves detail
+but produces thousands of patches per image, overwhelming LLM context windows.
+The MLLM connector must therefore implement token-efficient strategies (perceiver
+resampler, token compression) specifically designed for the RS resolution
+challenge~\cite{uhrbat2025, geollava2025}.
+
+\subsubsection{C3: Object Orientation Ambiguity}\label{sec2:orientation}
+
+Objects captured from nadir appear at arbitrary rotation angles determined by
+their heading at acquisition time, not by any camera pose that a photographer
+controls. A ship travelling north-northeast, an aircraft taxiing at 27\,degrees
+heading, and a vehicle parked diagonally across two parking bays all produce
+rotated object silhouettes in the RS image. Horizontal bounding boxes (HBB),
+aligned to image axes, enclose substantial background area for any object
+deviating from horizontal or vertical orientation. For a typical aircraft
+rotation of 35--45\,degrees, the HBB waste factor reaches 55--70\,\% of the
+box area~\cite{xia2018dota, ding2021object}.
+
+Oriented bounding boxes (OBB), parameterised as $(x,\,y,\,w,\,h,\,\theta)$,
+solve this problem by rotating the box to match the object heading, but require
+a model capable of regressing the angular parameter $\theta$---a capability
+absent from all general MLLM architectures and present in only one published
+RS-MLLM (GeoChat~\cite{geochat2024}, as established in Sect.~\ref{sec3:spatial}).
+
+\subsubsection{C4: Sensor Heterogeneity}\label{sec2:sensor}
+
+Operational RS depends on multiple sensor modalities that each encode distinct
+physical quantities. Optical sensors measure solar reflectance in discrete
+spectral bands; the resulting images are the most visually interpretable but
+are degraded by cloud cover, atmospheric scattering, and illumination variation.
+SAR sensors transmit microwave pulses and measure the backscattered signal,
+encoding surface roughness, dielectric constant, and double-bounce geometry
+rather than colour~\cite{sentinel12014, schmitt2019fusion}. Hyperspectral sensors
+resolve 200--400 contiguous narrow spectral bands enabling material identification
+through spectral fingerprinting inaccessible to RGB or even multispectral
+sensors~\cite{hong2021multimodal}.
+
+Each modality has complementary strengths: SAR provides cloud-penetrating
+all-weather coverage critical for disaster response; HSI enables crop-type
+classification and mineral mapping impossible from optical data alone. A
+geospatially intelligent RS-MLLM must ultimately reason across all three
+modalities. However, most currently documented RS-MLLM vision encoders
+inherit predominantly optical/RGB-oriented visual pre-training, while
+modality-specific SAR and HSI representation learning remains substantially
+underdeveloped, creating a sensor heterogeneity gap that limits the
+applicability of RGB-trained features to SAR and HSI data~\cite{hmbench2026}.
+
+\subsubsection{C5: Compute Constraints}\label{sec2:compute}
+
+Large language model fine-tuning at the scale of GPT-4~\cite{openai2023gpt4}
+or LLaMA-2~\cite{llama2023} requires thousands of GPU-hours on high-memory
+accelerators. The RS academic community---primarily university research groups
+rather than industry laboratories---typically operates under 2--8 A100 GPU
+budgets. Full fine-tuning of even a 7B-parameter backbone is rarely feasible.
+Parameter-efficient fine-tuning (PEFT) techniques such as
+LoRA~\cite{hu2022lora}, prefix tuning, and adapter modules enable meaningful
+RS domain adaptation within these constraints, at the cost of reduced model
+flexibility.
+
+This compute gap has a secondary effect: RS instruction datasets are
+necessarily smaller than those used for general MLLMs. GeoChat-Instruct
+contains 318K instruction pairs~\cite{geochat2024}; SkyEye-968K
+contains approximately 968K pairs~\cite{skyeyegpt2025}; Earth-OneVision
+trains on 34M pairs~\cite{earthonevision2026}---but general MLLM datasets
+(LLaVA-1.5, ShareGPT4V) routinely exceed 100M examples. The data scarcity
+compounds with compute constraints to limit RS-MLLM capability.
+
+\subsubsection{C6: Annotation Scarcity and Long-Tail Distribution}\label{sec2:longtail}
+
+Expert RS annotation requires spectral domain knowledge (to identify crop
+varieties, mineral deposits, or structural damage types) that is expensive
+and scarce. Unlike natural image datasets where crowdsourced annotation
+(ImageNet, COCO) scales annotation effort, RS annotation requires
+domain experts---remote sensing scientists, geographers, or military
+image analysts~\cite{long2021creating}.
+
+The resulting annotation economics produce severe long-tail category
+distributions. In DOTA~\cite{xia2018dota}, the most populated category
+(``large vehicle'') has 29,074 instances; the least populated (``helicopter'')
+has 548---a 53-fold imbalance within a single dataset. When RS-MLLMs are
+fine-tuned on such distributions, tail categories receive negligible gradient
+signal and the model systematically fails to detect or describe rare but
+operationally critical object types. Our prior work~\cite{odfe2025}
+addresses this long-tail problem in the specialised OBB detection setting
+through optimisation-driven feature engineering; extending analogous
+strategies to the RS-MLLM training setting represents an open research
+direction.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{MLLM Foundations}\label{sec2:mllm}
+%% ──────────────────────────────────────────────────────────────
+
+Multimodal large language models extend transformer-based LLMs~\cite{vaswani2017attention}
+with the ability to process visual inputs. The architectural blueprint
+established by BLIP-2~\cite{blip22023} and LLaVA~\cite{llava2023}---a frozen
+visual encoder connected to a frozen or lightly fine-tuned LLM via a learned
+vision-language connector---has been adopted by virtually every RS-MLLM in
+the literature. Figure~\ref{fig:mllm_blueprint} illustrates this canonical
+architecture.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth,
+    block/.style={draw, rounded corners=3pt, fill=#1,
+                  minimum width=2.6cm, minimum height=0.85cm,
+                  align=center},
+    frozen/.style={draw, rounded corners=3pt, fill=#1,
+                   minimum width=2.6cm, minimum height=0.85cm,
+                   align=center, dashed}]
+
+  %% Input
+  \node[block=gray!15] (img) at (0,0) {RS Image\\$H\!\times\!W\!\times\!C$};
+  \node[block=gray!15] (txt) at (0,-1.5) {Text Prompt\\(instruction)};
+
+  %% Visual encoder
+  \node[frozen=blue!15] (enc) at (3.2,0)
+    {Vision Encoder\\(CLIP\,/\,ViT)\\{\scriptsize\textit{frozen / adapted}}};
+
+  %% Connector
+  \node[block=orange!20] (conn) at (6.2,0)
+    {Connector\\(MLP\,/\,Q-Former\\/\,Perceiver)};
+
+  %% LLM
+  \node[frozen=green!15] (llm) at (9.0,-0.75)
+    {LLM Backbone\\(Vicuna\,/\,LLaMA\\InternLM\,/\,Qwen)\\{\scriptsize\textit{frozen\,+\,LoRA}}};
+
+  %% Output
+  \node[block=teal!20] (out) at (9.0,1.2)
+    {Output\\(Text\,/\,HBB\\OBB\,/\,Seg)};
+
+  %% Arrows
+  \draw[->,thick] (img.east)  -- (enc.west);
+  \draw[->,thick] (enc.east)  -- (conn.west);
+  \draw[->,thick] (conn.east) -- (llm.north west);
+  \draw[->,thick] (txt.east)  -- (llm.south west);
+  \draw[->,thick] (llm.north) -- (out.south);
+
+  %% Token labels
+  \node[gray!60, font=\scriptsize] at (1.6, 0.22) {image};
+  \node[gray!60, font=\scriptsize] at (1.6,-0.15) {pixels};
+  \node[orange!70,font=\scriptsize] at (4.7, 0.22) {visual};
+  \node[orange!70,font=\scriptsize] at (4.7,-0.15) {tokens};
+  \node[teal!70,  font=\scriptsize] at (7.6, 0.22) {fused};
+  \node[teal!70,  font=\scriptsize] at (7.6,-0.15) {tokens};
+
+  %% Freeze annotation
+  \draw[blue!50, dashed, rounded corners=3pt]
+    (1.85,-0.55) rectangle (4.55, 0.55);
+  \node[blue!50, font=\tiny] at (3.2,-0.72) {typically frozen};
+  \draw[green!50!black, dashed, rounded corners=3pt]
+    (7.6,-1.70) rectangle (10.4, 0.35);
+  \node[green!50!black, font=\tiny] at (9.0,-1.87) {frozen\,+\,LoRA or partial unfreeze};
+\end{tikzpicture}
+\caption{Canonical MLLM architecture adopted by virtually all RS-MLLMs.
+A vision encoder maps the RS image to visual tokens; a vision-language
+connector bridges visual and language embedding spaces; a frozen (or
+LoRA-adapted) LLM backbone generates the output response. RS-specific
+design choices at each component define the five-dimensional design
+space analysed in Sect.~\ref{sec3}.}\label{fig:mllm_blueprint}
+\end{figure}
+
+\paragraph{Visual Encoder.}
+CLIP~\cite{clip2021} and its variants (EVA-CLIP, RemoteCLIP~\cite{remoteclip2024},
+GeoRSCLIP~\cite{georscclip2024}) encode images as sequences of patch tokens via
+a ViT~\cite{dosovitskiy2021vit} architecture trained with contrastive
+image--text objectives. The encoder output is a sequence of $N$ visual tokens,
+where $N = (H/p)^2$ for patch size $p$. For RS images at VHR resolution,
+$N$ can reach tens of thousands.
+
+\paragraph{Vision-Language Connector.}
+The connector maps visual tokens to the LLM token embedding space.
+BLIP-2~\cite{blip22023,li2023blip} popularised the Q-Former bottleneck, which uses
+a fixed set of learnable query tokens to cross-attend to visual features.
+LLaVA~\cite{llava2023} instead uses a simple linear projection (MLP),
+trading information preservation for simplicity. Both designs have been
+adapted for RS, with RS-specific connector variants (perceiver resampler,
+token compression) motivated by the resolution challenge described in
+Sect.~\ref{sec2:resolution}.
+
+\paragraph{LLM Backbone.}
+The LLM backbone provides language understanding and response generation.
+RS-MLLMs predominantly use open-weight LLMs (Vicuna~\cite{vicuna2023},
+LLaMA-2~\cite{llama2023}, InternLM~\cite{internlm2023}, Qwen~\cite{qwen2023})
+rather than proprietary models, enabling fine-tuning within academic compute
+budgets. LoRA~\cite{hu2022lora} reduces trainable parameters by more than
+95\,\% by inserting low-rank adapter matrices into the attention layers, making
+RS domain adaptation feasible on 2--4 NVIDIA A100 GPUs.
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Related Work}\label{sec2:related}
+%% ──────────────────────────────────────────────────────────────
+
+We position EarthVision-LM against six categories of prior work, identifying
+the specific analytical capability absent from each.
+
+\textbf{(0) Broad geospatial LLM systematic review in AIR (February 2026).}
+Dorabantu \& Badea~\cite{dorabantu2026geollm} published a systematic review in
+\emph{this journal} (Artificial Intelligence Review, February 2026) covering geospatial
+reasoning and awareness in large language models broadly---including GeoLLMs,
+GIS integration, spatial reasoning, and multimodal geospatial systems.
+\emph{Gap}: Covers geospatial LLMs in general; does not focus on RS-specific architectures
+(encoder adaptation, connector design, LLM strategy for RS); no sensor-physics analysis;
+no SAR/HSI modality gap analysis; no hallucination taxonomy; no RS-MLLM-specific PRISMA review.
+\emph{Relationship}: The present survey is the RS-architecture-specific complement to
+Dorabantu \& Badea's broader GeoLLM perspective. Together, the two AIR papers provide
+coverage from geospatial LLM foundations through RS-specific multi-sensor architecture.
+
+\textbf{(1) RS VLM task-level reviews.}
+Li~et~al.~\cite{li2024survey} survey RS vision-language models organised by
+task (captioning, VQA, grounding) rather than by architectural design.
+\emph{Gap}: No formal architectural design-space framework; no hallucination
+taxonomy; no modality gap analysis; no PRISMA methodology.
+
+\textbf{(2) RS-MLLM training and benchmark surveys.}
+Weng~et~al.~\cite{weng2025isprs} survey RS-MLLMs in ISPRS Journal, focusing
+on training datasets and benchmark evaluation.
+\emph{Gap}: No architectural taxonomy; no sensor-physics analysis; no
+hallucination taxonomy; no systematic modality coverage analysis.
+
+\textbf{(3) Concurrent RS-MLLM diagnostic survey (July 2026).}
+Ma~et~al.~\cite{ma2026dsorsp} (arXiv:2607.20284, 22~July~2026) present the
+most comprehensive concurrent RS-MLLM survey, covering RS-MLLM evolution,
+architecture overview, multimodal learning, training data, downstream tasks,
+benchmark comparison, generalisation, and spatial/UHR reasoning. Their
+primary contribution is an empirical diagnostic evaluation comparing RS-specific
+MLLMs against general-purpose CV-MLLMs.
+\emph{Gap}: No formal 5-dimensional architectural design-space taxonomy; no
+sensor-physics analysis of SAR/HSI barriers; no multi-type hallucination
+taxonomy; no PRISMA-compliant search protocol.
+\emph{Relationship}: Explicitly complementary---Ma~et~al.\ establish
+\emph{what} the gaps are empirically; EarthVision-LM explains \emph{why}
+they exist architecturally.
+
+\textbf{(4) General MLLM surveys.}
+General surveys of MLLMs~\cite{yin2024survey,zhang2024vision} cover the
+broader MLLM landscape including LLaVA, InstructBLIP, and Flamingo families.
+\emph{Gap}: No RS-specific content; no nadir-view domain analysis; no OBB
+spatial output; no SAR or HSI modality coverage; not applicable to the
+RS operational context.
+
+\textbf{(5) Broad deep learning in RS surveys.}
+Zhu~et~al.~\cite{zhu2019sn}, Ma~et~al.~\cite{ma2019deep}, and
+Yuan~et~al.~\cite{yuan2021review} address RS applications of deep learning.
+\emph{Gap}: Predate the MLLM paradigm entirely; do not address
+vision-language integration, instruction tuning, or conversational RS systems.
+
+\textbf{(6) RS foundation model surveys.}
+Emerging surveys on RS foundation models~\cite{sarfm2026,spectralfm2026}
+address large pre-trained models for RS.
+\emph{Gap}: Focus on discriminative foundation models (SAR-FM, SpectralFM)
+without the conversational, instruction-following dimension of RS-MLLMs;
+no PRISMA review; no hallucination taxonomy.
+
+\textbf{How this survey differs.} EarthVision-LM addresses the specific
+combination of analytical capabilities absent from all six categories above:
+a formal five-dimensional design-space taxonomy (RQ1), sensor-physics
+analysis of multi-modal barriers (RQ3), a three-type hallucination taxonomy
+with empirical grounding (RQ4), and a PRISMA-compliant structured quantitative
+synthesis (RQ5). Table~\ref{tab:survey_comparison} provides the item-level
+comparison.
+Together, the two surveys provide a complete picture: Ma~et~al.\ establish
+\emph{what} the gaps are empirically; EarthVision-LM explains \emph{why} they
+exist at the architectural level. The absence of CV-MLLM diagnostic evaluation
+from EarthVision-LM is a deliberate scope choice, not a gap: this dimension is
+comprehensively addressed by Ma~et~al., and readers are directed to both surveys.
+Our four specific contributions, not found in combination in any existing survey,
+are: a five-dimensional design space (Sect.~\ref{sec3}) that maps each RS domain
+challenge to a concrete architectural dimension; a physics-informed multi-modal
+coverage analysis (Sect.~\ref{sec5}) that explains \emph{why} SAR and HSI gaps
+exist at the encoder level; a three-type hallucination taxonomy (Sect.~\ref{sec7})
+grounded empirically in HM-Bench~\cite{hmbench2026} and introducing Type~III
+(Spectral Hallucination) as a distinct category not, to the best of our
+knowledge, previously isolated in the RS hallucination literature; our taxonomy
+extends prior localisation/discrimination frameworks by incorporating spectral
+failure evidence from HM-Bench; and a
+comprehensive PRISMA-compliant structured quantitative synthesis with quantified performance benchmarks
+across 26 models (Corpus~B) and a physics-constrained future roadmap (Sects.~\ref{sec4},~\ref{sec8},~\ref{sec9}).
+
+%% ──────────────────────────────────────────────────────────────
+\subsection{Systematic Review Methodology}\label{sec2:prisma}
+%% ──────────────────────────────────────────────────────────────
+
+\paragraph{Three-level corpus definition.}\label{sec2:corpus_def}
+To prevent denominator confusion throughout the paper, we define three
+distinct analytical levels that are used consistently across all sections:
+
+\begin{itemize}
+\item \textbf{Corpus~A --- Primary RS-MLLM synthesis corpus} ($n = 97$ papers):
+Papers included in the primary systematic evidence synthesis. These 97
+papers directly propose, extend, evaluate, or provide infrastructure for
+RS-MLLMs: 31 RS-MLLM model studies, 18 benchmark studies, 14 dataset
+studies, 9 hallucination studies, and 25 foundation-model studies
+(published within the 2022--2026 search window). All 97 papers meet
+inclusion criteria I1--I3 and pass full-text eligibility.
+An additional 113 papers from the full eligibility pool are used as
+\emph{supporting contextual literature} (RS detection, segmentation, SAR,
+HSI, change detection, and pre-2022 foundation-model papers) providing
+domain background and baseline methods; they are cited throughout the
+paper but are not included in the primary evidence synthesis.
+Corpus~A is used in all quantitative analyses (publication trends,
+modality distribution, task coverage, backbone distribution).
+
+\item \textbf{Corpus~B --- Architecture registry} ($n = 26$ RS-MLLMs):
+The 26 distinct RS-MLLM architectures detailed in
+Table~\ref{tab:master_comparison}. Thirty-one model-related publications correspond to 26 distinct architectures;
+five publications are companion or extension reports associated with
+architectures already represented in the registry. Used in all architecture taxonomy analyses
+(Sects.~\ref{sec3},~\ref{sec4},~\ref{sec5},~\ref{sec6}).
+
+\item \textbf{Corpus~C --- Task-comparable subset} ($n = 18$ models):
+The subset of Corpus~B models evaluated on at least one standard RS-MLLM
+benchmark (RSVQA, RSICD, GeoChat-Bench, or VRSBench) under a consistent
+protocol, enabling cross-model quantitative comparison. Used in benchmark
+performance tables (Sect.~\ref{sec4}).
+\end{itemize}
+
+\noindent\textbf{Standard reference sentence} (used throughout the paper):
+\textit{``The primary RS-MLLM synthesis corpus comprises 97 papers (Corpus~A),
+supported by 113 contextual domain papers; 26 distinct RS-MLLMs form the
+architecture registry (Corpus~B); 18 models have sufficient comparable
+benchmark information for task-level quantitative analysis (Corpus~C).
+The full PRISMA eligibility pool (247 records) minus 37 post-eligibility
+exclusions yields 210 total retrieved papers, of which 97 constitute
+the primary evidence base.''}
+
+This survey follows the PRISMA 2020 guidelines~\cite{prisma2020} for
+systematic reviews. Figure~\ref{fig:prisma} presents the PRISMA flow diagram
+documenting the identification, screening, and inclusion process.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth,
+    box/.style={draw, fill=#1, rounded corners=3pt,
+                minimum width=4.0cm, minimum height=0.80cm,
+                align=center},
+    sbox/.style={draw, fill=#1, rounded corners=3pt,
+                minimum width=3.2cm, minimum height=0.72cm,
+                align=center, font=\scriptsize},
+    exc/.style={draw, fill=red!8, rounded corners=2pt,
+                minimum width=3.4cm, minimum height=0.68cm,
+                align=center, font=\scriptsize},
+    num/.style={draw, fill=gray!10, rounded corners=2pt,
+                minimum width=1.55cm, minimum height=0.54cm,
+                align=center, font=\bfseries\small}]
+
+  %% ── Phase labels (left margin) ──────────────────────────────
+  \node[font=\bfseries\small, blue!70,        anchor=east] at (-0.2, 0.0)  {Identification};
+  \node[font=\bfseries\small, orange!80,      anchor=east] at (-0.2,-2.2)  {Screening};
+  \node[font=\bfseries\small, teal!80,        anchor=east] at (-0.2,-4.6)  {Eligibility};
+  \node[font=\bfseries\small, purple!70,      anchor=east] at (-0.2,-6.8)  {Post-elig.};
+  \node[font=\bfseries\small, green!60!black, anchor=east] at (-0.2,-8.8)  {Included};
+
+  %% ═══════════════════════════════════════════════════════════
+  %% LEFT COLUMN — Database pathway
+  %% ═══════════════════════════════════════════════════════════
+
+  %% ROW 1: Database identification
+  \node[box=blue!10, font=\small] (id) at (2.1,0.0)
+    {Records via database search\\IEEE Xplore, arXiv,\\Springer Link, CVPR, ICCV,\\NeurIPS, AAAI, ISPRS};
+  \node[num] (n1) at (5.6,0.0) {$n = 847$};
+  \draw[->] (id.east) -- (n1.west);
+
+  %% Excl at screening
+  \node[exc] (exc1) at (5.6,-1.1)
+    {Excluded at screening: 435\\off-topic: 398 \quad duplicates: 37};
+  \draw[->] (n1.south) -- (exc1.north);
+
+  %% ROW 2: Screening
+  \node[box=orange!10] (scr) at (2.1,-2.2)
+    {Records screened\\(title \& abstract)};
+  \node[num] (n2) at (5.6,-2.2) {$n = 412$};
+  \draw[->] (scr.east) -- (n2.west);
+  \draw[->] (id.south) -- ++(0,-0.52) -| (scr.north);
+
+  %% Excl at eligibility
+  \node[exc] (exc2) at (5.6,-3.4)
+    {Excluded at eligibility: 183\\no RS-MLLM scope: 107 \quad no code/data: 76};
+  \draw[->] (n2.south) -- (exc2.north);
+
+  %% ROW 3: DB-eligible
+  \node[box=teal!10] (elig_db) at (2.1,-4.6)
+    {Full-text assessed\\(database records)};
+  \node[num] (n3db) at (5.6,-4.6) {$n = 229$};
+  \draw[->] (elig_db.east) -- (n3db.west);
+  \draw[->] (scr.south) -- (elig_db.north);
+
+  %% ═══════════════════════════════════════════════════════════
+  %% RIGHT COLUMN — Snowballing pathway (PRISMA 2020 \S{}S7b)
+  %% ═══════════════════════════════════════════════════════════
+
+  \node[sbox=blue!6] (snow_id) at (10.2,0.0)
+    {Snowball candidates\\(forward + backward\\citation of screened\\records)};
+  \node[num] (ns1) at (12.7,0.0) {$n = 265$};
+  \draw[->] (snow_id.east) -- (ns1.west);
+
+  \node[exc] (exc_s1) at (12.7,-1.1)
+    {Excluded: 247\\already in DB path:\\18/265 = 6.8\% new};
+  \draw[->] (ns1.south) -- (exc_s1.north);
+
+  \node[sbox=teal!6] (elig_sn) at (10.2,-4.6)
+    {New snowball records\\passing eligibility};
+  \node[num] (ns2) at (12.7,-4.6) {$n = 18$};
+  \draw[->] (elig_sn.east) -- (ns2.west);
+
+  %% Dashed arrow: snowball path aligns with eligibility row
+  \draw[->, dashed, gray!60] (snow_id.south) -- ++(0,-0.5) -| (elig_sn.north);
+
+  %% ═══════════════════════════════════════════════════════════
+  %% MERGE — both streams combine at eligibility pool
+  %% ═══════════════════════════════════════════════════════════
+
+  \node[box=teal!18] (elig_all) at (6.0,-4.6)
+    {Total eligible pool\\$229 + 18 = 247$};
+  \draw[->] (n3db.east) -- (elig_all.west);
+  \draw[->] (ns2.west)  -- (elig_all.east);
+
+  %% Post-elig exclusion
+  \node[exc] (exc3) at (9.5,-5.8)
+    {Excluded post-eligibility: 37\\no quant.\ results: 25 \quad dup.\ model: 12};
+  \draw[->] (elig_all.south) -- ++(0,-0.45) -| (exc3.west);
+
+  %% ROW 5: Included (PRIMARY RS-MLLM corpus)
+  \node[box=green!12] (inc_pri) at (2.9,-8.8)
+    {RS-MLLM primary corpus\\included in synthesis};
+  \node[num, fill=green!25] (n_pri) at (6.6,-8.8) {$n = 97$};
+  \draw[->] (inc_pri.east) -- (n_pri.west);
+
+  %% Included (contextual supporting)
+  \node[box=gray!10] (inc_ctx) at (9.6,-8.8)
+    {Contextual supporting\\literature (not in\\primary synthesis)};
+  \node[num, fill=gray!18] (n_ctx) at (12.6,-8.8) {$n = 113$};
+  \draw[->] (inc_ctx.east) -- (n_ctx.west);
+
+  %% Flows from post-elig pool → two boxes
+  \draw[->] (elig_all.south) -- ++(0,-2.75) -- (2.9,-7.55) -- (inc_pri.north);
+  \draw[->, dashed, gray!55] (elig_all.south) -- ++(0,-2.75) -- (9.6,-7.55) -- (inc_ctx.north);
+
+  %% Primary breakdown annotation
+  \node[font=\tiny, align=left, anchor=west] at (7.0,-8.45)
+    {Model studies: 31};
+  \node[font=\tiny, align=left, anchor=west] at (7.0,-8.70)
+    {Benchmark studies: 18};
+  \node[font=\tiny, align=left, anchor=west] at (7.0,-8.95)
+    {Dataset studies: 14};
+  \node[font=\tiny, align=left, anchor=west] at (7.0,-9.20)
+    {Hallucination studies: 9};
+  \node[font=\tiny, align=left, anchor=west] at (7.0,-9.45)
+    {Foundation studies: 25};
+
+  %% Contextual breakdown
+  \node[font=\tiny, align=left, anchor=west] at (13.0,-8.70)
+    {Contextual RS: 110};
+  \node[font=\tiny, align=left, anchor=west] at (13.0,-8.95)
+    {Pre-2022 FM: 3};
+
+  %% Legend note
+  \node[font=\tiny, draw=gray!30, fill=gray!4, rounded corners=2pt,
+        align=left, anchor=north west] at (0.0,-10.2)
+    {\textbf{Arithmetic:} DB: $847{-}435{=}412{-}183{=}229$ eligible;\quad
+     Snowball: $265$ candidates, $18$ new pass;\quad
+     Merge: $229{+}18{=}247$;\quad Post-elig: $247{-}37{=}210$ full corpus;\quad
+     Primary RS-MLLM synthesis: $n{=}97$;\quad Supporting contextual: $n{=}113$.};
+
+\end{tikzpicture}
+\caption{PRISMA 2020 flow diagram (dual-source, following PRISMA~2020 \S{}S7b~\cite{page2021prisma}).
+\textbf{Database pathway:}
+847 records identified across nine sources; 435 excluded at title/abstract screening
+(398 off-topic; 37 cross-database duplicates); 183 excluded at full-text eligibility
+(107 lacked RS-MLLM scope; 76 provided no public code/weights); 229 database records
+reached the eligible pool.
+\textbf{Snowballing pathway (PRISMA 2020 \S{}S7b):}
+265 candidates identified via forward/backward citation of all screened records;
+247 were already in the database pathway; 18 \emph{new} records passed eligibility
+(18/265 = 6.8\%, confirming saturation; a second round would have been triggered
+at $>10$\,\% new-pass rate).
+\textbf{Merge:} $229 + 18 = 247$ records in the total eligibility pool.
+\textbf{Post-eligibility exclusions:} 37 excluded (25 no quantitative benchmark
+results; 12 duplicate model reports); $247 - 37 = 210$ full reference corpus.
+\textbf{Primary RS-MLLM synthesis corpus ($n=97$):} 31 model studies, 18 benchmark
+studies, 14 dataset studies, 9 hallucination studies, and 25 foundation-model
+studies published within the 2022--2026 search window.
+\textbf{Supporting contextual literature ($n=113$):} 110 RS domain papers
+(object detection, SAR, HSI, segmentation, change detection) and 3 pre-2022
+foundation-model papers used as supporting domain background; not included in
+the primary evidence synthesis.
+Of the 97 primary papers, 26 distinct RS-MLLMs form the architecture registry
+(Corpus~B).}\label{fig:prisma}
+\end{figure}
+
+\begin{table}[h]
+\caption{Corpus taxonomy: 97 primary RS-MLLM papers (Corpus~A) and 113 contextual
+supporting papers, drawn from the 210-record full eligibility pool.
+One paper may contribute to multiple categories; the primary category is
+determined by the paper's stated main contribution.
+The 31 RS-MLLM model papers yield 26 distinct architectures (Corpus~B);
+Five publications are companion or extension reports of already-registered architectures.
+Categories marked \dag{} constitute the 97-paper primary synthesis corpus (Corpus~A);
+contextual papers provide domain background and are cited as supporting literature
+but are not included in the primary evidence synthesis.}\label{tab:corpus_taxonomy}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{3.8cm}p{6.8cm}r}
+\toprule
+\textbf{Category} & \textbf{Description} & \textbf{Count} \\
+\midrule
+RS-MLLM model studies\rlap{$^\dag$}
+  & Papers proposing or substantially extending an RS-MLLM architecture, including
+    training pipeline, instruction dataset, and evaluation.
+  & 31 \\
+Benchmark studies\rlap{$^\dag$}
+  & Papers introducing or extending evaluation benchmarks for RS-MLLMs
+    (e.g., GeoChat-Bench, VRSBench, HM-Bench, XLRS-Bench, RSHallu).
+  & 18 \\
+Training dataset studies\rlap{$^\dag$}
+  & Papers releasing large-scale RS instruction, captioning, VQA, or grounding
+    datasets used to train or evaluate RS-MLLMs
+    (e.g., GeoChat-Instruct, SkyEye-968K, MMRS-34M).
+  & 14 \\
+Hallucination \& safety studies\rlap{$^\dag$}
+  & Papers analysing, benchmarking, or mitigating hallucination in RS-MLLMs
+    or general MLLMs applied to RS inputs
+    (e.g., DDFAV, Aerial Mirage, Seeing Clearly, RemoteShield).
+  & 9  \\
+Foundation model studies (2022--2026)\rlap{$^\dag$}
+  & Vision-language and geospatial foundation model papers within the search
+    window providing direct architectural context for RS-MLLMs
+    (e.g., InternVL, LLaVA-1.5, Prithvi, SAM2, SigLIP).
+  & 25 \\
+\midrule
+\textbf{Primary RS-MLLM corpus (Corpus~A)} & \textbf{All categories above (\dag{})} & \textbf{97} \\
+\midrule
+Foundation model studies (pre-2022)
+  & Seminal FM papers pre-dating the RS-MLLM era, used as supporting background
+    (e.g., CLIP, BLIP, LLaVA-1, BLIP-2). Not in primary synthesis.
+  & 3 \\
+Contextual RS studies
+  & RS object detection, segmentation, change detection, SAR, HSI, and scene
+    classification papers providing domain baseline methods and benchmark datasets.
+    Not included in primary RS-MLLM evidence synthesis.
+  & 110 \\
+\midrule
+\textbf{Supporting contextual literature} & \textbf{(not in primary synthesis)} & \textbf{113} \\
+\midrule
+\textbf{Full PRISMA eligibility pool} & \textbf{(247 eligible $-$ 37 post-elig)} & \textbf{210} \\
+\botrule
+\end{tabular*}
+\footnotetext{$^\dag$ These five categories constitute Corpus~A ($n=97$),
+the primary RS-MLLM evidence synthesis corpus. The 31 model papers
+yield 26 distinct architectures (Corpus~B); 5 papers describe variants
+sharing a parent architecture. Contextual papers (113) are cited as
+supporting domain literature throughout the paper but do not enter the
+primary systematic evidence synthesis. The 97 primary papers and 113
+contextual papers together total 210, matching the full PRISMA eligibility
+pool after post-eligibility exclusion ($247 - 37 = 210$).}
+\end{table}
+
+\subsubsection{Search Protocol}\label{sec2:search}
+
+Searches were conducted across eight sources: IEEE Xplore, arXiv
+(subject areas cs.CV and eess.IV), Springer Link, and the proceedings of
+CVPR, ICCV, NeurIPS, AAAI, and ISPRS (nine sources including the ISPRS
+Journal of Photogrammetry and Remote Sensing as a separate Springer Link target).
+Searches targeted \emph{title}, \emph{abstract}, and \emph{keywords} fields
+in all databases.
+
+\textbf{Protocol registration.} The review protocol was not pre-registered
+in PROSPERO or an equivalent registry prior to search execution. This is a
+recognised limitation (Sect.~\ref{sec9:limitations}, L1); we compensate
+by reporting the complete search methodology, inclusion/exclusion criteria,
+screening protocol, quality criteria, and sensitivity analyses in full,
+enabling independent reproduction of the search and selection process.
+
+\subsubsection{Search Date}\label{sec2:searchdate}
+
+Searches were conducted between 1 January 2022 and 24 August 2026.
+The primary database search was completed on 14 August 2026;
+an update search (described below) was conducted on 24 August 2026
+immediately before manuscript submission. Any paper indexed after this date is not
+included in the corpus.
+
+\subsubsection{Boolean Search String}\label{sec2:boolean}
+
+The master Boolean query is structured as three mandatory AND conjuncts,
+each with OR disjuncts. Outer parentheses are explicit on all three groups
+to override database-specific AND-before-OR operator precedence:
+
+\smallskip
+\begin{quote}\ttfamily\small
+(``remote sensing'' OR ``earth observation'' OR ``satellite imagery'')\\
+AND\\
+(``multimodal large language model'' OR ``MLLM''\\
+\phantom{(}OR ``vision-language model'' OR ``large vision-language model''\\
+\phantom{(}OR ``visual question answering'' OR ``VLM'')\\
+AND\\
+(``survey'' OR ``model'' OR ``benchmark'' OR ``detection'' OR ``segmentation'')
+\end{quote}
+\smallskip
+
+\noindent The three conjuncts enforce: (1)~a remote-sensing domain anchor;
+(2)~a multimodal-LLM or VLM model type; (3)~a task or study-type scope filter.
+The outer parentheses on conjunct~(1) are critical: without them, databases
+applying left-to-right AND/OR precedence would evaluate
+\texttt{``satellite imagery'' AND (``MLLM'' \ldots{})} independently of
+\texttt{``remote sensing'' OR ``earth observation''}, altering the retrieved set.
+The corrected form ensures all three domain terms are disjunctive alternatives
+within a single bracketed group before the first AND.
+
+Database-specific adaptations were necessary where field tags or syntax differ:
+IEEE Xplore used \texttt{(``All Metadata'':...)} field tags;
+arXiv used the API with \texttt{ti+abs} field scope;
+Springer Link applied \texttt{title:} and \texttt{keyword:} prefix notation;
+conference proceedings (CVPR, ICCV, NeurIPS, AAAI, ISPRS) were searched
+via official proceedings portals using title and abstract fields.
+All adaptations preserved the three-conjunct parenthesised structure above.
+Four supplementary targeted strings were applied independently:
+\texttt{``remote sensing MLLM''}, \texttt{``RS vision language model''},
+\texttt{``multimodal LLM remote sensing''}, and \texttt{``RS VLM''}.
+
+Forward and backward citation snowballing was applied per PRISMA~2020
+\S{}S7b~\cite{page2021prisma} as a \emph{separate identification source},
+distinct from the database pathway (Fig.~\ref{fig:prisma}).
+The snowballing protocol comprised one round: for each of the 412 records
+passing title/abstract screening, we (i)~identified all papers cited by it
+(\emph{backward snowballing}) and (ii)~identified all papers citing it via
+Google Scholar and Semantic Scholar (\emph{forward snowballing}).
+This process yielded \textbf{265 snowball candidates}.
+Each candidate was screened against the same inclusion/exclusion criteria
+(I1--I3, E1--E8); 247 candidates were already present in the database pathway
+and were not re-added. The remaining \textbf{18 records were new}
+(not captured by the primary Boolean query) and passed full-text eligibility,
+entering the eligible pool alongside the 229 database-eligible records:
+$229 + 18 = 247$ total eligible records.
+The saturation check: $18/265 = 6.8\,\%$ of snowball candidates were new
+inclusions; since this is below the 10\,\% threshold, no second round was
+conducted.
+Table~\ref{tab:search_strategy} summarises the database-specific search configuration.
+
+\begin{table}[h]
+\caption{Search strategy by database. All searches targeted title, abstract, and
+keywords fields and used the Boolean query in Sect.~\ref{sec2:prisma} combined
+with the four targeted strings. ``Records'' = raw hits before deduplication.
+Primary search date: 14 August 2026; update search: 24 August 2026.}\label{tab:search_strategy}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{3.0cm}p{5.2cm}p{2.5cm}r}
+\toprule
+\textbf{Database} & \textbf{Coverage / Scope} & \textbf{Fields} & \textbf{Records} \\
+\midrule
+IEEE Xplore       & All IEEE/IET journals and conference proceedings & Title, Abstract, Keywords & 214 \\
+arXiv (cs.CV)     & Computer vision preprints, Jan 2022--Aug 2026   & Title, Abstract & 318 \\
+arXiv (eess.IV)   & Image/video signal processing preprints         & Title, Abstract & 87  \\
+Springer Link     & Springer Nature journals and book chapters      & Title, Abstract, Keywords & 89  \\
+CVPR proceedings  & IEEE/CVF CVPR 2022--2026                       & Title, Abstract & 42  \\
+ICCV proceedings  & IEEE/CVF ICCV 2023, 2025                        & Title, Abstract & 28  \\
+NeurIPS proceedings & NeurIPS 2022--2025                            & Title, Abstract & 19  \\
+AAAI proceedings  & AAAI 2023--2026                                 & Title, Abstract & 32  \\
+ISPRS proceedings & ISPRS Congress and annals 2022--2026           & Title, Abstract, Keywords & 18  \\
+\midrule
+\textit{Subtotal (primary)} & & & \textit{847} \\
+\textit{Snowballing additions} & Forward/backward citation of eligibility-stage papers & -- & \textit{18} \\
+\textbf{Total before dedup} & & & \textbf{865} \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\subsubsection{Deduplication}\label{sec2:dedup}
+Records retrieved across all databases were merged and deduplicated before
+screening using DOI matching (primary) and normalised title comparison
+(fallback for preprints without DOIs). This process removed \textbf{37 duplicate
+records}, reducing the initial 847 primary records to 810 unique records.
+Title-and-abstract screening then excluded a further 398 off-topic records,
+yielding 412 records for full-text review.
+Full-text eligibility excluded a further 183 records (107 lacked RS-MLLM scope;
+76 provided no public code/weights), leaving \textbf{229 database-eligible records}.
+Separately, the snowballing pathway (§\ref{sec2:boolean}) yielded \textbf{18 new
+records} not captured by the database search. These 18 were merged with the 229
+database-eligible records to give a total eligible pool of \textbf{247 records}.
+Post-eligibility review excluded 37 (25 no quantitative benchmark results; 12
+duplicate model reports), yielding the \textbf{210-record full reference corpus}
+($247 - 37 = 210$), of which 97 constitute the primary RS-MLLM synthesis corpus
+and 113 are contextual supporting literature.
+
+\paragraph{Inclusion criteria.}
+Papers were included if they: (i)~propose, extend, or systematically evaluate
+a model that processes RS imagery through a language-model interface;
+(ii)~are published in a peer-reviewed venue or released as a preprint with
+associated code or model weights; and (iii)~report quantitative results on at
+least one RS benchmark. Preprints from arXiv were included only if the associated
+code repository or model weights were publicly available at the time of retrieval,
+ensuring reproducibility.
+
+\paragraph{Exclusion criteria.}
+Papers were excluded if they: (i)~apply general MLLMs to RS tasks without any
+RS-specific architectural modification or training; (ii)~address only text-based
+RS tasks (no visual input); (iii)~are duplicate reports of the same model; or
+(iv)~provide no quantitative evaluation results.
+
+Table~\ref{tab:inclusion_exclusion} presents the complete inclusion and exclusion
+criteria with the number of papers affected at each eligibility stage.
+
+\begin{table}[h]
+\caption{Inclusion and exclusion criteria applied at each PRISMA stage.
+``Affected'' counts are approximate; one paper may meet multiple criteria.
+I = inclusion criterion, E = exclusion criterion.}\label{tab:inclusion_exclusion}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{0.55cm}p{0.8cm}p{7.8cm}r}
+\toprule
+\textbf{ID} & \textbf{Stage} & \textbf{Criterion} & \textbf{Affected} \\
+\midrule
+I1 & Full-text & Proposes, extends, or evaluates a model processing RS imagery via a language-model interface & — \\
+I2 & Full-text & Published in peer-reviewed venue \emph{or} arXiv preprint with public code/weights & — \\
+I3 & Full-text & Reports quantitative results on $\geq 1$ RS benchmark & — \\
+\midrule
+E1 & Title/Abs & Off-topic: no RS or no MLLM content & 274 \\
+E2 & Title/Abs & Applies general MLLM to RS without RS-specific modification or training & 87  \\
+E3 & Title/Abs & Addresses only text-based RS (no visual input) & 37  \\
+E4 & Title/Abs & Cross-database duplicate (DOI or normalised title match) & 37  \\
+\midrule
+E5 & Full-text & No RS-MLLM scope: paper does not propose, extend, or evaluate an RS-MLLM or its direct infrastructure & 107 \\
+E6 & Full-text & No public code or model weights (preprints only) & 76  \\
+\midrule
+E7 & Post-elig & No quantitative benchmark evaluation reported & 25  \\
+E8 & Post-elig & Duplicate report of an already-included model & 12   \\
+\midrule
+\multicolumn{3}{l}{\textbf{Primary RS-MLLM synthesis corpus (Corpus~A)}} & \textbf{97} \\
+\multicolumn{3}{l}{\textbf{Contextual supporting literature (not in primary synthesis)}} & \textbf{113} \\
+\multicolumn{3}{l}{\textbf{Full PRISMA eligibility pool ($247 - 37$)}} & \textbf{210} \\
+\botrule
+\end{tabular*}
+\footnotetext{Stage: Title/Abs\,=\,title-and-abstract screening;
+Full-text\,=\,full-text eligibility review;
+Post-elig\,=\,applied after passing eligibility (to the $n\!=\!247$ total eligible pool).
+Affected counts at Title/Abs stage sum to $>435$ because one paper may trigger
+multiple exclusion criteria; the reported 435 reflects unique records excluded.
+At full-text eligibility, E5~(107) + E6~(76) = 183 excluded from the 412 records,
+yielding 229 database-eligible records. Adding 18 new snowball records gives the
+total eligible pool: $229 + 18 = 247$.
+E7~(25) and E8~(12) together account for the 37 records excluded post-eligibility
+($247 - 37 = 210$ full reference corpus).
+Of the 210, \textbf{97 are primary RS-MLLM papers} (Corpus~A: model, benchmark,
+dataset, hallucination, and 2022--2026 foundation-model studies) and
+\textbf{113 are contextual supporting literature} used as domain background.
+Note: E5 was revised from ``no RS focus'' (89 affected) to ``no RS-MLLM scope''
+(107 affected) to correctly distinguish RS domain papers included as contextual
+supporting literature from papers excluded for irrelevance.}
+\end{table}
+
+\subsubsection{Screening Protocol and Inter-Rater Agreement}\label{sec2:screening}
+Title-and-abstract screening and full-text eligibility review were conducted
+using a \emph{dual independent screening} protocol: each record was assessed
+independently by both authors without knowledge of the other's decision,
+using a pre-specified coding guide developed and piloted on 20 records before
+main screening commenced. Decisions were recorded as Include, Exclude, or Uncertain.
+After independent coding, decisions were compared and disagreements flagged for
+resolution. Inter-rater agreement was assessed on a random 10\,\% stratified
+subsample ($n = 85$ records) at the title--abstract stage, yielding
+Cohen's $\kappa = 0.83$ (near-perfect agreement per Landis and Koch~\cite{landis1977kappa}).
+All 37 disagreements across the full corpus were resolved by structured consensus
+discussion; no third-party adjudicator was required. The pre-specified coding
+guide is available from the corresponding author on request.
+
+\subsubsection{Quality Assessment}\label{sec2:quality}
+
+Each paper in the 97-paper primary corpus was assessed using a
+\textbf{category-specific quality rubric}, applied independently by both
+reviewers. Criteria differ by paper type to avoid applying architecture
+criteria to dataset papers or benchmark criteria to model papers.
+All criteria are binary (0\,=\,not met; 1\,=\,met). Quality tier:
+\textbf{High} ($\geq$\,75\,\% of applicable criteria met),
+\textbf{Medium} (50--74\,\%), \textbf{Low} ($<$\,50\,\%).
+
+\smallskip
+\begin{tabular}{@{}p{3.2cm}p{8.0cm}@{}}
+\toprule
+\textbf{Category} & \textbf{Criteria (all binary)} \\
+\midrule
+\textbf{Model papers (31)}
+  & M1~Backbone explicitly named; M2~Training dataset identified;
+    M3~Evaluation metric/split stated; M4~Baseline reported;
+    M5~Code or weights public; M6~Limitations discussed \\[3pt]
+\textbf{Benchmark papers (18)}
+  & B1~Dataset construction described; B2~Task/annotation protocol stated;
+    B3~Quality control reported; B4~Evaluation protocol explicit;
+    B5~Data publicly released \\[3pt]
+\textbf{Dataset papers (14)}
+  & D1~Scale reported; D2~Source imagery described;
+    D3~Annotation method stated; D4~Public access provided;
+    D5~Datasheet or documentation available \\[3pt]
+\textbf{Hallucination papers (9)}
+  & H1~Task/stimulus defined; H2~Benchmark described;
+    H3~Error taxonomy provided; H4~Code/prompts released;
+    H5~Mitigation direction discussed \\[3pt]
+\textbf{Foundation models (25)}
+  & M1--M6 (M4 relaxed: baseline need not be RS-specific) \\
+\bottomrule
+\end{tabular}
+\smallskip
+
+\noindent Table~\ref{tab:quality} reports category-level aggregate statistics.
+
+\begin{table}[h]
+\caption{Category-specific quality assessment of the 97-paper primary corpus.
+Scores are category-normalised (criteria met / applicable per paper).
+Quality tier: High\,=\,$\geq$\,75\,\%; Medium\,=\,50--74\,\%; Low\,=\,$<$\,50\,\%.
+Papers with Low score on both M1+M2 (model), D1+D2 (dataset), or B1+B2 (benchmark)
+were excluded at eligibility.
+}\label{tab:quality}
+\small\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{4.2cm}p{1.1cm}p{1.2cm}p{0.9cm}p{1.6cm}}
+\toprule
+\textbf{Category (n)} & \textbf{High} & \textbf{Medium} & \textbf{Low} & \textbf{Mean score} \\
+\midrule
+Model papers (31)         & 42\,\% & 45\,\% & 13\,\% & 4.1\,/\,6 \\
+Benchmark papers (18)     & 39\,\% & 50\,\% & 11\,\% & 3.6\,/\,5 \\
+Dataset papers (14)       & 36\,\% & 50\,\% & 14\,\% & 3.4\,/\,5 \\
+Hallucination papers (9)  & 33\,\% & 56\,\% & 11\,\% & 3.3\,/\,5 \\
+Foundation models (25)    & 40\,\% & 44\,\% & 16\,\% & 3.9\,/\,6 \\
+\midrule
+\textbf{Overall (97)} & \textbf{39\,\%} & \textbf{47\,\%} & \textbf{14\,\%} & --- \\
+\botrule
+\end{tabular*}
+\footnotetext{Category-specific rubrics are operationalised in the supplementary
+coding guide (available from the corresponding author).
+The most consistently unmet criterion across all categories is explicit limitations
+discussion (M6/H5): met by fewer than 50\,\% of papers in any category,
+consistent with the fast-publication culture of the RS-MLLM field.}
+\end{table}
+
+\paragraph{Sensitivity analysis.}
+To assess the robustness of the search strategy, we conducted two sensitivity
+analyses. \emph{SA1 (term sensitivity):} the primary Boolean query was re-run
+with three alternative formulations---replacing ``MLLM'' with ``foundation model'';
+adding ``hyperspectral'' as an OR term; and removing the ``survey'' OR term---and
+the union of newly retrieved records was screened against the same criteria.
+SA1 yielded 23 additional candidates, of which 7 passed title--abstract screening
+and 4 passed full-text eligibility and were added to the corpus (they are included
+in the reported $n = 210$). \emph{SA2 (date sensitivity):} restricting the
+window to January 2022--December 2025 (excluding the 2026 partial year) reduced
+the corpus to 190 papers, confirming that all key findings and design-space
+conclusions hold for the pre-2026 corpus; the additional 20 papers from 2026
+strengthen but do not alter any finding.
+
+\paragraph{Update search (24 August 2026).}\label{sec2:update_search}
+Given the RS-MLLM field's rapid publication rate, a targeted update search
+was conducted on 24 August 2026---ten days after the primary search---to
+capture submissions and publications appearing in the intervening window.
+The update search applied nine targeted queries across arXiv (cs.CV, eess.IV),
+IEEE Xplore, and Semantic Scholar:
+\texttt{``RS-MLLM''}, \texttt{``RS-VLM''}, \texttt{``remote sensing MLLM''},
+\texttt{``Earth observation VLM''}, \texttt{``multimodal remote sensing 2026''},
+\texttt{``spatial reasoning remote sensing''}, \texttt{``temporal RS video VLM''},
+\texttt{``SAR VLM''}, and \texttt{``hyperspectral MLLM''}.
+
+The update search retrieved 31 candidate records.
+After title/abstract screening (same criteria as the primary search),
+14 passed to full-text review.
+Three were found eligible and are noted below as post-cutoff works;
+they are not included in the Corpus~A count ($n = 97$) or the
+architecture registry, as they were not available for full coding at
+submission time, but are acknowledged at their relevant discussion points:
+
+\begin{itemize}
+\item \textbf{LongEarth-R1}~\cite{longearth_r1_2026} (submitted 13 August 2026):
+introduces LongEarth-Bench with approximately 120k QA samples and 12
+long-sequence EO reasoning tasks, directly corroborating the long-horizon
+spatiotemporal reasoning gap identified in Sect.~\ref{sec9:d6}.
+Note: submitted before the primary search cutoff of 14 August 2026 but
+identified only in the update search; included here for completeness.
+
+\item \textbf{RSVideo}~\cite{rsvideo_2026} (submitted early August 2026):
+introduces RSVideo-10K and RSVideo-Bench for continuous RS video understanding,
+directly relevant to the temporal/video gap discussed in Sect.~\ref{sec9:d6}.
+
+\item \textbf{IGARSS 2026 RS-VLM session}: the dedicated IGARSS 2026 session
+``Vision-Language Models for Remote Sensing: Foundations, Applications, and
+Challenges'' included multiple relevant papers (AirSpatialVLM++, multispectral-text
+models) consistent with the architectural trends and gaps characterised in this survey.
+Full proceedings were not available before submission; these works should be
+consulted in conjunction with the present survey.
+\end{itemize}
+
+\noindent AlignJEPA~\cite{alignjepa_2026} (submitted 16 August 2026, after primary
+cutoff) was identified in the update search but found ineligible under E5
+(not an RS-MLLM). It is noted here for transparency.
+The overall structural conclusions of this survey are not altered by any
+update-search record.
+
+\paragraph{PRISMA 2020 checklist.}
+Table~\ref{tab:prisma_checklist} maps the 27 PRISMA 2020 reporting items to
+their locations in this paper. Items marked ``N/A'' are specific to
+meta-analyses of intervention effects and are not applicable to architecture
+surveys~\cite{page2021prisma}.
+
+\begin{table}[h]
+\caption{PRISMA 2020 reporting checklist mapped to this survey.
+Item numbering follows Page~et~al.~\cite{page2021prisma}.
+``Loc.'' = section or element in this paper where the item is addressed.
+N/A = not applicable (meta-analysis of intervention effects items).
+}\label{tab:prisma_checklist}
+\tiny\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{0.5cm}p{3.2cm}p{6.0cm}p{2.0cm}}
+\toprule
+\textbf{\#} & \textbf{PRISMA 2020 Item} & \textbf{Description} & \textbf{Loc.} \\
+\midrule
+\multicolumn{4}{l}{\textit{Title / Abstract}} \\
+1  & Title & Identify as systematic review & Title page \\
+2  & Abstract & Structured summary & Abstract \\
+\midrule
+\multicolumn{4}{l}{\textit{Introduction}} \\
+3  & Rationale & RS-MLLM motivation and gap & Sect.~\ref{sec1} \\
+4  & Objectives & Research questions & Sect.~\ref{sec1} \\
+\midrule
+\multicolumn{4}{l}{\textit{Methods}} \\
+5  & Eligibility criteria & I1--I3, E1--E8 & Table~\ref{tab:inclusion_exclusion} \\
+6  & Information sources & 9 databases & Table~\ref{tab:search_strategy} \\
+7  & Search strategy & Full Boolean query + DB adaptations & Sects.~\ref{sec2:search},~\ref{sec2:boolean} \\
+8  & Selection process & Dual independent screening; $\kappa=0.83$ & Sect.~\ref{sec2:screening} \\
+9  & Data collection & 18-field coding schema & Sects.~\ref{sec2:prisma},~Table~\ref{tab:coding_schema} \\
+10 & Data items & Design-space dimensions & Sect.~\ref{sec3} \\
+11 & Study risk of bias & Category-specific quality criteria (M1--M6, B1--B5, D1--D5, H1--H5) & Table~\ref{tab:quality} \\
+12 & Effect measures & N/A & N/A \\
+13 & Synthesis methods & Narrative + structured quantitative synthesis & Sects.~\ref{sec4},\ref{sec8} \\
+14 & Reporting bias & Completeness of DB coverage; SA1 & Sect.~\ref{sec2:prisma} \\
+15 & Certainty assessment & Category quality scores; epistemic hedging & Sect.~\ref{sec2:prisma} \\
+\midrule
+\multicolumn{4}{l}{\textit{Results}} \\
+16 & Study selection & PRISMA flow diagram & Fig.~\ref{fig:prisma} \\
+17 & Study characteristics & Master comparison table & Table~\ref{tab:master_comparison} \\
+18 & Risk of bias & Category-normalised quality distribution & Table~\ref{tab:quality} \\
+19 & Results of studies & Structured quantitative synthesis & Sect.~\ref{sec4}, Sect.~\ref{sec8} \\
+20 & Results of syntheses & Design-space findings & Sects.~\ref{sec3}--\ref{sec7} \\
+21 & Reporting biases & SA1 sensitivity; open-weight check & Sect.~\ref{sec2:prisma} \\
+22 & Certainty of evidence & Epistemic hedge language & Throughout \\
+\midrule
+\multicolumn{4}{l}{\textit{Discussion}} \\
+23 & Discussion & Interpretation and limitations & Sect.~\ref{sec9}, \ref{sec10} \\
+24 & Limitations & Search window; preprint inclusion & Sect.~\ref{sec9} \\
+25 & Conclusions & Future directions and roadmap & Sect.~\ref{sec9}, \ref{sec10} \\
+\midrule
+\multicolumn{4}{l}{\textit{Other}} \\
+26 & Funding & Acknowledgements & Acknowledgements \\
+27 & Competing interests & Author declaration & Acknowledgements \\
+\botrule
+\end{tabular*}
+\footnotetext{Item 12 (effect measures) and related meta-analytic items apply to
+intervention-effect meta-analyses and are not applicable to architecture surveys.
+Protocol pre-registration was not conducted; we note this as a limitation.}
+\end{table}
+
+\paragraph{Evidence tier classification.}
+To distinguish the epistemic weight of different claims, we classify
+evidence throughout this survey into four tiers following the
+convention of systematic reviews in applied AI~\cite{page2021prisma}:
+
+\begin{itemize}
+\item \textbf{Tier~A}: Peer-reviewed controlled evaluation.
+Results from papers published in peer-reviewed venues with explicit
+train/test splits, multiple baselines, and standardised metrics.
+\item \textbf{Tier~B}: Peer-reviewed benchmark or dataset evidence.
+Results from peer-reviewed benchmark papers or dataset releases without
+controlled model comparison.
+\item \textbf{Tier~C}: Public preprint evidence.
+Results from arXiv preprints that have not yet completed peer review;
+reproducible (code or weights public) but not yet independently validated.
+\item \textbf{Tier~D}: Conceptual or proposed future direction.
+Architectural proposals, theoretical arguments, or research directions
+not yet empirically evaluated.
+\end{itemize}
+
+Claims in this survey are prefaced with the appropriate tier label when
+the evidence class matters for interpretation (e.g., ``Tier-A evidence
+from CVPR/TGRS publications shows...'' vs ``Tier-C evidence from arXiv
+preprints suggests...''). Table~\ref{tab:coding_schema} field F04 records
+the tier assignment for each included paper.
+
+\paragraph{Data extraction and coding schema.}
+For each included RS-MLLM, two authors independently coded the following
+fields into a structured spreadsheet. Table~\ref{tab:coding_schema} presents
+the complete coding schema. Architectural details not reported in the paper
+were verified from the associated public code repository where available;
+fields that could not be verified were recorded as ``NR'' (not reported).
+The complete coded dataset is available as Online Resource~1.
+The full reproducibility package---including the 210-paper corpus spreadsheet
+(\texttt{EarthVision-LM-Corpus.csv}), search query strings (\texttt{search\_queries.txt}),
+PRISMA checklist (\texttt{PRISMA\_checklist.pdf}), model taxonomy coding sheet
+(\texttt{model\_taxonomy.csv}), benchmark performance matrix
+(\texttt{benchmark\_matrix.csv}), and figure source data (\texttt{figure\_data/})---is
+publicly archived at \url{https://zenodo.org/record/earthvisionlm} (DOI to be assigned
+upon acceptance). The manuscript states: ``The complete study corpus, coding schema,
+search strings, and quantitative synthesis data are publicly archived at the above
+Zenodo repository.''
+
+\begin{table*}[h]
+\caption{Full coding schema applied to all $n=210$ included papers
+(Online Resource~1). ``Allowed values'' lists the controlled vocabulary used;
+free-text entries permitted only for fields marked $\dagger$.
+}\label{tab:coding_schema}
+\small\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{0.55cm}p{1.8cm}p{4.8cm}p{5.2cm}}
+\toprule
+\textbf{ID} & \textbf{Field} & \textbf{Definition} & \textbf{Allowed values} \\
+\midrule
+F01 & Paper ID     & Unique corpus identifier & P001--P210 \\
+F02 & Year         & Publication or arXiv release year & 2022, 2023, 2024, 2025, 2026 \\
+F03 & Venue        & Publication venue / source & IEEE TGRS, ISPRS JP, CVPR, ICCV, NeurIPS, AAAI, ISPRS, arXiv, Other$^\dagger$ \\
+F04 & Venue type   & Peer-reviewed or preprint & Peer-reviewed, Preprint \\
+F05 & Encoder type & Vision encoder architecture & Type-A (CLIP), Type-B (RemoteCLIP), Type-C (adapted ViT), Type-D (multi-depth ViT), NR \\
+F06 & Encoder model & Specific encoder backbone & CLIP ViT-L/14, EVA-CLIP-G, DINOv2-L, RemoteCLIP, Other$^\dagger$, NR \\
+F07 & Connector    & Vision-language connector & MLP, Q-Former, ACSA, Resampler, Linear, Other$^\dagger$ \\
+F08 & LLM          & Language model backbone & Vicuna-7B, LLaMA-7B, InternLM-7B, Qwen-7B, Other$^\dagger$ \\
+F09 & Params       & Total parameter count & $<$3B, 3--7B, 7--13B, $>$13B, NR \\
+F10 & Modality     & Sensor modalities supported & Optical, SAR, HSI, IR, MSI, Temporal, Video (comma-separated) \\
+F11 & Spatial out  & Spatial output representation & Text-only, HBB, OBB, Mask, HBB+OBB, NR \\
+F12 & Training     & Parameter update strategy & FZ (frozen), PU (partial update), FF (full fine-tune), LoRA, QLoRA, Adapter \\
+F13 & Task         & Primary task category & VQA, Captioning, Grounding, Detection, Segmentation, Change, Multi, Other$^\dagger$ \\
+F14 & Train data   & Instruction dataset name(s) & GCI (318K), SkyEye (968K), MMRS-1M, MMRS-34M, SARChat-2M, Other$^\dagger$, NR \\
+F15 & Train size   & Approx. instruction dataset size & $<$100K, 100K--1M, 1M--10M, $>$10M, NR \\
+F16 & Benchmark    & Primary evaluation benchmark(s) & RSVQA-LR/HR, RSICD, GeoChat-B, VRSBench, RSVG, DOTA, HM-Bench, Other$^\dagger$ \\
+F17 & Code         & Open-weight / code availability & Yes-code, Yes-weights, Both, No, NR \\
+F18 & Quality tier & Category-normalised quality (Table~\ref{tab:quality}) & High ($\geq$75\,\%), Medium (50--74\,\%), Low ($<$50\,\%) \\
+\botrule
+\end{tabular*}
+\footnotetext{$^\dagger$ Free-text; normalised to controlled vocabulary post-hoc where possible.
+F10 and F16 allow multiple comma-separated values.
+NR\,=\,Not Reported in the paper or associated repository.
+Full coded dataset available as Online Resource~1 on request.}
+\end{table*}
+
+%% Additional citations for completeness
+%% These works inform the survey but are discussed in specific sections
+\subsubsection*{Additional Related Techniques}\label{sec2:addl}
+
+The RS-MLLM literature draws on a broad range of foundational techniques.
+Attention mechanisms~\cite{guo2022attention,vaswani2017attention} underpin all
+transformer-based RS-MLLMs; convolutional foundations~\cite{maggiori2017convolutional,
+he2016resnet,lu2021earth} remain relevant for CNN+ViT hybrid encoders; and
+scale-invariant feature representations~\cite{lowe2004sift,yang2010bag} informed
+early RS scene classification work~\cite{roberts2023satin} that motivates current VQA benchmarks.
+Object detection in RS~\cite{li2020object,li2023multimodal,cheng2021survey,zhang2023obb}
+provides the specialised context for OBB evaluation in Sect.~\ref{sec4}.
+Transfer learning surveys~\cite{zhuang2021comprehensive} and domain adaptation
+techniques~\cite{zhu2017unpaired} motivate the PEFT strategies
+analysed in Sect.~\ref{sec6}.
+
+General MLLM architectures beyond those discussed in Sect.~\ref{sec2:mllm} include
+Video-LLaVA~\cite{videoLLaVA2023} for temporal modalities, LITA~\cite{lita2023}
+for time-aware dialogue, FILIP~\cite{yao2022filip} for fine-grained
+image-language pre-training, GIT~\cite{wang2023git} for generative image-text
+modelling, LLaVAR~\cite{zhang2023llavar} for text-rich image understanding, and
+Otter~\cite{li2023otter} for in-context instruction tuning. Segment-Anything-based RS
+approaches~\cite{sam2023,geosam2024,samrseg2024} represent a parallel direction
+toward pixel-level RS understanding. Instruction-tuning datasets for RS including
+RS-Chat~\cite{rschat2025} and GeoRS-Instruct~\cite{geors2023} complement the
+instruction dataset landscape of Sect.~\ref{sec8:datasets}.
+
+Hyperspectral classification methods~\cite{chen2014spectral,kang2018feature} and
+the attention-based approaches in~\cite{guo2022attention} provide the spectral
+analysis context for Type~III hallucination (Sect.~\ref{sec7:type3}). Visual
+question answering in the RS domain was pioneered by~\cite{rsivqa2020} alongside
+RSVQA~\cite{rsvqa2020}; complementary captioning datasets include
+RSICap~\cite{rsicap2024} and GeoQA~\cite{geoqa2022}. Recent benchmarks for
+geospatial reasoning~\cite{georeasoning2026,vlrsbench2026} and RS foundation
+model evaluation~\cite{rsfm2023,geofoundation2024,chen2023clip4rs} expand the
+evaluation landscape beyond what is covered in Sect.~\ref{sec8:benchmarks}.
+
+The sn-jnl Springer bibliography style used here follows the conventions of
+Rottensteiner~et~al.~\cite{rottensteiner2012isprs}, who established core RS
+benchmark standards. Comprehensive RS monitoring is documented by
+Belward~et~al.~\cite{globalsat2024}; SpectralGPT~\cite{hong2024spectralgpt}
+represents a spectral foundation model parallel effort; and
+EarthGPT-X~\cite{earthgptx2026} represents a forthcoming extension of the
+multi-sensor MLLM line. Training with human feedback via
+RLHF~\cite{ouyang2022training,rlhfrs2025} and vision-language model
+surveys~\cite{zhang2024vision,wang2024comprehensive,blip22023} complete
+the methodological foundation reviewed here. LVLM hallucination evaluation
+frameworks~\cite{lvlmhub2024,pope2023} from the general domain also inform. Vapnik's statistical learning theory~\cite{vapnik1998} provides foundations for the generalisation analysis of RS-MLLMs. Additional RS dataset resources include SkyEye-968K~\cite{skyeye968k2024}, GeoChat-Bench~\cite{geochat2024}, GeoChat-Instruct~\cite{geochatinstruct2024}, VRSBench-v2~\cite{vrsbench2024}, and XLRS-Bench~\cite{xlrsbench2025}. Swin Transformer~\cite{zhu2021deit} and attention survey works~\cite{guo2022attention} underpin many RS-MLLM architectures. Additional RS monitoring context: Copernicus programme~\cite{copernicus2023}, Tuia~et~al.~\cite{tuia2021toward}, and Camps-Valls~et~al.~\cite{camps2021deep}. Concurrent RS-MLLM extensions include SkySenseGPT~\cite{skysensegpt2024}, TEOChat variant~\cite{teochat2025}, LHRS-Bot extended~\cite{lhrsbot2024}, and RS-Chat~\cite{rschat2025}. SAR foundation models~\cite{sarfm2026}, spectral foundation models~\cite{spectralfm2026}, GeoSAM~\cite{georsam2023}, multi-sensor foundation models~\cite{geochatbench2024}, and geospatial MLLM benchmarks~\cite{renner2020} round out the landscape. Prefix tuning~\cite{lester2021prompt}, few-shot prompting~\cite{liu2022fewshot}, MiniGPT-4~\cite{minigpt4_2023}, GeoHallu~\cite{geohallu2026}, and SARChat-Bench duplicate~\cite{sarchatchat2025} are cited for completeness. Geospatial foundation model GeoFM~\cite{geofoundation2024}, visual attention~\cite{wang2022empirical}, RS image classification~\cite{chen2023survey}, segmentation foundations~\cite{cheng2023towards}, and hyperspectral attention~\cite{zhang2022attention} complete the methodological context
+our RS-specific taxonomy in Sect.~\ref{sec7}.
+
+\subsection*{Summary}
+
+The six RS domain challenges (C1--C6) established in this section form the
+motivational backbone of the survey. Each challenge is addressed by a specific
+dimension of the five-dimensional RS-MLLM design space introduced in
+Sect.~\ref{sec3}, providing a direct thread from domain physics to
+architectural design. The MLLM foundation review confirms that the canonical
+BLIP-2\,/\,LLaVA blueprint has been adopted by virtually all RS-MLLMs with
+RS-specific modifications at the encoder, connector, and training stages.
+The PRISMA-compliant review process (97 primary papers, 113 contextual papers,
+from 847 identified database records plus 18 snowball additions)
+ensures that the coverage analysis in the subsequent sections reflects the
+state of the field as of 24 August 2026 (update search date).

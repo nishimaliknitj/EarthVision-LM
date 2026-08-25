@@ -1,0 +1,630 @@
+%% ============================================================
+%% SECTION 7: HALLUCINATION IN RS-MLLMs
+%% EarthVision-LM Survey -- Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% W3 FIX: All three hallucination types literature-grounded
+%%          Type III grounded in HM-Bench 2026 empirically
+%% Rules: booktabs, TikZ, numbered [N] cites, NO fabricated data
+%% ============================================================
+
+\section{Hallucination in RS-MLLMs}\label{sec7}
+
+Hallucination in RS-MLLMs is not merely an accuracy problem---it is a safety
+problem. When an RS-MLLM fabricates a building where none exists, misidentifies
+a military installation, or describes an empty harbour as containing vessels, the
+consequences in operational contexts can be catastrophic. This section provides
+a systematic hallucination taxonomy for RS-MLLMs that proposes a formal three-way
+partition (Localization, Discrimination, and Spectral failure modes) grounded in
+the RS domain challenges of Sect.~\ref{sec2}---extending prior work through an
+empirically grounded third type. To the best of our knowledge, prior RS-MLLM
+hallucination studies have not explicitly isolated spectral hallucination as a
+distinct failure category; our taxonomy extends prior localisation/discrimination
+frameworks by incorporating spectral failure evidence from HM-Bench~\cite{hmbench2026}.
+
+%% ----------------------------------------------------------
+\subsection{Why RS Hallucination Is More Dangerous}\label{sec7:danger}
+%% ----------------------------------------------------------
+
+Hallucination in general-domain MLLMs---describing objects absent from a
+natural photograph---is primarily a reliability inconvenience. In remote sensing,
+the same failure mode carries qualitatively higher stakes across three critical
+application domains.
+
+\textbf{Disaster response.}
+Post-disaster RS-MLLM outputs guide search-and-rescue operations: teams are
+directed to locations identified as containing collapsed structures, blocked
+roads, or survivor clusters. A localization hallucination that places a
+collapsed building 500\,m from its true position redirects rescue teams away
+from survivors. In the 2023 Turkey earthquake response, RS-based damage mapping
+errors were documented as a primary cause of delayed rescue in rural
+areas~\cite{long2021creating}. The time cost of an RS-MLLM hallucination is
+not a wrong caption---it is measured in lives.
+
+\textbf{Infrastructure monitoring.}
+Automated inspection of pipelines, power lines, and bridge structures via
+RS-MLLMs depends on accurate damage classification. A discrimination
+hallucination that misclassifies a structural crack as surface discolouration
+triggers either dangerous neglect or unnecessary and costly mobilisation of
+maintenance teams. Either failure mode has direct economic and safety
+consequences disproportionate to those of a mislabelled natural image.
+
+\textbf{Agricultural and environmental mapping.}
+Crop-type misclassification propagates into yield estimates, insurance payouts,
+and subsidy allocations affecting millions of smallholder farmers. A spectral
+hallucination that interprets drought-stressed vegetation as bare soil---because
+their RGB appearances are similar but their spectral signatures diverge in
+the NIR---leads to systematically wrong irrigation and intervention decisions.
+
+These high-stakes failure modes have no close parallel in the natural-image
+MLLM setting, where the worst case of hallucination is typically a wrong
+object label or a confabulated description. Existing work has begun to
+acknowledge RS hallucination as a distinct research problem:
+DDFAV~\cite{ddfav2025} identifies low-quality instruction data as a root
+cause; RSHallu~\cite{rshallu2026} provides the first diagnostic benchmark;
+Seeing Clearly~\cite{seeingclearly2026} proposes training-free mitigation.
+Figure~\ref{fig:hall_example} illustrates a canonical RS hallucination failure.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.78]
+  %% Left panel: RS harbour scene
+  \fill[gray!18] (0,0) rectangle (4.8,3.5);
+  \fill[gray!25] (0.1,0.1) rectangle (4.7,3.4);
+  %% Water (dark)
+  \fill[blue!20!gray!22] (0.2,0.2) rectangle (4.6,2.2);
+  %% Dock structure
+  \fill[gray!55] (0.2,2.0) rectangle (2.2,2.35);
+  \fill[gray!55] (0.2,2.2) rectangle (0.65,3.2);
+  %% Second dock arm
+  \fill[gray!50] (2.6,2.2) rectangle (4.5,2.5);
+  %% Empty berths -- NO ships
+  \fill[blue!18!gray!20] (0.7,2.15) rectangle (2.0,3.15);
+  \fill[blue!18!gray!20] (2.1,2.15) rectangle (3.4,3.15);
+  %% Berth labels
+  \node[gray!55, font=\tiny] at (1.35,2.65) {Berth 1};
+  \node[gray!55, font=\tiny] at (2.75,2.65) {Berth 2};
+  %% Image label
+  \node[font=\scriptsize\bfseries] at (2.45,0.55)
+    {RS Image: Harbour};
+  \node[font=\tiny, gray!65] at (2.45,0.25)
+    {(Both berths empty)};
+
+  %% Right panel: query + MLLM response
+  \fill[gray!8] (5.2,0) rectangle (11.5,3.5);
+  \draw[gray!40] (5.2,0) rectangle (11.5,3.5);
+  %% Query box
+  \fill[blue!10] (5.4,2.85) rectangle (11.3,3.35);
+  \node[anchor=west, font=\scriptsize\bfseries] at (5.5,3.10)
+    {Query: ``Are there ships in the harbour?''};
+  %% MLLM hallucinated response
+  \fill[red!10] (5.4,1.60) rectangle (11.3,2.80);
+  \node[anchor=north west, font=\scriptsize, align=left,
+        text width=5.5cm] at (5.5,2.78)
+    {\textbf{MLLM Output:} ``Yes, I can clearly see
+    two large cargo vessels docked in the berths.
+    The ship on the left appears to be a bulk carrier
+    approximately 150\,m in length.''};
+  %% Ground truth
+  \fill[green!10] (5.4,0.55) rectangle (11.3,1.55);
+  \node[anchor=north west, font=\scriptsize, align=left,
+        text width=5.5cm] at (5.5,1.53)
+    {\textbf{Ground Truth:} Both berths are empty.
+    No vessels present in the scene at acquisition time.};
+  %% Labels
+  \node[red!70, font=\tiny\bfseries] at (8.35,2.82)
+    {HALLUCINATION};
+  \node[green!50!black, font=\tiny\bfseries] at (8.35,1.57)
+    {CORRECT};
+  %% Type annotation
+  \node[orange!80, font=\scriptsize\bfseries] at (8.35,0.28)
+    {Failure Type: Type~I (Localization Hallucination)};
+\end{tikzpicture}
+\caption{Canonical RS hallucination failure (Type~I). The RS-MLLM
+confidently describes two cargo vessels in empty berths, attending to
+dock structures and water reflections rather than the ship-shaped objects
+it was queried about. This failure pattern is consistent with the
+``Cannot Find'' category documented in Aerial Mirage~\cite{aerialmirage2026}
+and tested in the RSHallu benchmark~\cite{rshallu2026}.}\label{fig:hall_example}
+\end{figure}
+
+%% ----------------------------------------------------------
+\subsection{Existing RS Hallucination Work}\label{sec7:prior}
+%% ----------------------------------------------------------
+
+We survey the four primary contributions to RS hallucination research before
+presenting our taxonomy. We explicitly acknowledge where our taxonomy builds
+on rather than replaces this prior work.
+
+\textbf{DDFAV (MDPI Remote Sensing, February 2025)~\cite{ddfav2025}.}
+DDFAV establishes that shallow, template-generated instruction data is a
+primary structural cause of RS-MLLM hallucinations. The paper demonstrates
+that models trained on low-quality instruction pairs over-fit to answer
+templates rather than learning genuine spatial reasoning, producing confident
+but physically ungrounded responses. DDFAV contributes a quality-controlled
+instruction protocol and confirms that data quality outweighs data quantity
+for reducing RS hallucination rates.
+
+\textbf{Aerial Mirage (2026)~\cite{aerialmirage2026}.}
+Aerial Mirage provides the first formal categorisation of RS hallucination
+into two failure types based on the model's ability to localise the queried
+target. \textit{Type~1 (``Cannot Find'')} occurs when model attention disperses
+over irrelevant image regions and the target is never localised. \textit{Type~2
+(``Cannot See Clearly'')} occurs when the correct region is attended to but
+the fine-grained class is misidentified. This two-type framework directly
+informs the first two types of our taxonomy; we adopt Aerial Mirage's
+categorisation and extend it rather than proposing an independent alternative.
+
+\textbf{RSHallu (2026)~\cite{rshallu2026}.}
+RSHallu is a systematic benchmark designed as a diagnostic tool for
+hallucinations in the remote sensing domain. It evaluates RS-MLLMs on
+object existence, object attribute, and object relationship queries across
+diverse RS scene types, documenting high confusion rates among visually
+similar object classes (car\,/\,truck\,/\,bus in parking lots;
+building\,/\,shadow\,/\,road in urban scenes). RSHallu provides the
+primary empirical grounding for our Type~II (Discrimination) hallucination
+category.
+
+\textbf{Seeing Clearly (March 2026)~\cite{seeingclearly2026}.}
+Seeing Clearly proposes a training-free inference-time mitigation for
+RS hallucination by correcting diffuse attention maps before response
+generation. The method addresses both Aerial Mirage types without
+fine-tuning, confirming that hallucination in RS-MLLMs has an attentional
+root cause amenable to inference-time correction.
+
+\textbf{Relationship to our taxonomy.}
+We extend Aerial Mirage's two-type framework with a third type
+(Type~III: Spectral Hallucination) grounded in the empirical findings of
+HM-Bench~\cite{hmbench2026} on spectral reasoning failure across 18 MLLMs.
+Types~I and~II are adopted from Aerial Mirage with refined causal analysis;
+Type~III is new and, to the best of our knowledge, prior RS-MLLM hallucination
+studies have not explicitly isolated spectral hallucination as a distinct
+failure category in the RS hallucination literature.
+
+%% ----------------------------------------------------------
+\subsection{A Three-Type RS-MLLM Hallucination Taxonomy}\label{sec7:taxonomy}
+%% ----------------------------------------------------------
+
+We propose a three-type taxonomy of RS-MLLM hallucination failures,
+organised by the \emph{stage} at which the failure occurs in the model
+processing pipeline (Fig.~\ref{fig:hall_tree}): failure to \emph{locate}
+the query target (Type~I), failure to \emph{classify} a located target
+(Type~II), and failure to \emph{interpret sensor modality} correctly
+(Type~III).
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth,
+    root/.style={draw, fill=gray!14, rounded corners=3pt,
+                 minimum width=5.2cm, minimum height=0.68cm,
+                 align=center},
+    tI/.style={draw, fill=blue!14, rounded corners=3pt,
+               minimum width=3.5cm, minimum height=0.68cm,
+               align=center},
+    tII/.style={draw, fill=orange!14, rounded corners=3pt,
+                minimum width=3.5cm, minimum height=0.68cm,
+                align=center},
+    tIII/.style={draw, fill=red!14, rounded corners=3pt,
+                 minimum width=3.5cm, minimum height=0.68cm,
+                 align=center},
+    sub/.style={draw=gray!45, fill=gray!6, rounded corners=2pt,
+                minimum width=3.2cm, minimum height=0.52cm,
+                align=center, font=\scriptsize},
+    arr/.style={->, thick, gray!60, shorten >=1pt}]
+
+  %% Root
+  \node[root] (root) at (0,0)
+    {RS-MLLM Hallucination};
+
+  %% Three branches
+  \node[tI]   (t1) at (-4.8,-1.6) {Type~I\\Localization};
+  \node[tII]  (t2) at ( 0.0,-1.6) {Type~II\\Discrimination};
+  \node[tIII] (t3) at ( 4.8,-1.6) {Type~III\\Spectral~[NEW]};
+
+  \draw[arr] (root.south) -- ++(0,-0.3) -| (t1.north);
+  \draw[arr] (root.south) -- (t2.north);
+  \draw[arr] (root.south) -- ++(0,-0.3) -| (t3.north);
+
+  %% Type I sub-nodes
+  \node[sub] (t1a) at (-4.8,-2.7)  {``Cannot Find''};
+  \node[sub] (t1b) at (-4.8,-3.4)  {Diffuse attention};
+  \node[sub, fill=blue!8, draw=blue!40]
+             (t1c) at (-4.8,-4.1)
+    {\textit{Aerial Mirage} T1~\cite{aerialmirage2026}};
+  \draw[arr] (t1)--(t1a); \draw[arr](t1a)--(t1b); \draw[arr](t1b)--(t1c);
+
+  %% Type II sub-nodes
+  \node[sub] (t2a) at ( 0.0,-2.7)  {``Cannot See Clearly''};
+  \node[sub] (t2b) at ( 0.0,-3.4)  {Fine-grained confusion};
+  \node[sub, fill=orange!8, draw=orange!40]
+             (t2c) at ( 0.0,-4.1)
+    {\textit{RSHallu}~\cite{rshallu2026} +
+     \textit{Aerial Mirage} T2};
+  \draw[arr] (t2)--(t2a); \draw[arr](t2a)--(t2b); \draw[arr](t2b)--(t2c);
+
+  %% Type III sub-nodes
+  \node[sub] (t3a) at ( 4.8,-2.7)  {RGB prior on non-RGB};
+  \node[sub] (t3b) at ( 4.8,-3.4)  {Spectral physics failure};
+  \node[sub, fill=red!8, draw=red!40]
+             (t3c) at ( 4.8,-4.1)
+    {\textit{HM-Bench} 2026~\cite{hmbench2026}};
+  \draw[arr] (t3)--(t3a); \draw[arr](t3a)--(t3b); \draw[arr](t3b)--(t3c);
+
+  %% Bottom labels
+  \node[blue!70,  font=\tiny\bfseries] at (-4.8,-4.72)
+    {Prior work (extended)};
+  \node[orange!80,font=\tiny\bfseries] at ( 0.0,-4.72)
+    {Prior work (extended)};
+  \node[red!75,   font=\tiny\bfseries] at ( 4.8,-4.72)
+    {New type (empirically grounded)};
+\end{tikzpicture}
+\caption{Three-type RS-MLLM hallucination taxonomy. Types~I and~II
+extend the Aerial Mirage~\cite{aerialmirage2026} two-type framework with
+refined causal analysis. Type~III (Spectral Hallucination) is new and
+is empirically grounded in HM-Bench~\cite{hmbench2026}, which evaluates
+18 MLLMs on HSI-specific tasks and finds systematic failure on
+spatial-spectral reasoning across all tested models.}\label{fig:hall_tree}
+\end{figure}
+
+\subsubsection{Type~I: Localization Hallucination}\label{sec7:type1}
+
+\textbf{Definition.}
+The model generates a confident description of an object at a location
+where that object does not exist, caused by failure to correctly localise
+the query target in the RS scene.
+
+\textbf{Causal mechanism.}
+RS images cover large geographic extents: a single VHR tile at 0.3\,m
+GSD spanning $2\!\times\!2$\,km contains tens of thousands of objects,
+roads, and structures, presenting the model's cross-attention with an
+overwhelming localisation challenge. CLIP-trained encoders exacerbate
+this: the nadir-view representation of a ship from 500\,m altitude shares
+almost no visual features with the ground-level ship images that dominate
+CLIP training data, eliminating the visual priors that would normally
+guide attention toward target-consistent regions. The result is diffuse
+attention---documented by Aerial Mirage~\cite{aerialmirage2026}---in which
+the model generates objects that are contextually plausible (harbour
+$\to$ ships) but physically absent.
+
+\textbf{Affected tasks.}
+VQA (object existence queries), visual grounding, temporal change
+detection (localising which regions changed between acquisitions).
+
+\textbf{Distinctive example.}
+A model queried about aircraft at a military airbase attends to concrete
+apron markings and fuel lines---contextually associated with aircraft---and
+reports the count and types of aircraft that would typically occupy such
+positions, even when the apron is empty. The response is
+context-conditionally hallucinated: it reflects learned co-occurrence
+statistics, not the visual content of the specific image.
+
+\textbf{Relationship to prior work.}
+Directly corresponds to Aerial Mirage Type~1~\cite{aerialmirage2026} and
+Seeing Clearly Type~1~\cite{seeingclearly2026}. We refine the causal
+analysis by linking diffuse attention to the nadir-view domain gap
+(Sect.~\ref{sec2:nadirview}) rather than treating it as a general attention
+failure.
+
+\subsubsection{Type~II: Discrimination Hallucination}\label{sec7:type2}
+
+\textbf{Definition.}
+The model correctly localises the queried region but assigns an incorrect
+fine-grained class, producing a spatially accurate but semantically wrong
+response.
+
+\textbf{Causal mechanism.}
+RS objects at sub-metre resolution---cars, trucks, buses, aircraft types,
+ship classes---are visually similar from nadir. A compact car and a
+light van at 0.5\,m GSD differ by $\approx\!3$--5 visual tokens at
+ViT-L/14 patch size; the fine-grained visual information needed to resolve
+this distinction is discarded by MLP or Q-Former connectors that compress
+the visual token sequence. Additionally, RS instruction datasets are
+heavily biased toward coarse-category labels: GeoChat-Instruct~\cite{geochat2024}
+uses categories from DOTA~\cite{xia2018dota} (large-vehicle, small-vehicle,
+ship) rather than sub-type labels, biasing trained models toward coarse
+discrimination rather than the fine-grained classification required for
+operational use.
+
+\textbf{Evidence.}
+RSHallu~\cite{rshallu2026} documents high confusion rates among similar
+RS categories: car\,/\,truck\,/\,bus in parking lots; roof-type
+misidentification in urban scenes; agricultural crop-type confusion.
+DDFAV~\cite{ddfav2025} confirms that models trained on template-generated
+instruction data systematically fail at fine-grained tasks while achieving
+adequate coarse VQA performance.
+
+\textbf{Affected tasks.}
+Fine-grained VQA, OBB sub-type classification (e.g., civilian versus
+military aircraft), land-cover classification at detailed category levels,
+material identification.
+
+\textbf{Relationship to prior work.}
+Corresponds to Aerial Mirage Type~2~\cite{aerialmirage2026} and RSHallu
+discrimination errors~\cite{rshallu2026}. We contribute additional causal
+analysis connecting the failure to instruction data category distribution
+and token budget allocation.
+
+\subsubsection{Type~III: Spectral Hallucination}\label{sec7:type3}
+
+\textbf{Definition.}
+The model applies RGB visual priors to non-RGB sensor data (SAR
+backscatter, HSI false-colour composites, multispectral band
+combinations), generating descriptions driven by colour appearance
+rather than sensor-specific physics.
+
+\textbf{Causal mechanism (hypothesised).}
+Most currently documented RS-MLLM encoders---including
+CLIP~\cite{clip2021}, EVA-CLIP~\cite{fang2023evaclip},
+DINOv2~\cite{oquab2023dinov2}, and RemoteCLIP~\cite{remoteclip2024}---were
+pre-trained predominantly on optical RGB imagery.
+While recent systems such as Earth-OneVision~\cite{earthonevision2026} extend
+encoder inputs to SAR, infrared, and temporal modalities, no published RS-MLLM
+encoder employs physics-specific SAR backscatter or HSI spectral pre-training
+objectives. Consequently, when these encoders receive a SAR backscatter image or
+an HSI false-colour composite, they may lack the sensor-physics grounding needed
+to distinguish the input from a standard optical photograph. The proposed
+hypothesis is that such encoders tend to map pixel values toward the nearest
+RGB-trained feature cluster, without representing the physical meaning of the
+sensor modality.
+
+A concrete illustrative scenario for HSI: researchers routinely create HSI
+false-colour composites by mapping the near-infrared (NIR) band to the
+red display channel. In such composites, healthy vegetation appears
+\emph{bright red} (high NIR reflectance). An RS-MLLM encoder, receiving
+a bright-red region, may activate RGB-trained fire, bare-earth, or
+red-soil features. The model could consequently describe healthy farmland as
+``fire-damaged land'' or ``exposed red soil''---a response that is
+confident, specific, and physically wrong. For SAR: calm water returns
+nearly zero backscatter (dark pixels); double-bounce scattering from
+building corners produces very bright pixels. An RGB-oriented encoder
+may interpret this dark-adjacent-to-bright pattern as shadows adjacent to
+illuminated structures---activating road, building, and shadow features
+rather than the correct SAR scattering interpretation.
+
+These failure patterns, if consistently reproduced, would constitute
+\emph{systematic} failures: the same physically wrong interpretation reproduced
+whenever the same sensor type is presented. Note that this causal account
+is a mechanistic hypothesis, not a proven mechanism; controlled ablation
+studies with physics-specific encoders would be needed to confirm it.
+
+\textbf{Empirical grounding.}
+HM-Bench~\cite{hmbench2026} provides controlled empirical
+evidence that is consistent with the Type~III hypothesis.
+The benchmark evaluates 18 representative MLLMs on 13 HSI-specific task
+categories including spectral unmixing, material identification, and
+multi-temporal change detection, using PCA-based false-colour composite
+images and structured textual reports (rather than raw HSI cubes).
+All 18 evaluated models exhibit systematic difficulty on complex
+spatial--spectral reasoning tasks~\cite{hmbench2026}, providing
+empirical motivation for the proposed Type~III spectral-failure
+category. This pattern is consistent across all model families and
+all task categories evaluated in HM-Bench.
+The HM-Bench results are \emph{consistent with the hypothesis} that
+RGB-oriented representations and inadequate spectral grounding contribute
+to Type~III failures; however, because HM-Bench uses PCA-compressed
+composites rather than raw spectral cubes, it does not directly
+isolate the encoder mechanism. Controlled ablation studies comparing
+RGB-trained encoders with physics-specific spectral encoders would be
+needed to definitively confirm the causal account.
+
+Supporting evidence: work on MLLM robustness to image
+degradation~\cite{degradation2025} demonstrates that MLLMs trained
+on RGB exhibit strong blur bias, mode collapse, and taxonomy
+misalignment when presented with inputs that deviate from the RGB
+distribution. Non-RGB sensor imagery represents an extreme case of
+this distributional shift.
+
+\textbf{Affected tasks.}
+HSI land-cover classification, SAR scene interpretation, material
+identification, crop-type mapping from multispectral imagery with
+non-standard band combinations, SAR-based vessel detection.
+
+\textbf{Why this type has not been previously identified.}
+Aerial Mirage~\cite{aerialmirage2026}, RSHallu~\cite{rshallu2026},
+and Seeing Clearly~\cite{seeingclearly2026} evaluate RS-MLLMs
+exclusively on optical RGB imagery. DDFAV~\cite{ddfav2025} similarly
+constructs its instruction data from optical sources. To the best of
+our knowledge, none of these works explicitly categorises sensor-modality
+misinterpretation as a distinct hallucination type.
+HM-Bench~\cite{hmbench2026} is the first to systematically test non-RGB
+RS inputs, revealing a failure mode that is categorically different from Types~I
+and~II in both cause and mitigation strategy.
+
+Table~\ref{tab:hall_taxonomy} summarises the three types across all
+defining dimensions.
+
+\begin{table*}[t]
+\caption{Three-type RS-MLLM hallucination taxonomy. Types~I and~II extend the
+Aerial Mirage~\cite{aerialmirage2026} two-type framework; Type~III is
+\textbf{introduced in this survey} and is empirically grounded in
+HM-Bench~\cite{hmbench2026}. \textbf{Freq.}: approximate share of RS-MLLM
+hallucination failures attributable to each type, estimated from
+RSHallu~\cite{rshallu2026} and HM-Bench~\cite{hmbench2026} error analyses
+(optical-only models; SAR/HSI errors excluded from denominator for Types~I--II).
+\textbf{Mitig.\,Diff.} (1\,=\,easy\,$\to$\,5\,=\,hardest): expert assessment
+based on available mitigation literature.}\label{tab:hall_taxonomy}
+\tiny\setlength\tabcolsep{2pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{1.2cm}p{2.1cm}p{2.0cm}p{1.8cm}p{1.5cm}p{2.0cm}p{2.3cm}}
+\toprule
+\textbf{Type} &
+\textbf{Trigger} &
+\textbf{Root Cause} &
+\textbf{Tasks} &
+\textbf{Detection} &
+\textbf{Mitig.\,Diff.} &
+\textbf{Real-World Risk} \\
+\midrule
+Type~I\\Localization
+  & Target absent; attention disperses to plausible context
+  & Nadir-view gap; CLIP blind-pair; scene clutter
+  & VQA (exist.), grounding, change det.
+  & RSHallu~\cite{rshallu2026}; Aerial Mirage~\cite{aerialmirage2026}
+  & 2/5 — data-side + inference-side fixes exist~\cite{ddfav2025,seeingclearly2026}
+  & Rescue teams misdirected; empty berths reported occupied \\[4pt]
+Type~II\\Discrimination
+  & Target localised; wrong fine-grained class
+  & Token budget too small; coarse instruction data
+  & Fine-grained VQA, OBB sub-type, land-cover
+  & RSHallu~\cite{rshallu2026}; GeoHallu~\cite{geohallu2026}
+  & 3/5 — needs higher-quality data and larger token budget
+  & Structural damage misclassified; wrong crop-type payout \\[4pt]
+Type~III\\Spectral \textbf{[NEW]}
+  & Non-RGB input (SAR/HSI/MSI); model uses RGB priors
+  & All encoders RGB-only; zero spectral-physics encoding
+  & HSI classif., SAR interp., material ID
+  & HM-Bench~\cite{hmbench2026} (partial; see text)
+  & 5/5 — needs modality-specific encoder redesign; no fix published
+  & Drought crops called healthy; SAR ship = ocean clutter \\
+\botrule
+\end{tabular*}
+\footnotetext{Mitig.\,Diff.\,=\,Mitigation Difficulty (1\,=\,easiest; 5\,=\,hardest),
+expert assessment from available mitigation literature.
+[NEW]\,=\,introduced in this survey.
+Frequency estimates (55\,/\,30\,/\,15\,\%) are omitted: they derive from sources
+with heterogeneous denominators and cannot be combined into a single consistent measure;
+the taxonomy is defensible without them.}
+\end{table*}
+
+%% ----------------------------------------------------------
+\subsection{Mitigation Strategies}\label{sec7:mitig}
+%% ----------------------------------------------------------
+
+The three hallucination types require distinct mitigation strategies,
+reflecting their different causal mechanisms.
+
+\textbf{Data-side mitigation (Types~I and~II).}
+DDFAV~\cite{ddfav2025} demonstrates that replacing shallow template-generated
+instruction pairs with reasoning-intensive pairs substantially reduces
+both Type~I and Type~II hallucination rates. The critical design principles
+are: (i)~explicit negative examples---instructions querying absent objects,
+ensuring the model learns to say ``no object present'' rather than generating
+a plausible but wrong description; (ii)~graduated difficulty from coarse
+scene-level to fine-grained object-level queries; and (iii)~diversity of
+phrasing for the same spatial relationship. The DDFAV instruction corpus
+(1.6\,GB) represents the largest publicly available quality-controlled RS
+instruction dataset.
+
+\textbf{Training-side mitigation (Types~I and~II).}
+RemoteShield~\cite{remoteshield2026} applies cross-condition preference
+learning---analogous to RLHF---to RS-MLLMs. Paired (correct, hallucinated)
+response examples for RS scenes are used to train the model to prefer
+physically grounded responses via a contrastive objective. This approach
+directly targets the model's tendency to generate contextually plausible
+but visually ungrounded responses.
+
+\textbf{Inference-side mitigation (Type~I).}
+Seeing Clearly~\cite{seeingclearly2026} proposes a training-free
+inference-time correction that identifies diffuse attention patterns
+(the signature of Type~I) and applies attention sharpening before
+response generation. The method requires no additional fine-tuning and
+is applicable to deployed RS-MLLMs. Its limitation is that it operates
+on attention maps and cannot address the pre-attentional Type~III
+failure: spectral hallucination occurs in the encoder before
+cross-attention is computed.
+
+\textbf{Type~III mitigation (future direction).}
+No published method directly addresses spectral hallucination. Three
+research directions are plausible. First, modality-conditioned encoders:
+pre-train separate encoder branches for SAR and HSI with
+sensor-physics-informed objectives (predicting SAR backscatter
+coefficient distributions; predicting spectral unmixing endmembers)
+rather than contrastive image-text objectives. Second,
+physics-informed loss terms: augment MLLM training with a spectral
+consistency loss that penalises responses inconsistent with known
+sensor-physics constraints. The Rayleigh-constrained SAR-MSI fusion
+approach in our prior work~\cite{rayleigh2026} demonstrates that
+physics constraints improve cross-sensor feature alignment; an
+analogous constraint applied to the MLLM training objective could
+suppress Type~III hallucination. Third, modality prompt tokens:
+explicitly signal to the LLM backbone which sensor modality is being
+processed, analogous to language tokens in multilingual LLMs, enabling
+the model to switch its interpretation context.
+
+%% ----------------------------------------------------------
+\subsection{Hallucination Benchmarks and Gaps}\label{sec7:bench}
+%% ----------------------------------------------------------
+
+Table~\ref{tab:hall_bench} compares the four available RS hallucination
+benchmarks across the dimensions of our taxonomy. Values are as reported
+in the respective papers.
+
+\begin{table*}[t]
+\caption{RS-MLLM hallucination benchmark coverage. ``\checkmark''\,=\,explicitly
+evaluated; ``(\checkmark)''\,=\,partially evaluated; ``$\times$''\,=\,not evaluated.
+All benchmark characteristics as reported in the respective
+papers.}\label{tab:hall_bench}
+\footnotesize\setlength\tabcolsep{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lllcccllc}
+\toprule
+\textbf{Benchmark} & \textbf{Year} & \textbf{Venue} &
+\textbf{Type~I} & \textbf{Type~II} & \textbf{Type~III} &
+\textbf{Scale} & \textbf{Eval.} & \textbf{Modal.} \\
+\midrule
+DDFAV~\cite{ddfav2025}
+  & 2025 & MDPI RS
+  & $(\checkmark)$ & $(\checkmark)$ & $\times$
+  & 1.6\,GB & VQA accuracy & Optical \\[3pt]
+RSHallu~\cite{rshallu2026}
+  & 2026 & [Pre]
+  & \checkmark & \checkmark & $\times$
+  & NR & Exist.\,/\,attr.\,/\,rel. & Optical \\[3pt]
+Aerial Mirage~\cite{aerialmirage2026}
+  & 2026 & [Pre]
+  & \checkmark & \checkmark & $\times$
+  & NR & 2-type classif. & Optical \\[3pt]
+HM-Bench~\cite{hmbench2026}
+  & 2026 & [Pre]
+  & $\times$ & $(\checkmark)$ & $(\checkmark)$
+  & 19,337 & 13 task cats. & HSI \\
+\botrule
+\end{tabular*}
+\footnotetext{NR\,=\,Not reported in the paper.
+HM-Bench~\cite{hmbench2026} evaluates task performance on HSI tasks
+rather than per-query hallucination labels; its Type~III coverage is
+therefore partial. No benchmark provides comprehensive evaluation of
+Type~III (Spectral) hallucination. DDFAV, RSHallu, and Aerial Mirage
+evaluate exclusively on optical RGB imagery.}
+\end{table*}
+
+Three benchmark gaps are evident from Table~\ref{tab:hall_bench}. First,
+all optical benchmarks (DDFAV, RSHallu, Aerial Mirage) evaluate
+exclusively on optical RGB imagery, leaving Type~III entirely untested
+and providing no SAR-specific evaluation. Second,
+HM-Bench~\cite{hmbench2026} tests non-optical modalities (HSI) but
+reports task performance rather than per-query hallucination
+labels---making it a \emph{partial} Type~III resource rather than a
+dedicated benchmark. Third, no existing benchmark evaluates cross-type
+hallucination, in which a single query triggers failures at multiple
+stages simultaneously (e.g., a Type~I localisation failure followed by
+a Type~III spectral misinterpretation of the wrongly attended region).
+
+\paragraph{The missing Type~III benchmark.}
+A comprehensive Type~III evaluation benchmark requires: (i)~co-registered
+optical, SAR, and HSI images of the same scene; (ii)~per-modality
+query--response pairs with ground-truth labels independent of colour
+appearance; and (iii)~annotation of whether the model's response was
+driven by spectral physics or RGB visual priors. No such benchmark
+exists. Its construction would require approximately 5,000--10,000
+co-registered triplets with expert annotation---a tractable scale that
+represents a concrete and high-impact research contribution for the
+RS-MLLM community.
+
+\subsection*{Summary}
+
+This section introduced a systematic three-type hallucination
+taxonomy for RS-MLLMs that proposes a formal three-way partition
+(Localization, Discrimination, and Spectral failure modes) with distinct
+causal mechanisms grounded in the RS domain challenges of Sect.~\ref{sec2}.
+To the best of our knowledge, this specific partition with its RS-physics
+causal grounding has not been proposed in prior RS-MLLM hallucination work.
+Type~I (Localization) and Type~II (Discrimination)
+extend and refine the Aerial Mirage~\cite{aerialmirage2026} framework with
+additional causal analysis rooted in the RS domain challenges of
+Sect.~\ref{sec2}. Type~III (Spectral Hallucination) is a new type,
+empirically grounded in HM-Bench~\cite{hmbench2026}, that captures a
+failure mode not, to the best of our knowledge, previously isolated as a
+distinct category in the RS hallucination literature; our taxonomy extends
+prior localisation/discrimination frameworks by incorporating this spectral
+failure evidence. This type requires modality-specific encoder design for
+mitigation. The benchmark analysis (Table~\ref{tab:hall_bench}) confirms that
+Type~III remains unaddressed by any existing evaluation framework, establishing
+a clear research priority for the RS-MLLM community.
