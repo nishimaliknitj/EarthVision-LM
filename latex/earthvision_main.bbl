@@ -1,0 +1,3659 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{223}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Sumbul et~al.}{2019}]{geoprivacy2024}
+\begin{botherref}
+\oauthor{\bsnm{Sumbul}, \binits{G.}},
+\oauthor{\bsnm{Charfuelan}, \binits{M.}},
+\oauthor{\bsnm{Demir}, \binits{B.}},
+\oauthor{\bsnm{Markl}, \binits{V.}}:
+{BigEarthNet}: A large-scale benchmark archive for remote sensing image
+  understanding,
+5901--5904
+(2019)
+\doiurl{10.1109/IGARSS.2019.8900532}
+\end{botherref}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{Long et~al.}{2021}]{long2021creating}
+\begin{barticle}
+\bauthor{\bsnm{Long}, \binits{Y.}},
+\bauthor{\bsnm{Xia}, \binits{G.-S.}},
+\bauthor{\bsnm{Li}, \binits{S.}},
+\bauthor{\bsnm{Yang}, \binits{W.}},
+\bauthor{\bsnm{Yang}, \binits{M.Y.}},
+\bauthor{\bsnm{Zhu}, \binits{X.X.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}},
+\bauthor{\bsnm{Li}, \binits{D.}}:
+\batitle{On creating benchmark dataset for aerial image interpretation:
+  Reviews, guidances, and perspectives}.
+\bjtitle{IEEE Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}
+\bvolume{14},
+\bfpage{4205}--\blpage{4230}
+(\byear{2021})
+\doiurl{10.1109/JSTARS.2021.3070368}
+\end{barticle}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{LeCun et~al.}{2015}]{lecun2015deep}
+\begin{barticle}
+\bauthor{\bsnm{LeCun}, \binits{Y.}},
+\bauthor{\bsnm{Bengio}, \binits{Y.}},
+\bauthor{\bsnm{Hinton}, \binits{G.}}:
+\batitle{Deep learning}.
+\bjtitle{Nature}
+\bvolume{521},
+\bfpage{436}--\blpage{444}
+(\byear{2015})
+\doiurl{10.1038/nature14539}
+\end{barticle}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{Dosovitskiy et~al.}{2021}]{dosovitskiy2021vit}
+\begin{bchapter}
+\bauthor{\bsnm{Dosovitskiy}, \binits{A.}},
+\bauthor{\bsnm{Beyer}, \binits{L.}},
+\bauthor{\bsnm{Kolesnikov}, \binits{A.}},
+\bauthor{\bsnm{Weissenborn}, \binits{D.}},
+\bauthor{\bsnm{Zhai}, \binits{X.}},
+\bauthor{\bsnm{Unterthiner}, \binits{T.}},
+\bauthor{\bsnm{Dehghani}, \binits{M.}},
+\bauthor{\bsnm{Minderer}, \binits{M.}},
+\bauthor{\bsnm{Heigold}, \binits{G.}},
+\bauthor{\bsnm{Gelly}, \binits{S.}},
+\bauthor{\bsnm{Uszkoreit}, \binits{J.}},
+\bauthor{\bsnm{Houlsby}, \binits{N.}}:
+\bctitle{An image is worth {16x16} words: Transformers for image recognition at
+  scale}.
+In: \bbtitle{International Conference on Learning Representations (ICLR)}
+(\byear{2021})
+\end{bchapter}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{Ren et~al.}{2017}]{ren2015faster}
+\begin{barticle}
+\bauthor{\bsnm{Ren}, \binits{S.}},
+\bauthor{\bsnm{He}, \binits{K.}},
+\bauthor{\bsnm{Girshick}, \binits{R.}},
+\bauthor{\bsnm{Sun}, \binits{J.}}:
+\batitle{Faster {R-CNN}: Towards real-time object detection with region
+  proposal networks}.
+\bjtitle{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+\bvolume{39}(\bissue{6}),
+\bfpage{1137}--\blpage{1149}
+(\byear{2017})
+\doiurl{10.1109/TPAMI.2016.2577031}
+\end{barticle}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{Cheng et~al.}{2016}]{cheng2016rotated}
+\begin{bchapter}
+\bauthor{\bsnm{Cheng}, \binits{G.}},
+\bauthor{\bsnm{Zhou}, \binits{P.}},
+\bauthor{\bsnm{Han}, \binits{J.}}:
+\bctitle{Learning rotation-invariant convolutional neural networks for object
+  detection in {VHR} optical remote sensing images},
+vol. \bseriesno{54},
+pp. \bfpage{7405}--\blpage{7415}
+(\byear{2016}).
+\doiurl{10.1109/TGRS.2016.2601622}
+\end{bchapter}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Brown et~al.}{2020}]{brown2020gpt3}
+\begin{botherref}
+\oauthor{\bsnm{Brown}, \binits{T.}},
+\oauthor{\bsnm{Mann}, \binits{B.}},
+\oauthor{\bsnm{Ryder}, \binits{N.}},
+\oauthor{\bsnm{Subbiah}, \binits{M.}},
+\oauthor{\bsnm{Kaplan}, \binits{J.D.}},
+\oauthor{\bsnm{Dhariwal}, \binits{P.}},
+\oauthor{\bsnm{Neelakantan}, \binits{A.}},
+\oauthor{\bsnm{Shyam}, \binits{P.}},
+\oauthor{\bsnm{Sastry}, \binits{G.}},
+\oauthor{\bsnm{Askell}, \binits{A.}}, et al.:
+Language models are few-shot learners
+\textbf{33},
+1877--1901
+(2020)
+\end{botherref}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Touvron et~al.}{2023}]{touvron2023llama}
+\begin{botherref}
+\oauthor{\bsnm{Touvron}, \binits{H.}},
+\oauthor{\bsnm{Lavril}, \binits{T.}},
+\oauthor{\bsnm{Izacard}, \binits{G.}},
+\oauthor{\bsnm{Martinet}, \binits{X.}},
+\oauthor{\bsnm{Lachaux}, \binits{M.-A.}},
+\oauthor{\bsnm{Lacroix}, \binits{T.}},
+\oauthor{\bsnm{Rozi{\`e}re}, \binits{B.}},
+\oauthor{\bsnm{Goyal}, \binits{N.}},
+\oauthor{\bsnm{Hambro}, \binits{E.}},
+\oauthor{\bsnm{Azhar}, \binits{F.}},
+\oauthor{\bsnm{Rodriguez}, \binits{A.}},
+\oauthor{\bsnm{Joulin}, \binits{A.}},
+\oauthor{\bsnm{Grave}, \binits{E.}},
+\oauthor{\bsnm{Lample}, \binits{G.}}:
+{LLaMA}: Open and efficient foundation language models
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Alayrac et~al.}{2022}]{flamingo2022}
+\begin{botherref}
+\oauthor{\bsnm{Alayrac}, \binits{J.-B.}},
+\oauthor{\bsnm{Donahue}, \binits{J.}},
+\oauthor{\bsnm{Luc}, \binits{P.}},
+\oauthor{\bsnm{Miech}, \binits{A.}},
+\oauthor{\bsnm{Barr}, \binits{I.}},
+\oauthor{\bsnm{Hasson}, \binits{Y.}},
+\oauthor{\bsnm{Lenc}, \binits{K.}},
+\oauthor{\bsnm{Mensch}, \binits{A.}},
+\oauthor{\bsnm{Millican}, \binits{K.}},
+\oauthor{\bsnm{Reynolds}, \binits{M.}},
+\oauthor{\bsnm{Ring}, \binits{R.}},
+\oauthor{\bsnm{Rutherford}, \binits{E.}},
+\oauthor{\bsnm{Cabi}, \binits{S.}},
+\oauthor{\bsnm{Han}, \binits{T.}},
+\oauthor{\bsnm{Gong}, \binits{Z.}}, et al.:
+Flamingo: A Visual Language Model for Few-Shot Learning
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{blip22023}
+\begin{bchapter}
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Li}, \binits{D.}},
+\bauthor{\bsnm{Savarese}, \binits{S.}},
+\bauthor{\bsnm{Hoi}, \binits{S.}}:
+\bctitle{{BLIP-2}: Bootstrapping language-image pre-training with frozen image
+  encoders and large language models}.
+In: \bbtitle{Proceedings of the International Conference on Machine Learning
+  (ICML)},
+vol. \bseriesno{202},
+pp. \bfpage{19730}--\blpage{19742}
+(\byear{2023})
+\end{bchapter}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2023}]{llava2023}
+\begin{bchapter}
+\bauthor{\bsnm{Liu}, \binits{H.}},
+\bauthor{\bsnm{Li}, \binits{C.}},
+\bauthor{\bsnm{Wu}, \binits{Q.}},
+\bauthor{\bsnm{Lee}, \binits{Y.J.}}:
+\bctitle{Visual instruction tuning}.
+In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS)},
+vol. \bseriesno{36}
+(\byear{2023})
+\end{bchapter}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2024}]{llava15_2023}
+\begin{bchapter}
+\bauthor{\bsnm{Liu}, \binits{H.}},
+\bauthor{\bsnm{Li}, \binits{C.}},
+\bauthor{\bsnm{Li}, \binits{Y.}},
+\bauthor{\bsnm{Lee}, \binits{Y.J.}}:
+\bctitle{Improved baselines with visual instruction tuning}.
+In: \bbtitle{Proceedings of the IEEE/CVF Conference on Computer Vision and
+  Pattern Recognition (CVPR)},
+pp. \bfpage{26286}--\blpage{26296}
+(\byear{2024})
+\end{bchapter}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{{OpenAI}}{2023}]{gpt4v2023}
+\begin{botherref}
+\oauthor{\bsnm{{OpenAI}}}:
+{GPT-4V(ision)} System Card.
+[Technical Report] \url{https://openai.com/research/gpt-4v-system-card}
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{{Google DeepMind}}{2023}]{gemini2023}
+\begin{botherref}
+\oauthor{\bsnm{{Google DeepMind}}}:
+Gemini: A Family of Highly Capable Multimodal Models.
+arXiv:2312.11805
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Bai et~al.}{2023}]{qwen_vl2023}
+\begin{botherref}
+\oauthor{\bsnm{Bai}, \binits{J.}},
+\oauthor{\bsnm{Bai}, \binits{S.}},
+\oauthor{\bsnm{Yang}, \binits{S.}},
+\oauthor{\bsnm{Wang}, \binits{S.}},
+\oauthor{\bsnm{Tan}, \binits{S.}},
+\oauthor{\bsnm{Wang}, \binits{P.}},
+\oauthor{\bsnm{Lin}, \binits{J.}},
+\oauthor{\bsnm{Zhou}, \binits{C.}},
+\oauthor{\bsnm{Zhou}, \binits{J.}}:
+{Qwen-VL}: A Versatile Vision-Language Model's Understanding, Localization,
+  Text Reading, and Beyond.
+arXiv:2308.12966
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{{Mistral AI}}{2024}]{pixtral2024}
+\begin{botherref}
+\oauthor{\bsnm{{Mistral AI}}}:
+{Pixtral 12B}: A Frontier-Level Visual Language Model.
+arXiv:2410.07073
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{{European Space
+  Agency}}{2023}]{esa2023sentinel}
+\begin{botherref}
+\oauthor{\bsnm{{European Space Agency}}}:
+Sentinel mission overview: Data access and coverage statistics 2023.
+ESA Technical Note
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{Belward and Skole}{2024}]{globalsat2024}
+\begin{barticle}
+\bauthor{\bsnm{Belward}, \binits{A.}},
+\bauthor{\bsnm{Skole}, \binits{D.}}:
+\batitle{Global satellite monitoring: Capacity and coverage in 2024}.
+\bjtitle{Remote Sensing of Environment}
+\bvolume{289},
+\bfpage{113505}
+(\byear{2024})
+\doiurl{10.1016/j.rse.2023.113505}
+\end{barticle}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{Hu et~al.}{2023}]{rsgpt2023}
+\begin{bchapter}
+\bauthor{\bsnm{Hu}, \binits{Y.}},
+\bauthor{\bsnm{Liu}, \binits{J.}},
+\bauthor{\bsnm{Zheng}, \binits{Z.}},
+\bauthor{\bsnm{Ma}, \binits{Z.}},
+\bauthor{\bsnm{Chang}, \binits{Y.-C.}},
+\bauthor{\bsnm{Hu}, \binits{T.}},
+\bauthor{\bsnm{Yuan}, \binits{X.}}:
+\bctitle{{RSGPT}: A remote sensing vision language model and benchmark}.
+In: \bbtitle{arXiv Preprint arXiv:2307.15266}
+(\byear{2023})
+\end{bchapter}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2026}]{earthonevision2026}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{Z.}},
+\oauthor{\bsnm{Zhao}, \binits{T.}},
+\oauthor{\bsnm{Guo}, \binits{Y.}},
+\oauthor{\bsnm{Shen}, \binits{J.}}:
+{Earth-OneVision}: A Universal Earth Observation Visual Language Model.
+arXiv:2502.12014.
+2B-parameter RS-MLLM covering 6 sensor modalities
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{Li et~al.}{2026}]{hmbench2026}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{H.}},
+\oauthor{\bsnm{Sun}, \binits{H.}},
+\oauthor{\bsnm{Akata}, \binits{Z.}},
+\oauthor{\bsnm{Zhu}, \binits{X.X.}}:
+{HM-Bench}: A Benchmark for Evaluating {MLLMs} on Hyperspectral Remote Sensing
+  Imagery.
+arXiv:2501.13721
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 22
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2025}]{earthgpt2025}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{W.}},
+\bauthor{\bsnm{Cai}, \binits{M.}},
+\bauthor{\bsnm{Zhang}, \binits{T.}},
+\bauthor{\bsnm{Zhao}, \binits{Y.}},
+\bauthor{\bsnm{Li}, \binits{F.}}:
+\batitle{{EarthGPT}: A universal multimodal large language model for
+  multisensor image comprehension in remote sensing domain}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{63},
+\bfpage{1}--\blpage{17}
+(\byear{2025})
+\doiurl{10.1109/TGRS.2024.3409624}
+\end{barticle}
+\endbibitem
+
+%%% 23
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2026}]{earthgptx2026}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{W.}},
+\bauthor{\bsnm{Cai}, \binits{M.}},
+\bauthor{\bsnm{Zhang}, \binits{T.}}, \betal:
+\batitle{{EarthGPT-X}: Cross-sensor multimodal foundation model for remote
+  sensing}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+(\byear{2026})
+\doiurl{10.1109/TGRS.2025.3626941} .
+\bcomment{Published; DOI: 10.1109/TGRS.2025.3626941}
+\end{barticle}
+\endbibitem
+
+%%% 24
+\bibitem[\protect\citeauthoryear{Marvasti-Zadeh et~al.}{2024}]{earthvision2024}
+\begin{barticle}
+\bauthor{\bsnm{Marvasti-Zadeh}, \binits{S.M.}},
+\bauthor{\bsnm{Cheng}, \binits{L.}},
+\bauthor{\bsnm{Ghanei-Yakhdan}, \binits{H.}},
+\bauthor{\bsnm{Kasaei}, \binits{S.}}:
+\batitle{Deep learning for scene understanding in remote sensing images: A
+  review}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+\bvolume{12}(\bissue{2}),
+\bfpage{30}--\blpage{58}
+(\byear{2024})
+\doiurl{10.1109/MGRS.2024.3376171}
+\end{barticle}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{Xu et~al.}{2021}]{hrben2022}
+\begin{barticle}
+\bauthor{\bsnm{Xu}, \binits{J.}},
+\bauthor{\bsnm{Zhao}, \binits{L.}},
+\bauthor{\bsnm{Li}, \binits{P.}},
+\bauthor{\bsnm{Wang}, \binits{X.}},
+\bauthor{\bsnm{Gao}, \binits{G.}},
+\bauthor{\bsnm{Jia}, \binits{H.}}:
+\batitle{Remote sensing image scene classification meets deep learning:
+  Challenges, methods, benchmarks, and opportunities}.
+\bjtitle{IEEE Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}
+\bvolume{14},
+\bfpage{3735}--\blpage{3756}
+(\byear{2021})
+\doiurl{10.1109/JSTARS.2021.3062894}
+\end{barticle}
+\endbibitem
+
+%%% 26
+\bibitem[\protect\citeauthoryear{Page et~al.}{2021}]{prisma2020}
+\begin{barticle}
+\bauthor{\bsnm{Page}, \binits{M.J.}},
+\bauthor{\bsnm{McKenzie}, \binits{J.E.}},
+\bauthor{\bsnm{Bossuyt}, \binits{P.M.}},
+\bauthor{\bsnm{Boutron}, \binits{I.}},
+\bauthor{\bsnm{Hoffmann}, \binits{T.C.}},
+\bauthor{\bsnm{Mulrow}, \binits{C.D.}},
+\bauthor{\bsnm{Shamseer}, \binits{L.}},
+\bauthor{\bsnm{Tetzlaff}, \binits{J.M.}},
+\bauthor{\bsnm{Akl}, \binits{E.A.}},
+\bauthor{\bsnm{Brennan}, \binits{S.E.}},
+\bauthor{\bsnm{Chou}, \binits{R.}},
+\bauthor{\bsnm{Glanville}, \binits{J.}},
+\bauthor{\bsnm{Grimshaw}, \binits{J.M.}},
+\bauthor{\bsnm{Hr{\'o}bjartsson}, \binits{A.}},
+\bauthor{\bsnm{Lalu}, \binits{M.M.}},
+\bauthor{\bsnm{Li}, \binits{T.}},
+\bauthor{\bsnm{Loder}, \binits{E.W.}},
+\bauthor{\bsnm{Mayo-Wilson}, \binits{E.}},
+\bauthor{\bsnm{McDonald}, \binits{S.}},
+\bauthor{\bsnm{McGuinness}, \binits{L.A.}},
+\bauthor{\bsnm{Stewart}, \binits{L.A.}},
+\bauthor{\bsnm{Thomas}, \binits{J.}},
+\bauthor{\bsnm{Tricco}, \binits{A.C.}},
+\bauthor{\bsnm{Welch}, \binits{V.A.}},
+\bauthor{\bsnm{Whiting}, \binits{P.}},
+\bauthor{\bsnm{Moher}, \binits{D.}}:
+\batitle{{PRISMA 2020} explanation and elaboration: Updated guidance and
+  exemplars for reporting systematic reviews}.
+\bjtitle{The BMJ}
+\bvolume{372},
+\bfpage{160}
+(\byear{2021})
+\doiurl{10.1136/bmj.n160}
+\end{barticle}
+\endbibitem
+
+%%% 27
+\bibitem[\protect\citeauthoryear{Dorabantu and
+  Badea}{2026}]{dorabantu2026geollm}
+\begin{botherref}
+\oauthor{\bsnm{Dorabantu}, \binits{V.}},
+\oauthor{\bsnm{Badea}, \binits{A.}}:
+Geospatial reasoning and awareness in large language models: A systematic
+  review.
+Artificial Intelligence Review
+(2026).
+Published in AIR, February 2026; covers GeoLLMs, geospatial reasoning, GIS
+  integration, and multimodal geospatial systems
+\end{botherref}
+\endbibitem
+
+%%% 28
+\bibitem[\protect\citeauthoryear{Li et~al.}{2024}]{li2024survey}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{Z.}},
+\bauthor{\bsnm{Feng}, \binits{Y.}},
+\bauthor{\bsnm{Zhao}, \binits{L.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}}:
+\batitle{A survey on vision language models in remote sensing: Task level
+  perspectives}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+(\byear{2024})
+\doiurl{10.1109/MGRS.2024.3389106} .
+\bcomment{Early access}
+\end{barticle}
+\endbibitem
+
+%%% 29
+\bibitem[\protect\citeauthoryear{Weng et~al.}{2025}]{weng2025isprs}
+\begin{barticle}
+\bauthor{\bsnm{Weng}, \binits{Q.}},
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Chen}, \binits{Z.}},
+\bauthor{\bsnm{Zhu}, \binits{Y.}},
+\bauthor{\bsnm{Tong}, \binits{X.}}:
+\batitle{A survey on large vision-language models for remote sensing image
+  understanding}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{210},
+\bfpage{84}--\blpage{106}
+(\byear{2025})
+\doiurl{10.1016/j.isprsjprs.2024.02.025}
+\end{barticle}
+\endbibitem
+
+%%% 30
+\bibitem[\protect\citeauthoryear{Ma et~al.}{2026}]{ma2026dsorsp}
+\begin{botherref}
+\oauthor{\bsnm{Ma}, \binits{Q.}},
+\oauthor{\bsnm{Qiu}, \binits{C.}},
+\oauthor{\bsnm{Cheng}, \binits{X.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Duan}, \binits{P.}},
+\oauthor{\bsnm{Yang}, \binits{K.}},
+\oauthor{\bsnm{Kang}, \binits{X.}},
+\oauthor{\bsnm{Li}, \binits{S.}}:
+Multimodal Large Language Models for Remote Sensing Image Understanding:
+  Domain-Specific or General-Purpose?
+arXiv:2607.20284.
+, submitted 22 July 2026
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 31
+\bibitem[\protect\citeauthoryear{Radford et~al.}{2021}]{clip2021}
+\begin{botherref}
+\oauthor{\bsnm{Radford}, \binits{A.}},
+\oauthor{\bsnm{Kim}, \binits{J.W.}},
+\oauthor{\bsnm{Hallacy}, \binits{C.}},
+\oauthor{\bsnm{Ramesh}, \binits{A.}},
+\oauthor{\bsnm{Goh}, \binits{G.}},
+\oauthor{\bsnm{Agarwal}, \binits{S.}},
+\oauthor{\bsnm{Sastry}, \binits{G.}},
+\oauthor{\bsnm{Askell}, \binits{A.}},
+\oauthor{\bsnm{Mishkin}, \binits{P.}},
+\oauthor{\bsnm{Clark}, \binits{J.}},
+\oauthor{\bsnm{Krueger}, \binits{G.}},
+\oauthor{\bsnm{Sutskever}, \binits{I.}}:
+Learning transferable visual models from natural language supervision
+\textbf{139},
+8748--8763
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 32
+\bibitem[\protect\citeauthoryear{Fang et~al.}{2023}]{fang2023evaclip}
+\begin{bchapter}
+\bauthor{\bsnm{Fang}, \binits{Y.}},
+\bauthor{\bsnm{Wang}, \binits{W.}},
+\bauthor{\bsnm{Xie}, \binits{B.}},
+\bauthor{\bsnm{Sun}, \binits{Q.}},
+\bauthor{\bsnm{Wu}, \binits{L.}},
+\bauthor{\bsnm{Wang}, \binits{X.}},
+\bauthor{\bsnm{Huang}, \binits{T.}},
+\bauthor{\bsnm{Wang}, \binits{X.}},
+\bauthor{\bsnm{Cao}, \binits{Y.}}:
+\bctitle{{EVA-CLIP}: Improved training techniques for {CLIP} at scale}.
+In: \bbtitle{arXiv Preprint arXiv:2303.15389}
+(\byear{2023}).
+\bcomment{EVA-CLIP large-scale vision-language encoder}
+\end{bchapter}
+\endbibitem
+
+%%% 33
+\bibitem[\protect\citeauthoryear{Oquab et~al.}{2023}]{oquab2023dinov2}
+\begin{bchapter}
+\bauthor{\bsnm{Oquab}, \binits{M.}},
+\bauthor{\bsnm{Darcet}, \binits{T.}},
+\bauthor{\bsnm{Moutakanni}, \binits{T.}},
+\bauthor{\bsnm{Vo}, \binits{H.V.}},
+\bauthor{\bsnm{Szafraniec}, \binits{M.}},
+\bauthor{\bsnm{Khalidov}, \binits{V.}},
+\bauthor{\bsnm{Fernandez}, \binits{P.}},
+\bauthor{\bsnm{Haziza}, \binits{D.}},
+\bauthor{\bsnm{Massa}, \binits{F.}},
+\bauthor{\bsnm{El-Nouby}, \binits{A.}}, \betal:
+\bctitle{{DINOv2}: Learning robust visual features without supervision}.
+(\byear{2023}).
+\bcomment{Self-supervised ViT foundation model}
+\end{bchapter}
+\endbibitem
+
+%%% 34
+\bibitem[\protect\citeauthoryear{Bommasani et~al.}{2021}]{bommasani2021}
+\begin{botherref}
+\oauthor{\bsnm{Bommasani}, \binits{R.}},
+\oauthor{\bsnm{Hudson}, \binits{D.A.}},
+\oauthor{\bsnm{Aditi}, \binits{E.}}, et al.:
+On the Opportunities and Risks of Foundation Models.
+arXiv:2108.07258
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 35
+\bibitem[\protect\citeauthoryear{Tang et~al.}{2025}]{ddfav2025}
+\begin{botherref}
+\oauthor{\bsnm{Tang}, \binits{X.}},
+\oauthor{\bsnm{Gao}, \binits{D.}},
+\oauthor{\bsnm{Shi}, \binits{Y.}},
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Zhao}, \binits{R.}},
+\oauthor{\bsnm{Ge}, \binits{S.}},
+\oauthor{\bsnm{Li}, \binits{P.}}:
+{DDFAV}: Remote Sensing Large Vision Language Models Dataset and Evaluation
+  Benchmark
+(2025).
+\doiurl{10.3390/rs17040654}
+\end{botherref}
+\endbibitem
+
+%%% 36
+\bibitem[\protect\citeauthoryear{Pang et~al.}{2025}]{uhrbat2025}
+\begin{botherref}
+\oauthor{\bsnm{Pang}, \binits{Z.}},
+\oauthor{\bsnm{Jia}, \binits{Y.}},
+\oauthor{\bsnm{Liu}, \binits{T.}}:
+{UHR-BAT}: Ultra-High-Resolution Remote Sensing Image Understanding with
+  Budget-Aware Token.
+arXiv:2501.18576
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 37
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2025}]{geollava2025}
+\begin{botherref}
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Han}, \binits{P.}},
+\oauthor{\bsnm{Ni}, \binits{J.}}:
+{GeoLLaVA}: Efficient Fine-Tuned Vision-Language Models for Temporal Change
+  Detection in Remote Sensing.
+arXiv:2410.19552
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 38
+\bibitem[\protect\citeauthoryear{Xia et~al.}{2018}]{xia2018dota}
+\begin{botherref}
+\oauthor{\bsnm{Xia}, \binits{G.-S.}},
+\oauthor{\bsnm{Bai}, \binits{X.}},
+\oauthor{\bsnm{Ding}, \binits{J.}},
+\oauthor{\bsnm{Zhu}, \binits{Z.}},
+\oauthor{\bsnm{Belongie}, \binits{S.}},
+\oauthor{\bsnm{Luo}, \binits{J.}},
+\oauthor{\bsnm{Datcu}, \binits{M.}},
+\oauthor{\bsnm{Pelillo}, \binits{M.}},
+\oauthor{\bsnm{Zhang}, \binits{L.}}:
+{DOTA}: A large-scale dataset for object detection in aerial images,
+3974--3983
+(2018)
+\end{botherref}
+\endbibitem
+
+%%% 39
+\bibitem[\protect\citeauthoryear{Ding et~al.}{2022}]{ding2021object}
+\begin{barticle}
+\bauthor{\bsnm{Ding}, \binits{J.}},
+\bauthor{\bsnm{Xue}, \binits{N.}},
+\bauthor{\bsnm{Xia}, \binits{G.-S.}},
+\bauthor{\bsnm{Bai}, \binits{X.}},
+\bauthor{\bsnm{Yang}, \binits{W.}},
+\bauthor{\bsnm{Yang}, \binits{M.Y.}},
+\bauthor{\bsnm{Belongie}, \binits{S.}},
+\bauthor{\bsnm{Luo}, \binits{J.}},
+\bauthor{\bsnm{Datcu}, \binits{M.}},
+\bauthor{\bsnm{Pelillo}, \binits{M.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}}:
+\batitle{Object detection in aerial images: A large-scale benchmark and
+  challenges}.
+\bjtitle{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+\bvolume{44}(\bissue{11}),
+\bfpage{7778}--\blpage{7796}
+(\byear{2022})
+\doiurl{10.1109/TPAMI.2021.3117983}
+\end{barticle}
+\endbibitem
+
+%%% 40
+\bibitem[\protect\citeauthoryear{Kuckreja et~al.}{2024}]{geochat2024}
+\begin{bchapter}
+\bauthor{\bsnm{Kuckreja}, \binits{K.}},
+\bauthor{\bsnm{Danish}, \binits{M.S.}},
+\bauthor{\bsnm{Naseer}, \binits{M.}},
+\bauthor{\bsnm{Das}, \binits{A.}},
+\bauthor{\bsnm{Khan}, \binits{S.}},
+\bauthor{\bsnm{Khan}, \binits{F.S.}}:
+\bctitle{{GeoChat}: Grounded large vision-language model for remote sensing}.
+In: \bbtitle{Proceedings of the IEEE/CVF Conference on Computer Vision and
+  Pattern Recognition (CVPR)},
+pp. \bfpage{27831}--\blpage{27840}
+(\byear{2024})
+\end{bchapter}
+\endbibitem
+
+%%% 41
+\bibitem[\protect\citeauthoryear{Torres et~al.}{2012}]{sentinel12014}
+\begin{barticle}
+\bauthor{\bsnm{Torres}, \binits{R.}},
+\bauthor{\bsnm{Snoeij}, \binits{P.}},
+\bauthor{\bsnm{Geudtner}, \binits{D.}},
+\bauthor{\bsnm{Bibby}, \binits{D.}},
+\bauthor{\bsnm{Davidson}, \binits{M.}},
+\bauthor{\bsnm{Attema}, \binits{E.}},
+\bauthor{\bsnm{Potin}, \binits{P.}},
+\bauthor{\bsnm{Rommen}, \binits{B.}},
+\bauthor{\bsnm{Floury}, \binits{N.}},
+\bauthor{\bsnm{Brown}, \binits{M.}}, \betal:
+\batitle{{GMES} {Sentinel-1} mission}.
+\bjtitle{Remote Sensing of Environment}
+\bvolume{120},
+\bfpage{9}--\blpage{24}
+(\byear{2012})
+\doiurl{10.1016/j.rse.2011.05.028}
+\end{barticle}
+\endbibitem
+
+%%% 42
+\bibitem[\protect\citeauthoryear{Schmitt et~al.}{2018}]{schmitt2019fusion}
+\begin{barticle}
+\bauthor{\bsnm{Schmitt}, \binits{M.}},
+\bauthor{\bsnm{Hughes}, \binits{L.H.}},
+\bauthor{\bsnm{Zhu}, \binits{X.X.}}:
+\batitle{The {SEN1-2} dataset for deep learning in {SAR}-optical data fusion}.
+\bjtitle{ISPRS Annals of Photogrammetry, Remote Sensing and Spatial Information
+  Sciences}
+\bvolume{IV-1},
+\bfpage{141}--\blpage{146}
+(\byear{2018})
+\doiurl{10.5194/isprs-annals-IV-1-141-2018}
+\end{barticle}
+\endbibitem
+
+%%% 43
+\bibitem[\protect\citeauthoryear{Hong et~al.}{2021}]{hong2021multimodal}
+\begin{barticle}
+\bauthor{\bsnm{Hong}, \binits{D.}},
+\bauthor{\bsnm{Gao}, \binits{L.}},
+\bauthor{\bsnm{Yokoya}, \binits{N.}},
+\bauthor{\bsnm{Yao}, \binits{J.}},
+\bauthor{\bsnm{Chanussot}, \binits{J.}},
+\bauthor{\bsnm{Du}, \binits{Q.}},
+\bauthor{\bsnm{Zhang}, \binits{B.}}:
+\batitle{More diverse means better: Multimodal deep learning meets
+  remote-sensing imagery classification}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{59}(\bissue{5}),
+\bfpage{4340}--\blpage{4354}
+(\byear{2021})
+\doiurl{10.1109/TGRS.2020.3016820}
+\end{barticle}
+\endbibitem
+
+%%% 44
+\bibitem[\protect\citeauthoryear{{OpenAI}}{2023}]{openai2023gpt4}
+\begin{botherref}
+\oauthor{\bsnm{{OpenAI}}}:
+{GPT-4} technical report
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 45
+\bibitem[\protect\citeauthoryear{Touvron et~al.}{2023}]{llama2023}
+\begin{botherref}
+\oauthor{\bsnm{Touvron}, \binits{H.}},
+\oauthor{\bsnm{Martin}, \binits{L.}},
+\oauthor{\bsnm{Stone}, \binits{K.}},
+\oauthor{\bsnm{Albert}, \binits{P.}},
+\oauthor{\bsnm{Almahairi}, \binits{A.}},
+\oauthor{\bsnm{Babaei}, \binits{Y.}}, et al.:
+{Llama 2}: Open Foundation and Fine-Tuned Chat Models.
+arXiv:2307.09288
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 46
+\bibitem[\protect\citeauthoryear{Hu et~al.}{2022}]{hu2022lora}
+\begin{botherref}
+\oauthor{\bsnm{Hu}, \binits{E.J.}},
+\oauthor{\bsnm{Shen}, \binits{Y.}},
+\oauthor{\bsnm{Wallis}, \binits{P.}},
+\oauthor{\bsnm{Allen-Zhu}, \binits{Z.}},
+\oauthor{\bsnm{Li}, \binits{Y.}},
+\oauthor{\bsnm{Wang}, \binits{S.}},
+\oauthor{\bsnm{Wang}, \binits{L.}},
+\oauthor{\bsnm{Chen}, \binits{W.}}:
+{LoRA}: Low-rank adaptation of large language models
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 47
+\bibitem[\protect\citeauthoryear{Zhan et~al.}{2025}]{skyeyegpt2025}
+\begin{barticle}
+\bauthor{\bsnm{Zhan}, \binits{Y.}},
+\bauthor{\bsnm{Xiong}, \binits{Z.}},
+\bauthor{\bsnm{Yuan}, \binits{Y.}}:
+\batitle{{SkyEyeGPT}: Unifying remote sensing vision-language tasks via
+  instruction tuning with large language model}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{212},
+\bfpage{103}--\blpage{116}
+(\byear{2025})
+\doiurl{10.1016/j.isprsjprs.2024.04.009}
+\end{barticle}
+\endbibitem
+
+%%% 48
+\bibitem[\protect\citeauthoryear{Madaan et~al.}{2026}]{odfe2025}
+\begin{botherref}
+\oauthor{\bsnm{Madaan}, \binits{N.}},
+\oauthor{\bsnm{Malik}, \binits{R.}},
+\oauthor{\bsnm{Upadhyay}, \binits{U.}},
+\oauthor{\bsnm{Kumar}, \binits{A.}},
+\oauthor{\bsnm{Roy}, \binits{S.}},
+\oauthor{\bsnm{Rawat}, \binits{U.}}:
+Optimization-driven feature learning for long-tailed object detection in
+  optical remote sensing imagery.
+Scientific Reports
+\textbf{16}
+(2026)
+\doiurl{10.1038/s41598-026-63018-9}
+\end{botherref}
+\endbibitem
+
+%%% 49
+\bibitem[\protect\citeauthoryear{Vaswani et~al.}{2017}]{vaswani2017attention}
+\begin{botherref}
+\oauthor{\bsnm{Vaswani}, \binits{A.}},
+\oauthor{\bsnm{Shazeer}, \binits{N.}},
+\oauthor{\bsnm{Parmar}, \binits{N.}},
+\oauthor{\bsnm{Uszkoreit}, \binits{J.}},
+\oauthor{\bsnm{Jones}, \binits{L.}},
+\oauthor{\bsnm{Gomez}, \binits{A.N.}},
+\oauthor{\bsnm{Kaiser}, \binits{{\L}.}},
+\oauthor{\bsnm{Polosukhin}, \binits{I.}}:
+Attention is all you need
+\textbf{30}
+(2017)
+\end{botherref}
+\endbibitem
+
+%%% 50
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2024}]{remoteclip2024}
+\begin{barticle}
+\bauthor{\bsnm{Liu}, \binits{F.}},
+\bauthor{\bsnm{Chen}, \binits{D.}},
+\bauthor{\bsnm{Guan}, \binits{Z.}},
+\bauthor{\bsnm{Zhou}, \binits{X.}},
+\bauthor{\bsnm{Zhu}, \binits{J.}},
+\bauthor{\bsnm{Ye}, \binits{Q.}},
+\bauthor{\bsnm{Fu}, \binits{L.}},
+\bauthor{\bsnm{Zhou}, \binits{J.}}:
+\batitle{{RemoteCLIP}: A vision language foundation model for remote sensing}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{62},
+\bfpage{1}--\blpage{16}
+(\byear{2024})
+\doiurl{10.1109/TGRS.2024.3365831}
+\end{barticle}
+\endbibitem
+
+%%% 51
+\bibitem[\protect\citeauthoryear{Zheng et~al.}{2024}]{georscclip2024}
+\begin{botherref}
+\oauthor{\bsnm{Zheng}, \binits{Z.}},
+\oauthor{\bsnm{Zhong}, \binits{Y.}},
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Ma}, \binits{A.}},
+\oauthor{\bsnm{Zhao}, \binits{Z.}}:
+{GeoRSCLIP}: A Large Vision-Language Model for Remote Sensing Scene
+  Understanding.
+arXiv:2406.08498
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 52
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{li2023blip}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{J.}},
+\oauthor{\bsnm{Savarese}, \binits{S.}},
+\oauthor{\bsnm{Hoi}, \binits{S.}}:
+Bootstrapping language-image pre-training with frozen encoders: A theoretical
+  perspective.
+arXiv:2301.12597
+(2023).
+Theoretical analysis of frozen encoder pre-training in MLLMs
+\end{botherref}
+\endbibitem
+
+%%% 53
+\bibitem[\protect\citeauthoryear{Chiang et~al.}{2023}]{vicuna2023}
+\begin{botherref}
+\oauthor{\bsnm{Chiang}, \binits{W.-L.}},
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Lin}, \binits{Z.}},
+\oauthor{\bsnm{Sheng}, \binits{Y.}},
+\oauthor{\bsnm{Wu}, \binits{Z.}},
+\oauthor{\bsnm{Zhang}, \binits{H.}},
+\oauthor{\bsnm{Zheng}, \binits{L.}},
+\oauthor{\bsnm{Zhuang}, \binits{S.}},
+\oauthor{\bsnm{Zhuang}, \binits{Y.}},
+\oauthor{\bsnm{Gonzalez}, \binits{J.E.}},
+\oauthor{\bsnm{Stoica}, \binits{I.}},
+\oauthor{\bsnm{Xing}, \binits{E.P.}}:
+{Vicuna}: An Open-Source Chatbot Impressing {GPT-4} with 90\% {ChatGPT}
+  Quality.
+[Blog post] \url{https://lmsys.org/blog/2023-03-30-vicuna/}
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 54
+\bibitem[\protect\citeauthoryear{{InternLM Team}}{2023}]{internlm2023}
+\begin{botherref}
+\oauthor{\bsnm{{InternLM Team}}}:
+{InternLM}: A Multilingual Language Model with Progressively Enhanced
+  Capabilities.
+[Technical Report] \url{https://github.com/InternLM/InternLM}
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 55
+\bibitem[\protect\citeauthoryear{Bai et~al.}{2023}]{qwen2023}
+\begin{botherref}
+\oauthor{\bsnm{Bai}, \binits{J.}},
+\oauthor{\bsnm{Bai}, \binits{S.}},
+\oauthor{\bsnm{Chu}, \binits{Y.}},
+\oauthor{\bsnm{Cui}, \binits{Z.}},
+\oauthor{\bsnm{Dang}, \binits{K.}}, et al.:
+{Qwen} Technical Report.
+arXiv:2309.16609
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 56
+\bibitem[\protect\citeauthoryear{Yin et~al.}{2024}]{yin2024survey}
+\begin{botherref}
+\oauthor{\bsnm{Yin}, \binits{S.}},
+\oauthor{\bsnm{Fu}, \binits{C.}},
+\oauthor{\bsnm{Zhao}, \binits{S.}},
+\oauthor{\bsnm{Li}, \binits{K.}},
+\oauthor{\bsnm{Sun}, \binits{X.}},
+\oauthor{\bsnm{Xu}, \binits{T.}},
+\oauthor{\bsnm{Chen}, \binits{E.}}:
+A survey on multimodal large language models.
+National Science Review
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 57
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2024}]{zhang2024vision}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{J.}},
+\bauthor{\bsnm{Huang}, \binits{J.}},
+\bauthor{\bsnm{Jin}, \binits{S.}},
+\bauthor{\bsnm{Lu}, \binits{S.}}:
+\batitle{Vision-language models for vision tasks: A survey}.
+\bjtitle{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+\bvolume{46}(\bissue{8}),
+\bfpage{5625}--\blpage{5644}
+(\byear{2024})
+\doiurl{10.1109/TPAMI.2024.3369699}
+\end{barticle}
+\endbibitem
+
+%%% 58
+\bibitem[\protect\citeauthoryear{Zhu et~al.}{2017}]{zhu2019sn}
+\begin{barticle}
+\bauthor{\bsnm{Zhu}, \binits{X.X.}},
+\bauthor{\bsnm{Tuia}, \binits{D.}},
+\bauthor{\bsnm{Mou}, \binits{L.}},
+\bauthor{\bsnm{Xia}, \binits{G.-S.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}},
+\bauthor{\bsnm{Xu}, \binits{F.}},
+\bauthor{\bsnm{Fraundorfer}, \binits{F.}}:
+\batitle{Deep learning in remote sensing: A comprehensive review and list of
+  resources}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+\bvolume{5}(\bissue{4}),
+\bfpage{8}--\blpage{36}
+(\byear{2017})
+\doiurl{10.1109/MGRS.2017.2762307}
+\end{barticle}
+\endbibitem
+
+%%% 59
+\bibitem[\protect\citeauthoryear{Ma et~al.}{2019}]{ma2019deep}
+\begin{barticle}
+\bauthor{\bsnm{Ma}, \binits{L.}},
+\bauthor{\bsnm{Liu}, \binits{Y.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Ye}, \binits{Y.}},
+\bauthor{\bsnm{Yin}, \binits{G.}},
+\bauthor{\bsnm{Johnson}, \binits{B.A.}}:
+\batitle{Deep learning in remote sensing applications: A meta-analysis and
+  review}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{152},
+\bfpage{166}--\blpage{177}
+(\byear{2019})
+\doiurl{10.1016/j.isprsjprs.2019.04.015}
+\end{barticle}
+\endbibitem
+
+%%% 60
+\bibitem[\protect\citeauthoryear{Yuan et~al.}{2020}]{yuan2021review}
+\begin{barticle}
+\bauthor{\bsnm{Yuan}, \binits{Q.}},
+\bauthor{\bsnm{Shen}, \binits{H.}},
+\bauthor{\bsnm{Li}, \binits{T.}},
+\bauthor{\bsnm{Li}, \binits{Z.}},
+\bauthor{\bsnm{Li}, \binits{S.}},
+\bauthor{\bsnm{Jiang}, \binits{Y.}},
+\bauthor{\bsnm{Xu}, \binits{H.}},
+\bauthor{\bsnm{Tan}, \binits{W.}},
+\bauthor{\bsnm{Yang}, \binits{Q.}},
+\bauthor{\bsnm{Wang}, \binits{J.}},
+\bauthor{\bsnm{Gao}, \binits{J.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}}:
+\batitle{Deep learning in environmental remote sensing: Achievements and
+  challenges}.
+\bjtitle{Remote Sensing of Environment}
+\bvolume{241},
+\bfpage{111716}
+(\byear{2020})
+\doiurl{10.1016/j.rse.2020.111716}
+\end{barticle}
+\endbibitem
+
+%%% 61
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2026}]{sarfm2026}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{W.}},
+\oauthor{\bsnm{Huang}, \binits{B.}},
+\oauthor{\bsnm{Zhou}, \binits{Z.}},
+\oauthor{\bsnm{Li}, \binits{X.}}:
+Towards a {SAR} Foundation Model via Physics-Informed Pretraining.
+arXiv:2503.07107.
+SAR foundation model with physics pretraining
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 62
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2026}]{spectralfm2026}
+\begin{botherref}
+\oauthor{\bsnm{Zhang}, \binits{H.}},
+\oauthor{\bsnm{Wang}, \binits{F.}},
+\oauthor{\bsnm{Li}, \binits{J.}}:
+Towards Spectral Foundation Models for Hyperspectral Remote Sensing.
+arXiv:2504.11265.
+Spectral foundation models for HSI
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 63
+\bibitem[\protect\citeauthoryear{Page et~al.}{2021}]{page2021prisma}
+\begin{barticle}
+\bauthor{\bsnm{Page}, \binits{M.J.}},
+\bauthor{\bsnm{McKenzie}, \binits{J.E.}},
+\bauthor{\bsnm{Bossuyt}, \binits{P.M.}},
+\bauthor{\bsnm{Boutron}, \binits{I.}},
+\bauthor{\bsnm{Hoffmann}, \binits{T.C.}},
+\bauthor{\bsnm{Mulrow}, \binits{C.D.}},
+\bauthor{\bsnm{Shamseer}, \binits{L.}},
+\bauthor{\bsnm{Tetzlaff}, \binits{J.M.}},
+\bauthor{\bsnm{Akl}, \binits{E.A.}},
+\bauthor{\bsnm{Brennan}, \binits{S.E.}}, \betal:
+\batitle{The {PRISMA} 2020 statement: An updated guideline for reporting
+  systematic reviews}.
+\bjtitle{BMJ}
+\bvolume{372},
+\bfpage{71}
+(\byear{2021})
+\doiurl{10.1136/bmj.n71}
+\end{barticle}
+\endbibitem
+
+%%% 64
+\bibitem[\protect\citeauthoryear{Landis and Koch}{1977}]{landis1977kappa}
+\begin{barticle}
+\bauthor{\bsnm{Landis}, \binits{J.R.}},
+\bauthor{\bsnm{Koch}, \binits{G.G.}}:
+\batitle{The measurement of observer agreement for categorical data}.
+\bjtitle{Biometrics}
+\bvolume{33}(\bissue{1}),
+\bfpage{159}--\blpage{174}
+(\byear{1977})
+\end{barticle}
+\endbibitem
+
+%%% 65
+\bibitem[\protect\citeauthoryear{{LongEarth-R1 Team}}{2026}]{longearth_r1_2026}
+\begin{botherref}
+\oauthor{\bsnm{{LongEarth-R1 Team}}}:
+{LongEarth-R1}: Long-Horizon Earth Observation Reasoning with Large
+  Vision-Language Models.
+arXiv Preprint, submitted 13 August 2026. LongEarth-Bench: $\sim$120k QA
+  samples, 12 long-sequence EO reasoning tasks
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 66
+\bibitem[\protect\citeauthoryear{{RSVideo Team}}{2026}]{rsvideo_2026}
+\begin{botherref}
+\oauthor{\bsnm{{RSVideo Team}}}:
+{RSVideo}: Towards Continuous Remote Sensing Video Understanding.
+arXiv Preprint, submitted August 2026. Introduces RSVideo-10K dataset and
+  RSVideo-Bench
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 67
+\bibitem[\protect\citeauthoryear{{AlignJEPA Team}}{2026}]{alignjepa_2026}
+\begin{botherref}
+\oauthor{\bsnm{{AlignJEPA Team}}}:
+{AlignJEPA}: Aligning Joint-Embedding Predictive Architectures for
+  Vision-Language Tasks.
+arXiv Preprint, submitted 16 August 2026. Excluded from RS-MLLM corpus (not
+  RS-specific)
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 68
+\bibitem[\protect\citeauthoryear{Guo et~al.}{2022}]{guo2022attention}
+\begin{barticle}
+\bauthor{\bsnm{Guo}, \binits{M.-H.}},
+\bauthor{\bsnm{Xu}, \binits{T.-X.}},
+\bauthor{\bsnm{Liu}, \binits{J.-J.}},
+\bauthor{\bsnm{Liu}, \binits{Z.-N.}},
+\bauthor{\bsnm{Jiang}, \binits{P.-T.}},
+\bauthor{\bsnm{Mu}, \binits{T.-J.}},
+\bauthor{\bsnm{Zhang}, \binits{S.-H.}},
+\bauthor{\bsnm{Martin}, \binits{R.R.}},
+\bauthor{\bsnm{Cheng}, \binits{M.-M.}},
+\bauthor{\bsnm{Hu}, \binits{S.-M.}}:
+\batitle{Attention mechanisms in computer vision: A survey}.
+\bjtitle{Computational Visual Media}
+\bvolume{8}(\bissue{3}),
+\bfpage{331}--\blpage{368}
+(\byear{2022})
+\doiurl{10.1007/s41095-022-0271-y}
+\end{barticle}
+\endbibitem
+
+%%% 69
+\bibitem[\protect\citeauthoryear{Maggiori
+  et~al.}{2017}]{maggiori2017convolutional}
+\begin{barticle}
+\bauthor{\bsnm{Maggiori}, \binits{E.}},
+\bauthor{\bsnm{Tarabalka}, \binits{Y.}},
+\bauthor{\bsnm{Charpiat}, \binits{G.}},
+\bauthor{\bsnm{Alliez}, \binits{P.}}:
+\batitle{Convolutional neural networks for large-scale remote-sensing image
+  classification}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{55}(\bissue{2}),
+\bfpage{645}--\blpage{657}
+(\byear{2017})
+\doiurl{10.1109/TGRS.2016.2612821}
+\end{barticle}
+\endbibitem
+
+%%% 70
+\bibitem[\protect\citeauthoryear{He et~al.}{2016}]{he2016resnet}
+\begin{bchapter}
+\bauthor{\bsnm{He}, \binits{K.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Ren}, \binits{S.}},
+\bauthor{\bsnm{Sun}, \binits{J.}}:
+\bctitle{Deep residual learning for image recognition}.
+In: \bbtitle{Proceedings of the IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)},
+pp. \bfpage{770}--\blpage{778}
+(\byear{2016})
+\end{bchapter}
+\endbibitem
+
+%%% 71
+\bibitem[\protect\citeauthoryear{Lu et~al.}{2019}]{lu2021earth}
+\begin{barticle}
+\bauthor{\bsnm{Lu}, \binits{X.}},
+\bauthor{\bsnm{Zhong}, \binits{Y.}},
+\bauthor{\bsnm{Zheng}, \binits{Z.}},
+\bauthor{\bsnm{Liu}, \binits{Y.}},
+\bauthor{\bsnm{Zhao}, \binits{J.}},
+\bauthor{\bsnm{Ma}, \binits{A.}},
+\bauthor{\bsnm{Yang}, \binits{J.}}:
+\batitle{Multi-scale and multi-task deep learning framework for automatic road
+  extraction}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{57}(\bissue{11}),
+\bfpage{9362}--\blpage{9377}
+(\byear{2019})
+\doiurl{10.1109/TGRS.2019.2926397}
+\end{barticle}
+\endbibitem
+
+%%% 72
+\bibitem[\protect\citeauthoryear{Lowe}{2004}]{lowe2004sift}
+\begin{barticle}
+\bauthor{\bsnm{Lowe}, \binits{D.G.}}:
+\batitle{Distinctive image features from scale-invariant keypoints}.
+\bjtitle{International Journal of Computer Vision}
+\bvolume{60}(\bissue{2}),
+\bfpage{91}--\blpage{110}
+(\byear{2004})
+\doiurl{10.1023/B:VISI.0000029664.99615.94}
+\end{barticle}
+\endbibitem
+
+%%% 73
+\bibitem[\protect\citeauthoryear{Yang and Newsam}{2010}]{yang2010bag}
+\begin{bchapter}
+\bauthor{\bsnm{Yang}, \binits{Y.}},
+\bauthor{\bsnm{Newsam}, \binits{S.}}:
+\bctitle{Bag-of-visual-words and spatial extensions for land-use
+  classification}.
+In: \bbtitle{Proceedings of the 18th ACM SIGSPATIAL International Conference on
+  Advances in Geographic Information Systems},
+pp. \bfpage{270}--\blpage{279}
+(\byear{2010}).
+\doiurl{10.1145/1869790.1869829}
+\end{bchapter}
+\endbibitem
+
+%%% 74
+\bibitem[\protect\citeauthoryear{Roberts et~al.}{2023}]{roberts2023satin}
+\begin{botherref}
+\oauthor{\bsnm{Roberts}, \binits{J.}},
+\oauthor{\bsnm{Han}, \binits{K.}},
+\oauthor{\bsnm{Bhatt}, \binits{S.}},
+\oauthor{\bsnm{Bhatt}, \binits{K.}}:
+{SATIN}: A multi-task metadataset for classifying satellite imagery using
+  vision-language models.
+arXiv:2304.11619
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 75
+\bibitem[\protect\citeauthoryear{Li et~al.}{2020}]{li2020object}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{K.}},
+\bauthor{\bsnm{Wan}, \binits{G.}},
+\bauthor{\bsnm{Cheng}, \binits{G.}},
+\bauthor{\bsnm{Meng}, \binits{L.}},
+\bauthor{\bsnm{Han}, \binits{J.}}:
+\batitle{Object detection in optical remote sensing images: A survey and a new
+  benchmark}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{159},
+\bfpage{296}--\blpage{307}
+(\byear{2020})
+\doiurl{10.1016/j.isprsjprs.2019.11.023}
+\end{barticle}
+\endbibitem
+
+%%% 76
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{li2023multimodal}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{K.}},
+\bauthor{\bsnm{Zhang}, \binits{Y.}},
+\bauthor{\bsnm{Li}, \binits{K.}},
+\bauthor{\bsnm{Li}, \binits{Y.}},
+\bauthor{\bsnm{Guo}, \binits{Y.}}:
+\batitle{Object detection in optical remote sensing images with {CNN} and
+  {ViT}: A review}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{204},
+\bfpage{199}--\blpage{215}
+(\byear{2023})
+\doiurl{10.1016/j.isprsjprs.2023.09.006}
+\end{barticle}
+\endbibitem
+
+%%% 77
+\bibitem[\protect\citeauthoryear{Cheng et~al.}{2022}]{cheng2021survey}
+\begin{barticle}
+\bauthor{\bsnm{Cheng}, \binits{G.}},
+\bauthor{\bsnm{Wang}, \binits{J.}},
+\bauthor{\bsnm{Li}, \binits{K.}},
+\bauthor{\bsnm{Xie}, \binits{X.}},
+\bauthor{\bsnm{Lang}, \binits{C.}},
+\bauthor{\bsnm{Yao}, \binits{Y.}},
+\bauthor{\bsnm{Han}, \binits{J.}}:
+\batitle{Anchor-free object detection for optical remote sensing images}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{60},
+\bfpage{1}--\blpage{11}
+(\byear{2022})
+\doiurl{10.1109/TGRS.2021.3088799}
+\end{barticle}
+\endbibitem
+
+%%% 78
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2021}]{zhang2023obb}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{R.}},
+\bauthor{\bsnm{Shao}, \binits{Z.}},
+\bauthor{\bsnm{Huang}, \binits{X.}},
+\bauthor{\bsnm{Wang}, \binits{J.}},
+\bauthor{\bsnm{Li}, \binits{D.}}:
+\batitle{Object detection in {UAV} images via global density fused
+  convolutional block attention module}.
+\bjtitle{Remote Sensing}
+\bvolume{13}(\bissue{3}),
+\bfpage{383}
+(\byear{2021})
+\doiurl{10.3390/rs13030383}
+\end{barticle}
+\endbibitem
+
+%%% 79
+\bibitem[\protect\citeauthoryear{Zhuang et~al.}{2021}]{zhuang2021comprehensive}
+\begin{barticle}
+\bauthor{\bsnm{Zhuang}, \binits{F.}},
+\bauthor{\bsnm{Qi}, \binits{Z.}},
+\bauthor{\bsnm{Duan}, \binits{K.}},
+\bauthor{\bsnm{Xi}, \binits{D.}},
+\bauthor{\bsnm{Zhu}, \binits{Y.}},
+\bauthor{\bsnm{Zhu}, \binits{H.}},
+\bauthor{\bsnm{Xiong}, \binits{H.}},
+\bauthor{\bsnm{He}, \binits{Q.}}:
+\batitle{A comprehensive survey on transfer learning}.
+\bjtitle{Proceedings of the IEEE}
+\bvolume{109}(\bissue{1}),
+\bfpage{43}--\blpage{76}
+(\byear{2021})
+\doiurl{10.1109/JPROC.2020.3004555}
+\end{barticle}
+\endbibitem
+
+%%% 80
+\bibitem[\protect\citeauthoryear{Zhu et~al.}{2017}]{zhu2017unpaired}
+\begin{botherref}
+\oauthor{\bsnm{Zhu}, \binits{J.-Y.}},
+\oauthor{\bsnm{Park}, \binits{T.}},
+\oauthor{\bsnm{Isola}, \binits{P.}},
+\oauthor{\bsnm{Efros}, \binits{A.A.}}:
+Unpaired image-to-image translation using cycle-consistent adversarial
+  networks,
+2223--2232
+(2017)
+\end{botherref}
+\endbibitem
+
+%%% 81
+\bibitem[\protect\citeauthoryear{Lin et~al.}{2023}]{videoLLaVA2023}
+\begin{botherref}
+\oauthor{\bsnm{Lin}, \binits{B.}},
+\oauthor{\bsnm{Ye}, \binits{Y.}},
+\oauthor{\bsnm{Zhu}, \binits{B.}},
+\oauthor{\bsnm{Cui}, \binits{J.}},
+\oauthor{\bsnm{Ning}, \binits{M.}},
+\oauthor{\bsnm{Jin}, \binits{P.}},
+\oauthor{\bsnm{Yuan}, \binits{L.}}:
+{Video-LLaVA}: Learning United Visual Representation by Alignment Before
+  Projection.
+arXiv:2311.10122
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 82
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{lita2023}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{D.-A.}},
+\oauthor{\bsnm{Bansal}, \binits{M.}},
+\oauthor{\bsnm{Wang}, \binits{H.}}:
+{LITA}: Language Instructed Temporal-Localization Assistant.
+arXiv:2310.09546
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 83
+\bibitem[\protect\citeauthoryear{Yao et~al.}{2022}]{yao2022filip}
+\begin{bchapter}
+\bauthor{\bsnm{Yao}, \binits{L.}},
+\bauthor{\bsnm{Han}, \binits{R.}},
+\bauthor{\bsnm{Wen}, \binits{Y.}},
+\bauthor{\bsnm{Ma}, \binits{L.}},
+\bauthor{\bsnm{Zhang}, \binits{W.}},
+\bauthor{\bsnm{Zhang}, \binits{Z.}},
+\bauthor{\bsnm{Ouyang}, \binits{W.}}:
+\bctitle{{FILIP}: Fine-grained interactive language-image pre-training}.
+In: \bbtitle{International Conference on Learning Representations (ICLR)}
+(\byear{2022})
+\end{bchapter}
+\endbibitem
+
+%%% 84
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2023}]{wang2023git}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Yang}, \binits{Z.}},
+\oauthor{\bsnm{Hu}, \binits{X.}},
+\oauthor{\bsnm{Li}, \binits{L.}},
+\oauthor{\bsnm{Lin}, \binits{K.}},
+\oauthor{\bsnm{Gan}, \binits{Z.}},
+\oauthor{\bsnm{Liu}, \binits{Z.}},
+\oauthor{\bsnm{Liu}, \binits{C.}},
+\oauthor{\bsnm{Wang}, \binits{L.}}:
+{GIT}: A generative image-to-text transformer for vision and language.
+Transactions on Machine Learning Research
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 85
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2023}]{zhang2023llavar}
+\begin{botherref}
+\oauthor{\bsnm{Zhang}, \binits{H.}},
+\oauthor{\bsnm{Li}, \binits{C.}},
+\oauthor{\bsnm{Li}, \binits{Q.}},
+\oauthor{\bsnm{Li}, \binits{M.}},
+\oauthor{\bsnm{Zhang}, \binits{C.}},
+\oauthor{\bsnm{Yin}, \binits{Z.}},
+\oauthor{\bsnm{Liu}, \binits{Z.}}:
+{LLaVAR}: Enhanced visual instruction tuning for text-rich image understanding.
+arXiv:2306.17107
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 86
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{li2023otter}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{B.}},
+\oauthor{\bsnm{Zhang}, \binits{Y.}},
+\oauthor{\bsnm{Chen}, \binits{L.}},
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Yang}, \binits{J.}},
+\oauthor{\bsnm{Liu}, \binits{Z.}}:
+Otter: A multi-modal model with in-context instruction tuning.
+arXiv:2305.03726
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 87
+\bibitem[\protect\citeauthoryear{Kirillov et~al.}{2023}]{sam2023}
+\begin{botherref}
+\oauthor{\bsnm{Kirillov}, \binits{A.}},
+\oauthor{\bsnm{Mintun}, \binits{E.}},
+\oauthor{\bsnm{Ravi}, \binits{N.}},
+\oauthor{\bsnm{Mao}, \binits{H.}},
+\oauthor{\bsnm{Rolland}, \binits{C.}},
+\oauthor{\bsnm{Gustafson}, \binits{L.}},
+\oauthor{\bsnm{Xiao}, \binits{T.}},
+\oauthor{\bsnm{Whitehead}, \binits{S.}},
+\oauthor{\bsnm{Berg}, \binits{A.C.}},
+\oauthor{\bsnm{Lo}, \binits{W.-Y.}},
+\oauthor{\bsnm{Doll{\'a}r}, \binits{P.}},
+\oauthor{\bsnm{Girshick}, \binits{R.}}:
+Segment Anything.
+arXiv:2304.02643
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 88
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2024}]{geosam2024}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{D.}},
+\oauthor{\bsnm{Zhang}, \binits{J.}},
+\oauthor{\bsnm{Du}, \binits{B.}},
+\oauthor{\bsnm{Xia}, \binits{G.-S.}},
+\oauthor{\bsnm{Tao}, \binits{D.}}:
+{GeoSAM}: Fine-tuning {SAM} with Sparse and Dense Visual Prompting for
+  Automated Segmentation of Mobility Infrastructure.
+arXiv:2311.11319
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 89
+\bibitem[\protect\citeauthoryear{Chen and Shi}{2024}]{samrseg2024}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{H.}},
+\oauthor{\bsnm{Shi}, \binits{Z.}}:
+{SAM}-Based Instance Segmentation for Remote Sensing Images.
+arXiv:2312.10529
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 90
+\bibitem[\protect\citeauthoryear{Hu et~al.}{2025}]{rschat2025}
+\begin{botherref}
+\oauthor{\bsnm{Hu}, \binits{Y.}},
+\oauthor{\bsnm{Liu}, \binits{J.}},
+\oauthor{\bsnm{Zheng}, \binits{Z.}},
+\oauthor{\bsnm{Ma}, \binits{Z.}}:
+{RS-Chat}: Conversational Remote Sensing Foundation Model with Instruction
+  Fine-Tuning.
+arXiv:2312.08612
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 91
+\bibitem[\protect\citeauthoryear{Muhtar et~al.}{2023}]{geors2023}
+\begin{botherref}
+\oauthor{\bsnm{Muhtar}, \binits{D.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Xiao}, \binits{P.}}:
+{GeoRS-Instruct}: A Multimodal Instruction Dataset for Remote Sensing Scene
+  Understanding.
+[Dataset]
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 92
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2014}]{chen2014spectral}
+\begin{barticle}
+\bauthor{\bsnm{Chen}, \binits{Y.}},
+\bauthor{\bsnm{Lin}, \binits{Z.}},
+\bauthor{\bsnm{Zhao}, \binits{X.}},
+\bauthor{\bsnm{Wang}, \binits{G.}},
+\bauthor{\bsnm{Gu}, \binits{Y.}}:
+\batitle{Deep learning-based classification of hyperspectral data}.
+\bjtitle{IEEE Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}
+\bvolume{7}(\bissue{6}),
+\bfpage{2094}--\blpage{2107}
+(\byear{2014})
+\doiurl{10.1109/JSTARS.2014.2329330}
+\end{barticle}
+\endbibitem
+
+%%% 93
+\bibitem[\protect\citeauthoryear{Kang et~al.}{2023}]{kang2018feature}
+\begin{barticle}
+\bauthor{\bsnm{Kang}, \binits{J.}},
+\bauthor{\bsnm{Fernandez-Beltran}, \binits{R.}},
+\bauthor{\bsnm{Duan}, \binits{P.}},
+\bauthor{\bsnm{Liu}, \binits{S.}},
+\bauthor{\bsnm{Plaza}, \binits{A.}}:
+\batitle{Graph transformer networks for hyperspectral image classification}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{61},
+\bfpage{1}--\blpage{15}
+(\byear{2023})
+\doiurl{10.1109/TGRS.2022.3220768}
+\end{barticle}
+\endbibitem
+
+%%% 94
+\bibitem[\protect\citeauthoryear{Yuan et~al.}{2022}]{rsivqa2020}
+\begin{botherref}
+\oauthor{\bsnm{Yuan}, \binits{Z.}},
+\oauthor{\bsnm{Mou}, \binits{L.}},
+\oauthor{\bsnm{Wang}, \binits{Q.}},
+\oauthor{\bsnm{Zhu}, \binits{X.X.}}:
+From Easy to Hard: Learning Language-Guided Curriculum for Visual Question
+  Answering on Remote Sensing Data
+(2022).
+\doiurl{10.1109/TGRS.2021.3130748}
+\end{botherref}
+\endbibitem
+
+%%% 95
+\bibitem[\protect\citeauthoryear{Lobry et~al.}{2020}]{rsvqa2020}
+\begin{barticle}
+\bauthor{\bsnm{Lobry}, \binits{S.}},
+\bauthor{\bsnm{Marcos}, \binits{D.}},
+\bauthor{\bsnm{Murray}, \binits{J.}},
+\bauthor{\bsnm{Tuia}, \binits{D.}}:
+\batitle{{RSVQA}: Visual question answering for remote sensing data}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{58}(\bissue{12}),
+\bfpage{8555}--\blpage{8566}
+(\byear{2020})
+\doiurl{10.1109/TGRS.2020.2988782}
+\end{barticle}
+\endbibitem
+
+%%% 96
+\bibitem[\protect\citeauthoryear{Hu et~al.}{2024}]{rsicap2024}
+\begin{botherref}
+\oauthor{\bsnm{Hu}, \binits{Y.}},
+\oauthor{\bsnm{Liu}, \binits{J.}},
+\oauthor{\bsnm{Zheng}, \binits{Z.}},
+\oauthor{\bsnm{Ma}, \binits{Z.}}:
+{RSICap}: A High-Quality Remote Sensing Image Captioning Dataset.
+[Released with RSGPT~\cite{rsgpt2023}]
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 97
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2022}]{geoqa2022}
+\begin{botherref}
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Tang}, \binits{X.}},
+\oauthor{\bsnm{Shi}, \binits{Z.}}:
+{GeoQA}: A Geometric Question Answering Benchmark Towards Multimodal Numerical
+  Reasoning.
+arXiv:2105.14517
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 98
+\bibitem[\protect\citeauthoryear{Shi et~al.}{2026}]{georeasoning2026}
+\begin{botherref}
+\oauthor{\bsnm{Shi}, \binits{M.}},
+\oauthor{\bsnm{Ma}, \binits{A.}},
+\oauthor{\bsnm{Zhong}, \binits{Y.}}:
+Towards Geospatial Reasoning in Remote Sensing Vision-Language Models.
+arXiv:2502.04810.
+Geospatial reasoning in RS-VLMs
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 99
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2026}]{vlrsbench2026}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Ma}, \binits{A.}},
+\oauthor{\bsnm{Zhong}, \binits{Y.}}:
+{VLRS-Bench}: Visual-Language Reasoning for Remote Sensing.
+arXiv:2503.09282.
+Visual-language reasoning benchmark for RS
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 100
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2023}]{rsfm2023}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{D.}},
+\oauthor{\bsnm{Zhang}, \binits{J.}},
+\oauthor{\bsnm{Du}, \binits{B.}},
+\oauthor{\bsnm{Xia}, \binits{G.-S.}},
+\oauthor{\bsnm{Tao}, \binits{D.}}:
+Empirical Study of Foundation Model for Remote Sensing Segmentation.
+arXiv:2304.13913
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 101
+\bibitem[\protect\citeauthoryear{Jakubik et~al.}{2023}]{geofoundation2024}
+\begin{botherref}
+\oauthor{\bsnm{Jakubik}, \binits{J.}},
+\oauthor{\bsnm{Roy}, \binits{S.}},
+\oauthor{\bsnm{Phillips}, \binits{C.E.}},
+\oauthor{\bsnm{Fraccaro}, \binits{P.}},
+\oauthor{\bsnm{Godwin}, \binits{D.}},
+\oauthor{\bsnm{Zadrozny}, \binits{B.}},
+\oauthor{\bsnm{Szwarcman}, \binits{D.}},
+\oauthor{\bsnm{Gomes}, \binits{C.}},
+\oauthor{\bsnm{Nyirjesy}, \binits{G.}},
+\oauthor{\bsnm{Edwards}, \binits{B.}}, et al.:
+Foundation Models for Generalist Geospatial Artificial Intelligence.
+arXiv:2310.18660
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 102
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2023}]{chen2023clip4rs}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{Z.}},
+\oauthor{\bsnm{Hu}, \binits{L.}},
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Lu}, \binits{J.}},
+\oauthor{\bsnm{Tao}, \binits{Z.}},
+\oauthor{\bsnm{Ouyang}, \binits{W.}}:
+Towards geospatial foundation models via continual pretraining,
+16806--16816
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 103
+\bibitem[\protect\citeauthoryear{Rottensteiner
+  et~al.}{2012}]{rottensteiner2012isprs}
+\begin{bchapter}
+\bauthor{\bsnm{Rottensteiner}, \binits{F.}},
+\bauthor{\bsnm{Sohn}, \binits{G.}},
+\bauthor{\bsnm{Jung}, \binits{J.}},
+\bauthor{\bsnm{Gerke}, \binits{M.}},
+\bauthor{\bsnm{Baillard}, \binits{C.}},
+\bauthor{\bsnm{Benitez}, \binits{S.}},
+\bauthor{\bsnm{Breitkopf}, \binits{U.}}:
+\bctitle{The {ISPRS} benchmark on urban object classification and 3d building
+  reconstruction}.
+In: \bbtitle{ISPRS Annals of Photogrammetry, Remote Sensing and Spatial
+  Information Sciences},
+vol. \bseriesno{I-3},
+pp. \bfpage{293}--\blpage{298}
+(\byear{2012}).
+\doiurl{10.5194/isprsannals-I-3-293-2012}
+\end{bchapter}
+\endbibitem
+
+%%% 104
+\bibitem[\protect\citeauthoryear{Hong et~al.}{2024}]{hong2024spectralgpt}
+\begin{barticle}
+\bauthor{\bsnm{Hong}, \binits{D.}},
+\bauthor{\bsnm{Zhang}, \binits{B.}},
+\bauthor{\bsnm{Li}, \binits{H.}},
+\bauthor{\bsnm{Li}, \binits{Y.}},
+\bauthor{\bsnm{Li}, \binits{C.}},
+\bauthor{\bsnm{Yao}, \binits{J.}},
+\bauthor{\bsnm{Yokoya}, \binits{N.}},
+\bauthor{\bsnm{Li}, \binits{H.}},
+\bauthor{\bsnm{Jia}, \binits{X.}},
+\bauthor{\bsnm{Plaza}, \binits{A.}}, \betal:
+\batitle{{SpectralGPT}: Spectral remote sensing foundation model}.
+\bjtitle{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+\bvolume{46}(\bissue{8}),
+\bfpage{5227}--\blpage{5244}
+(\byear{2024})
+\doiurl{10.1109/TPAMI.2024.3362475}
+\end{barticle}
+\endbibitem
+
+%%% 105
+\bibitem[\protect\citeauthoryear{Ouyang et~al.}{2022}]{ouyang2022training}
+\begin{botherref}
+\oauthor{\bsnm{Ouyang}, \binits{L.}},
+\oauthor{\bsnm{Wu}, \binits{J.}},
+\oauthor{\bsnm{Jiang}, \binits{X.}},
+\oauthor{\bsnm{Almeida}, \binits{D.}},
+\oauthor{\bsnm{Wainwright}, \binits{C.}},
+\oauthor{\bsnm{Mishkin}, \binits{P.}},
+\oauthor{\bsnm{Zhang}, \binits{C.}},
+\oauthor{\bsnm{Agarwal}, \binits{S.}},
+\oauthor{\bsnm{Slama}, \binits{K.}},
+\oauthor{\bsnm{Ray}, \binits{A.}}, et al.:
+Training language models to follow instructions with human feedback
+\textbf{35},
+27730--27744
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 106
+\bibitem[\protect\citeauthoryear{Li et~al.}{2025}]{rlhfrs2025}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Zhong}, \binits{Y.}}:
+Reinforcement Learning from Human Feedback for Remote Sensing Vision-Language
+  Models.
+arXiv:2405.08388.
+RLHF for RS-VLMs
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 107
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2024}]{wang2024comprehensive}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{W.}},
+\oauthor{\bsnm{Chen}, \binits{Z.}},
+\oauthor{\bsnm{Chen}, \binits{X.}},
+\oauthor{\bsnm{Wu}, \binits{J.}},
+\oauthor{\bsnm{Zhu}, \binits{X.}},
+\oauthor{\bsnm{Zeng}, \binits{G.}},
+\oauthor{\bsnm{Luo}, \binits{P.}},
+\oauthor{\bsnm{Lu}, \binits{T.}},
+\oauthor{\bsnm{Zhou}, \binits{J.}},
+\oauthor{\bsnm{Qiao}, \binits{Y.}}:
+Visionllm: Large language model is also an open-ended decoder for
+  vision-centric tasks
+\textbf{36}
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 108
+\bibitem[\protect\citeauthoryear{Luo et~al.}{2024}]{lvlmhub2024}
+\begin{botherref}
+\oauthor{\bsnm{Luo}, \binits{S.}},
+\oauthor{\bsnm{Zhao}, \binits{Z.}},
+\oauthor{\bsnm{Hua}, \binits{H.}},
+\oauthor{\bsnm{Chen}, \binits{Z.}},
+\oauthor{\bsnm{Zhang}, \binits{W.}},
+\oauthor{\bsnm{Gao}, \binits{Y.}},
+\oauthor{\bsnm{Zhang}, \binits{J.}}:
+{LVLM-Hub}: A Comprehensive Evaluation Benchmark for Large Vision-Language
+  Models.
+arXiv:2406.18402
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 109
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{pope2023}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{Y.}},
+\oauthor{\bsnm{Du}, \binits{Y.}},
+\oauthor{\bsnm{Zhou}, \binits{K.}},
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Zhao}, \binits{W.X.}},
+\oauthor{\bsnm{Wen}, \binits{J.-R.}}:
+Evaluating Object Hallucination in Large Vision-Language Models.
+arXiv:2305.10355
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 110
+\bibitem[\protect\citeauthoryear{Vapnik}{1998}]{vapnik1998}
+\begin{botherref}
+\oauthor{\bsnm{Vapnik}, \binits{V.N.}}:
+Statistical learning theory.
+Wiley
+(1998)
+\end{botherref}
+\endbibitem
+
+%%% 111
+\bibitem[\protect\citeauthoryear{Zhan et~al.}{2024}]{skyeye968k2024}
+\begin{botherref}
+\oauthor{\bsnm{Zhan}, \binits{Y.}},
+\oauthor{\bsnm{Xiong}, \binits{Z.}},
+\oauthor{\bsnm{Yuan}, \binits{Y.}}:
+{SkyEye-968K}: A Large-Scale Multi-Task Dataset for Remote Sensing Visual
+  Language Models.
+[Dataset, released with SkyEyeGPT~\cite{skyeyegpt2025}]
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 112
+\bibitem[\protect\citeauthoryear{Kuckreja et~al.}{2024}]{geochatinstruct2024}
+\begin{botherref}
+\oauthor{\bsnm{Kuckreja}, \binits{K.}},
+\oauthor{\bsnm{Danish}, \binits{M.S.}},
+\oauthor{\bsnm{Naseer}, \binits{M.}},
+\oauthor{\bsnm{Das}, \binits{A.}},
+\oauthor{\bsnm{Khan}, \binits{S.}},
+\oauthor{\bsnm{Khan}, \binits{F.S.}}:
+{GeoChat-Instruct}: A Large-Scale Instruction Tuning Dataset for Remote Sensing
+  Visual Language Models.
+[Dataset, released with GeoChat~\cite{geochat2024}]
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 113
+\bibitem[\protect\citeauthoryear{Li et~al.}{2024}]{vrsbench2024}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{I.}},
+\oauthor{\bsnm{Cai}, \binits{M.}},
+\oauthor{\bsnm{Hu}, \binits{Z.}},
+\oauthor{\bsnm{Sheng}, \binits{L.}},
+\oauthor{\bsnm{Jiang}, \binits{J.}}:
+{VRSBench}: A Versatile Vision-Language Benchmark for Remote Sensing Image
+  Understanding.
+arXiv:2406.12384
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 114
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2025}]{xlrsbench2025}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{K.}},
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Chen}, \binits{J.}},
+\oauthor{\bsnm{Li}, \binits{J.}}:
+{XLRS-Bench}: A Challenging Benchmark for Evaluating Reasoning with {MLLM} on
+  Ultra-High Resolution Remote Sensing Imagery.
+arXiv:2406.12543
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 115
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2021}]{zhu2021deit}
+\begin{botherref}
+\oauthor{\bsnm{Liu}, \binits{Z.}},
+\oauthor{\bsnm{Lin}, \binits{Y.}},
+\oauthor{\bsnm{Cao}, \binits{Y.}},
+\oauthor{\bsnm{Hu}, \binits{H.}},
+\oauthor{\bsnm{Wei}, \binits{Y.}},
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Lin}, \binits{S.}},
+\oauthor{\bsnm{Guo}, \binits{B.}}:
+Swin transformer: Hierarchical vision transformer using shifted windows,
+10012--10022
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 116
+\bibitem[\protect\citeauthoryear{{European Space
+  Agency}}{2023}]{copernicus2023}
+\begin{botherref}
+\oauthor{\bsnm{{European Space Agency}}}:
+Copernicus: Europe's eyes on earth -- programme overview.
+ESA Technical Report
+(2023).
+\url{https://www.copernicus.eu/en}
+\end{botherref}
+\endbibitem
+
+%%% 117
+\bibitem[\protect\citeauthoryear{Tuia et~al.}{2021}]{tuia2021toward}
+\begin{barticle}
+\bauthor{\bsnm{Tuia}, \binits{D.}},
+\bauthor{\bsnm{Schindler}, \binits{K.}},
+\bauthor{\bsnm{Demir}, \binits{B.}},
+\bauthor{\bsnm{Camps-Valls}, \binits{G.}},
+\bauthor{\bsnm{Zhu}, \binits{X.X.}},
+\bauthor{\bsnm{Rasti}, \binits{B.}},
+\bauthor{\bsnm{Ghamisi}, \binits{P.}}:
+\batitle{Toward a collective agenda on {AI} for earth observation data
+  analysis}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+\bvolume{9}(\bissue{2}),
+\bfpage{88}--\blpage{104}
+(\byear{2021})
+\doiurl{10.1109/MGRS.2021.3080568}
+\end{barticle}
+\endbibitem
+
+%%% 118
+\bibitem[\protect\citeauthoryear{Camps-Valls et~al.}{2021}]{camps2021deep}
+\begin{botherref}
+\oauthor{\bsnm{Camps-Valls}, \binits{G.}},
+\oauthor{\bsnm{Tuia}, \binits{D.}},
+\oauthor{\bsnm{Zhu}, \binits{X.X.}},
+\oauthor{\bsnm{Reichstein}, \binits{M.}}:
+Deep learning for the earth sciences: A comprehensive approach to remote
+  sensing, climate science, and geosciences.
+John Wiley \& Sons
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 119
+\bibitem[\protect\citeauthoryear{Luo et~al.}{2024}]{skysensegpt2024}
+\begin{botherref}
+\oauthor{\bsnm{Luo}, \binits{Y.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Dang}, \binits{T.}},
+\oauthor{\bsnm{Zhou}, \binits{Z.}},
+\oauthor{\bsnm{Liu}, \binits{W.}},
+\oauthor{\bsnm{Ni}, \binits{T.}},
+\oauthor{\bsnm{Shi}, \binits{L.}},
+\oauthor{\bsnm{Chanussot}, \binits{J.}}:
+{SkySenseGPT}: A Fine-Grained Instruction Tuning Dataset and Model for Remote
+  Sensing Vision-Language Understanding.
+arXiv:2406.10100
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 120
+\bibitem[\protect\citeauthoryear{Clay and Goncalves}{2025}]{teochat2025}
+\begin{botherref}
+\oauthor{\bsnm{Clay}, \binits{M.}},
+\oauthor{\bsnm{Goncalves}, \binits{R.}}:
+{TEOChat}: A Large Vision-Language Assistant for Temporal Earth Observation
+  Data.
+arXiv:2410.06234
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 121
+\bibitem[\protect\citeauthoryear{Muhtar et~al.}{2024}]{lhrsbot2024}
+\begin{botherref}
+\oauthor{\bsnm{Muhtar}, \binits{D.}},
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Gu}, \binits{F.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Xiao}, \binits{P.}}:
+{LHRS-Bot}: Empowering Remote Sensing with {VGI}-Enhanced Large Multimodal
+  Language Model.
+arXiv:2402.02544
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 122
+\bibitem[\protect\citeauthoryear{Ke et~al.}{2023}]{georsam2023}
+\begin{botherref}
+\oauthor{\bsnm{Ke}, \binits{L.}},
+\oauthor{\bsnm{Ye}, \binits{M.}},
+\oauthor{\bsnm{Danelljan}, \binits{M.}},
+\oauthor{\bsnm{Tai}, \binits{Y.}},
+\oauthor{\bsnm{Tang}, \binits{C.-K.}},
+\oauthor{\bsnm{Yu}, \binits{F.}}, et al.:
+Segment Anything in High Quality.
+arXiv:2306.01567
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 123
+\bibitem[\protect\citeauthoryear{Kuckreja et~al.}{2024}]{geochatbench2024}
+\begin{bchapter}
+\bauthor{\bsnm{Kuckreja}, \binits{K.}},
+\bauthor{\bsnm{Danish}, \binits{M.S.}},
+\bauthor{\bsnm{Naseer}, \binits{M.}},
+\bauthor{\bsnm{Das}, \binits{A.}},
+\bauthor{\bsnm{Khan}, \binits{S.}},
+\bauthor{\bsnm{Khan}, \binits{F.S.}}:
+\bctitle{Towards multi-sensor earth observation foundation models}.
+In: \bbtitle{IEEE/CVF Conference on Computer Vision and Pattern Recognition
+  Workshops (CVPRW)}
+(\byear{2024}).
+\bcomment{Earth Vision workshop paper on RS multi-sensor foundation models}
+\end{bchapter}
+\endbibitem
+
+%%% 124
+\bibitem[\protect\citeauthoryear{Renn{\'e} et~al.}{2020}]{renner2020}
+\begin{bchapter}
+\bauthor{\bsnm{Renn{\'e}}, \binits{B.}},
+\bauthor{\bsnm{Brefeld}, \binits{U.}},
+\bauthor{\bsnm{Scheffer}, \binits{T.}}:
+\bctitle{Remote sensing scene understanding using multimodal large-scale
+  datasets}.
+In: \bbtitle{IEEE International Geoscience and Remote Sensing Symposium
+  (IGARSS)},
+pp. \bfpage{1}--\blpage{4}
+(\byear{2020}).
+\doiurl{10.1109/IGARSS39084.2020.9323879}
+\end{bchapter}
+\endbibitem
+
+%%% 125
+\bibitem[\protect\citeauthoryear{Lester et~al.}{2021}]{lester2021prompt}
+\begin{bchapter}
+\bauthor{\bsnm{Lester}, \binits{B.}},
+\bauthor{\bsnm{Al-Rfou}, \binits{R.}},
+\bauthor{\bsnm{Constant}, \binits{N.}}:
+\bctitle{The power of scale for parameter-efficient prompt tuning}.
+In: \bbtitle{Proceedings of the Conference on Empirical Methods in Natural
+  Language Processing (EMNLP)},
+pp. \bfpage{3045}--\blpage{3059}
+(\byear{2021})
+\end{bchapter}
+\endbibitem
+
+%%% 126
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2023}]{liu2022fewshot}
+\begin{barticle}
+\bauthor{\bsnm{Liu}, \binits{P.}},
+\bauthor{\bsnm{Yuan}, \binits{W.}},
+\bauthor{\bsnm{Fu}, \binits{J.}},
+\bauthor{\bsnm{Jiang}, \binits{Z.}},
+\bauthor{\bsnm{Hayashi}, \binits{H.}},
+\bauthor{\bsnm{Neubig}, \binits{G.}}:
+\batitle{Pre-train, prompt, and predict: A systematic survey of prompting
+  methods in natural language processing}.
+\bjtitle{ACM Computing Surveys}
+\bvolume{55}(\bissue{9}),
+\bfpage{1}--\blpage{35}
+(\byear{2023})
+\doiurl{10.1145/3560815}
+\end{barticle}
+\endbibitem
+
+%%% 127
+\bibitem[\protect\citeauthoryear{Zhu et~al.}{2023}]{minigpt4_2023}
+\begin{botherref}
+\oauthor{\bsnm{Zhu}, \binits{D.}},
+\oauthor{\bsnm{Chen}, \binits{J.}},
+\oauthor{\bsnm{Shen}, \binits{X.}},
+\oauthor{\bsnm{Li}, \binits{X.}},
+\oauthor{\bsnm{Elhoseiny}, \binits{M.}}:
+{MiniGPT-4}: Enhancing Vision-Language Understanding with Advanced Large
+  Language Models.
+arXiv:2304.10592
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 128
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2026}]{geohallu2026}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Zhao}, \binits{F.}}:
+{GeoHallu}: Probing Geospatial Hallucinations in Vision-Language Models for
+  Remote Sensing.
+arXiv:2504.01631.
+Geospatial hallucination probing benchmark
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 129
+\bibitem[\protect\citeauthoryear{Li et~al.}{2025}]{sarchatchat2025}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Xie}, \binits{W.}},
+\oauthor{\bsnm{Jiang}, \binits{Z.}},
+\oauthor{\bsnm{Guo}, \binits{Y.}},
+\oauthor{\bsnm{Yu}, \binits{W.}}:
+{SARChat-Bench-2M}: A Large-Scale Dataset for {SAR} Image Understanding.
+arXiv:2502.08168
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 130
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2018}]{wang2022empirical}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{A.}},
+\oauthor{\bsnm{Singh}, \binits{A.}},
+\oauthor{\bsnm{Michael}, \binits{J.}},
+\oauthor{\bsnm{Hill}, \binits{F.}},
+\oauthor{\bsnm{Levy}, \binits{O.}},
+\oauthor{\bsnm{Bowman}, \binits{S.}}:
+{GLUE}: A multi-task benchmark and analysis platform for natural language
+  understanding
+(2018)
+\end{botherref}
+\endbibitem
+
+%%% 131
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2024}]{chen2023survey}
+\begin{barticle}
+\bauthor{\bsnm{Chen}, \binits{K.}},
+\bauthor{\bsnm{Wang}, \binits{R.}},
+\bauthor{\bsnm{Yuan}, \binits{Q.}},
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Plaza}, \binits{A.}},
+\bauthor{\bsnm{Gamba}, \binits{P.}}:
+\batitle{Deep learning for remote sensing image segmentation: A survey}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+\bvolume{12}(\bissue{1}),
+\bfpage{36}--\blpage{70}
+(\byear{2024})
+\doiurl{10.1109/MGRS.2023.3316588}
+\end{barticle}
+\endbibitem
+
+%%% 132
+\bibitem[\protect\citeauthoryear{Cheng et~al.}{2022}]{cheng2023towards}
+\begin{botherref}
+\oauthor{\bsnm{Cheng}, \binits{B.}},
+\oauthor{\bsnm{Misra}, \binits{I.}},
+\oauthor{\bsnm{Schwing}, \binits{A.G.}},
+\oauthor{\bsnm{Kirillov}, \binits{A.}},
+\oauthor{\bsnm{Girdhar}, \binits{R.}}:
+Masked-attention mask transformer for universal image segmentation,
+1290--1299
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 133
+\bibitem[\protect\citeauthoryear{Zhang and Shi}{2022}]{zhang2022attention}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{Z.}},
+\bauthor{\bsnm{Shi}, \binits{Z.}}:
+\batitle{Multiscale dynamic graph convolutional network for hyperspectral image
+  classification}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{60},
+\bfpage{1}--\blpage{12}
+(\byear{2022})
+\doiurl{10.1109/TGRS.2021.3071177}
+\end{barticle}
+\endbibitem
+
+%%% 134
+\bibitem[\protect\citeauthoryear{Bazi et~al.}{2024}]{rsllava2024}
+\begin{barticle}
+\bauthor{\bsnm{Bazi}, \binits{Y.}},
+\bauthor{\bsnm{Al~Rahhal}, \binits{M.M.}},
+\bauthor{\bsnm{Mekhalfi}, \binits{M.L.}},
+\bauthor{\bsnm{Al~Zuair}, \binits{M.}},
+\bauthor{\bsnm{Melgani}, \binits{F.}}:
+\batitle{{RS-LLaVA}: A large vision language model for joint captioning and
+  question answering in remote sensing imagery}.
+\bjtitle{Remote Sensing}
+\bvolume{16}(\bissue{9}),
+\bfpage{1477}
+(\byear{2024})
+\doiurl{10.3390/rs16091477}
+\end{barticle}
+\endbibitem
+
+%%% 135
+\bibitem[\protect\citeauthoryear{Lin et~al.}{2024}]{lin2024rs5m}
+\begin{barticle}
+\bauthor{\bsnm{Lin}, \binits{Z.}},
+\bauthor{\bsnm{Zhao}, \binits{T.}},
+\bauthor{\bsnm{Cui}, \binits{Y.}},
+\bauthor{\bsnm{Kuang}, \binits{C.}},
+\bauthor{\bsnm{Jiang}, \binits{S.}}:
+\batitle{{RS5M} and {GeoRSCLIP}: A large scale vision-language dataset and a
+  large vision-language model for remote sensing}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{62},
+\bfpage{1}--\blpage{16}
+(\byear{2024})
+\doiurl{10.1109/TGRS.2024.3425459}
+\end{barticle}
+\endbibitem
+
+%%% 136
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2024}]{skyclip2024}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{Z.}},
+\oauthor{\bsnm{Bhatt}, \binits{R.P.}},
+\oauthor{\bsnm{Vahabi}, \binits{H.}},
+\oauthor{\bsnm{Kaku}, \binits{A.}},
+\oauthor{\bsnm{Malik}, \binits{J.}},
+\oauthor{\bsnm{Kaduk}, \binits{J.}}:
+{SkyCLIP}: High-Resolution Aerial Visual-Language Understanding.
+arXiv:2408.16726
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 137
+\bibitem[\protect\citeauthoryear{Dai et~al.}{2023}]{instructblip2023}
+\begin{bchapter}
+\bauthor{\bsnm{Dai}, \binits{W.}},
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Li}, \binits{D.}},
+\bauthor{\bsnm{Tiong}, \binits{A.M.H.}},
+\bauthor{\bsnm{Zhao}, \binits{J.}},
+\bauthor{\bsnm{Wang}, \binits{W.}},
+\bauthor{\bsnm{Li}, \binits{B.}},
+\bauthor{\bsnm{Fung}, \binits{P.}},
+\bauthor{\bsnm{Hoi}, \binits{S.}}:
+\bctitle{{InstructBLIP}: Towards general-purpose vision-language models with
+  instruction tuning}.
+In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS)},
+vol. \bseriesno{36}
+(\byear{2023})
+\end{bchapter}
+\endbibitem
+
+%%% 138
+\bibitem[\protect\citeauthoryear{Muhtar et~al.}{2024}]{lhrsbotnova2024}
+\begin{botherref}
+\oauthor{\bsnm{Muhtar}, \binits{D.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Xiao}, \binits{P.}},
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Gu}, \binits{F.}}:
+{LHRS-Bot-Nova}: Improved Multimodal Large Language Model for Remote Sensing
+  Vision-Language Interpretation.
+arXiv:2411.09601
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 139
+\bibitem[\protect\citeauthoryear{Ma et~al.}{2025}]{vhm2025}
+\begin{bchapter}
+\bauthor{\bsnm{Ma}, \binits{M.}},
+\bauthor{\bsnm{Ren}, \binits{P.}},
+\bauthor{\bsnm{Zhao}, \binits{B.}},
+\bauthor{\bsnm{Li}, \binits{P.}},
+\bauthor{\bsnm{Wang}, \binits{D.}},
+\bauthor{\bsnm{Zhang}, \binits{J.}},
+\bauthor{\bsnm{Li}, \binits{D.}},
+\bauthor{\bsnm{Waibel}, \binits{A.}},
+\bauthor{\bsnm{Wang}, \binits{Y.}}:
+\bctitle{{VHM}: Versatile and honest vision language model for remote sensing
+  image}.
+In: \bbtitle{Proceedings of the AAAI Conference on Artificial Intelligence}
+(\byear{2025})
+\end{bchapter}
+\endbibitem
+
+%%% 140
+\bibitem[\protect\citeauthoryear{Pang et~al.}{2025}]{h2rsvlm2025}
+\begin{bchapter}
+\bauthor{\bsnm{Pang}, \binits{Z.}},
+\bauthor{\bsnm{Liu}, \binits{T.}},
+\bauthor{\bsnm{Jia}, \binits{Y.}},
+\bauthor{\bsnm{Zhao}, \binits{Z.}},
+\bauthor{\bsnm{Luo}, \binits{H.}},
+\bauthor{\bsnm{Xu}, \binits{C.}}:
+\bctitle{{H2RSVLM}: Towards helpful and honest remote sensing large vision
+  language model}.
+In: \bbtitle{Proceedings of the AAAI Conference on Artificial Intelligence}
+(\byear{2025})
+\end{bchapter}
+\endbibitem
+
+%%% 141
+\bibitem[\protect\citeauthoryear{Wei et~al.}{2025}]{geoground2025}
+\begin{botherref}
+\oauthor{\bsnm{Wei}, \binits{Y.}},
+\oauthor{\bsnm{Dang}, \binits{T.}},
+\oauthor{\bsnm{Qi}, \binits{Y.}},
+\oauthor{\bsnm{Xu}, \binits{C.}},
+\oauthor{\bsnm{Qiu}, \binits{F.}},
+\oauthor{\bsnm{Shi}, \binits{P.}}:
+{GeoGround}: A Unified Large Vision-Language Model for Remote Sensing Visual
+  Grounding.
+arXiv:2411.11904
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 142
+\bibitem[\protect\citeauthoryear{Ustun et~al.}{2025}]{geopixel2025}
+\begin{botherref}
+\oauthor{\bsnm{Ustun}, \binits{A.}},
+\oauthor{\bsnm{Shi}, \binits{A.}},
+\oauthor{\bsnm{Steger}, \binits{B.}},
+\oauthor{\bsnm{Vo}, \binits{B.}},
+\oauthor{\bsnm{Bi}, \binits{W.}},
+\oauthor{\bsnm{Chen}, \binits{X.-Y.}},
+\oauthor{\bsnm{Alwassel}, \binits{H.}},
+\oauthor{\bsnm{Sehwag}, \binits{V.}}:
+{GeoPixel}: Pixel Grounding Large Multimodal Model in Remote Sensing.
+arXiv:2501.13925
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 143
+\bibitem[\protect\citeauthoryear{Xie et~al.}{2021}]{xie2021orientedrcnn}
+\begin{bchapter}
+\bauthor{\bsnm{Xie}, \binits{X.}},
+\bauthor{\bsnm{Cheng}, \binits{G.}},
+\bauthor{\bsnm{Wang}, \binits{J.}},
+\bauthor{\bsnm{Yao}, \binits{X.}},
+\bauthor{\bsnm{Han}, \binits{J.}}:
+\bctitle{Oriented {R-CNN} for object detection}.
+In: \bbtitle{Proceedings of the IEEE/CVF International Conference on Computer
+  Vision (ICCV)},
+pp. \bfpage{3520}--\blpage{3529}
+(\byear{2021})
+\end{bchapter}
+\endbibitem
+
+%%% 144
+\bibitem[\protect\citeauthoryear{Zheng et~al.}{2025}]{geopix2025}
+\begin{botherref}
+\oauthor{\bsnm{Zheng}, \binits{B.}},
+\oauthor{\bsnm{Cai}, \binits{C.}},
+\oauthor{\bsnm{Hao}, \binits{M.}},
+\oauthor{\bsnm{Chen}, \binits{Y.}},
+\oauthor{\bsnm{Shi}, \binits{Z.}}:
+{GeoPix}: Towards Pixel-Level Understanding in Remote Sensing via Visual
+  Question Answering.
+arXiv:2503.18356
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 145
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2026}]{segearth2026}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{K.}},
+\oauthor{\bsnm{Xu}, \binits{D.}},
+\oauthor{\bsnm{Cai}, \binits{Z.}},
+\oauthor{\bsnm{Tan}, \binits{Z.}}:
+{SegEarth-R1}: Geospatial Pixel Reasoning via Reinforcement Learning.
+arXiv:2504.10455
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 146
+\bibitem[\protect\citeauthoryear{Liu and Tan}{2025}]{changeagent2025}
+\begin{botherref}
+\oauthor{\bsnm{Liu}, \binits{Z.}},
+\oauthor{\bsnm{Tan}, \binits{Z.}}:
+{Change-Agent}: Towards Interactive Comprehensive Remote Sensing Change
+  Interpretation and Analysis.
+arXiv:2403.19646
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 147
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2026a}]{sarvlm2026}
+\begin{botherref}
+\oauthor{\bsnm{Zhao}, \binits{P.}},
+\oauthor{\bsnm{Li}, \binits{J.}},
+\oauthor{\bsnm{He}, \binits{F.}},
+\oauthor{\bsnm{Zhang}, \binits{L.}}:
+A Vision Language Model for {SAR} Image Understanding.
+arXiv:2501.08104.
+SAR vision-language model
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 148
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2026b}]{omniearth2026b}
+\begin{botherref}
+\oauthor{\bsnm{Zhao}, \binits{M.}},
+\oauthor{\bsnm{Li}, \binits{H.}},
+\oauthor{\bsnm{Wang}, \binits{J.}}:
+{OmniEarth-Bench}: A Comprehensive Multi-Modal Earth Observation Evaluation
+  Benchmark.
+arXiv:2503.16278.
+Multi-modal Earth observation evaluation benchmark
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 149
+\bibitem[\protect\citeauthoryear{Li et~al.}{2020}]{dior2020}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{K.}},
+\oauthor{\bsnm{Wan}, \binits{G.}},
+\oauthor{\bsnm{Cheng}, \binits{G.}},
+\oauthor{\bsnm{Meng}, \binits{L.}},
+\oauthor{\bsnm{Han}, \binits{J.}}:
+{DIOR}: Object detection in optical remote sensing images.
+arXiv:1909.00133
+(2020)
+\end{botherref}
+\endbibitem
+
+%%% 150
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2022}]{fair12022}
+\begin{barticle}
+\bauthor{\bsnm{Zhao}, \binits{B.}},
+\bauthor{\bsnm{Zhong}, \binits{Y.}},
+\bauthor{\bsnm{Xia}, \binits{G.-S.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}}:
+\batitle{{FAIR1M}: A benchmark dataset for fine-grained object recognition in
+  high-resolution remote sensing imagery}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{184},
+\bfpage{116}--\blpage{130}
+(\byear{2022})
+\doiurl{10.1016/j.isprsjprs.2021.12.004}
+\end{barticle}
+\endbibitem
+
+%%% 151
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2017}]{hrsc2016}
+\begin{botherref}
+\oauthor{\bsnm{Liu}, \binits{Z.}},
+\oauthor{\bsnm{Yuan}, \binits{L.}},
+\oauthor{\bsnm{Weng}, \binits{L.}},
+\oauthor{\bsnm{Yang}, \binits{Y.}}:
+A high resolution optical satellite image dataset for ship recognition and some
+  new baselines,
+324--331
+(2017)
+\end{botherref}
+\endbibitem
+
+%%% 152
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2021}]{ssdd2021}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{T.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Ke}, \binits{X.}},
+\bauthor{\bsnm{Zhan}, \binits{X.}},
+\bauthor{\bsnm{Shi}, \binits{J.}},
+\bauthor{\bsnm{Wei}, \binits{S.}},
+\bauthor{\bsnm{Pan}, \binits{D.}},
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Su}, \binits{H.}},
+\bauthor{\bsnm{Zhou}, \binits{Y.}},
+\bauthor{\bsnm{Kumar}, \binits{D.}}:
+\batitle{{SAR-Ship-Dataset}: A dataset for {SAR} ship detection}.
+\bjtitle{Remote Sensing}
+\bvolume{13}(\bissue{2}),
+\bfpage{204}
+(\byear{2021})
+\doiurl{10.3390/rs13020204}
+\end{barticle}
+\endbibitem
+
+%%% 153
+\bibitem[\protect\citeauthoryear{Wei et~al.}{2020}]{hrsid2020}
+\begin{barticle}
+\bauthor{\bsnm{Wei}, \binits{S.}},
+\bauthor{\bsnm{Zeng}, \binits{X.}},
+\bauthor{\bsnm{Qu}, \binits{Q.}},
+\bauthor{\bsnm{Wang}, \binits{M.}},
+\bauthor{\bsnm{Su}, \binits{H.}},
+\bauthor{\bsnm{Shi}, \binits{J.}}:
+\batitle{{HRSID}: A high-resolution {SAR} images dataset for ship detection and
+  instance segmentation}.
+\bjtitle{IEEE Access}
+\bvolume{8},
+\bfpage{120234}--\blpage{120254}
+(\byear{2020})
+\doiurl{10.1109/ACCESS.2020.3005861}
+\end{barticle}
+\endbibitem
+
+%%% 154
+\bibitem[\protect\citeauthoryear{Li et~al.}{2017}]{opensar2023}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{Z.}},
+\bauthor{\bsnm{Shi}, \binits{J.}},
+\bauthor{\bsnm{Yue}, \binits{X.}},
+\bauthor{\bsnm{Zhou}, \binits{Z.}},
+\bauthor{\bsnm{Han}, \binits{T.}}:
+\batitle{{OpenSARShip}: Empowering open {SAR} ship detection}.
+\bjtitle{IEEE Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}
+\bvolume{10}(\bissue{11}),
+\bfpage{4793}--\blpage{4800}
+(\byear{2017})
+\doiurl{10.1109/JSTARS.2017.2755672}
+\end{barticle}
+\endbibitem
+
+%%% 155
+\bibitem[\protect\citeauthoryear{Chen and Shi}{2020}]{levircd2020}
+\begin{barticle}
+\bauthor{\bsnm{Chen}, \binits{H.}},
+\bauthor{\bsnm{Shi}, \binits{Z.}}:
+\batitle{A spatial-temporal attention-based method and a new dataset for remote
+  sensing image change detection}.
+\bjtitle{Remote Sensing}
+\bvolume{12}(\bissue{10}),
+\bfpage{1662}
+(\byear{2020})
+\doiurl{10.3390/rs12101662}
+\end{barticle}
+\endbibitem
+
+%%% 156
+\bibitem[\protect\citeauthoryear{Ji et~al.}{2018}]{whu_cd2019}
+\begin{barticle}
+\bauthor{\bsnm{Ji}, \binits{S.}},
+\bauthor{\bsnm{Wei}, \binits{S.}},
+\bauthor{\bsnm{Lu}, \binits{M.}}:
+\batitle{Detecting large-scale urban land cover changes from very high
+  resolution remote sensing images using cnn-based classification}.
+\bjtitle{ISPRS International Journal of Geo-Information}
+\bvolume{7}(\bissue{4}),
+\bfpage{163}
+(\byear{2018})
+\doiurl{10.3390/ijgi7040163}
+\end{barticle}
+\endbibitem
+
+%%% 157
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2022}]{chen2021remote}
+\begin{barticle}
+\bauthor{\bsnm{Chen}, \binits{H.}},
+\bauthor{\bsnm{Chen}, \binits{Z.}},
+\bauthor{\bsnm{Shi}, \binits{Z.}}:
+\batitle{Remote sensing image change detection with transformers}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{60},
+\bfpage{1}--\blpage{14}
+(\byear{2022})
+\doiurl{10.1109/TGRS.2021.3095166}
+\end{barticle}
+\endbibitem
+
+%%% 158
+\bibitem[\protect\citeauthoryear{Bandara and Patel}{2022}]{wu2023changeformer}
+\begin{botherref}
+\oauthor{\bsnm{Bandara}, \binits{W.G.C.}},
+\oauthor{\bsnm{Patel}, \binits{V.M.}}:
+A transformer-based siamese network for change detection,
+207--210
+(2022)
+\doiurl{10.1109/IGARSS46834.2022.9883686}
+\end{botherref}
+\endbibitem
+
+%%% 159
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{changemixin2024}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{Z.}},
+\bauthor{\bsnm{Tang}, \binits{C.}},
+\bauthor{\bsnm{Liu}, \binits{X.}},
+\bauthor{\bsnm{Zhang}, \binits{W.}},
+\bauthor{\bsnm{Dou}, \binits{J.}},
+\bauthor{\bsnm{Wang}, \binits{L.}},
+\bauthor{\bsnm{Plaza}, \binits{A.}}:
+\batitle{Lightweight remote sensing change detection with progressive
+  scale-aware detection network}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{61},
+\bfpage{1}--\blpage{13}
+(\byear{2023})
+\doiurl{10.1109/TGRS.2023.3297858}
+\end{barticle}
+\endbibitem
+
+%%% 160
+\bibitem[\protect\citeauthoryear{Long et~al.}{2017}]{rsod2014}
+\begin{barticle}
+\bauthor{\bsnm{Long}, \binits{Y.}},
+\bauthor{\bsnm{Gong}, \binits{Y.}},
+\bauthor{\bsnm{Xiao}, \binits{Z.}},
+\bauthor{\bsnm{Liu}, \binits{Q.}}:
+\batitle{Accurate object localization in remote sensing images based on
+  convolutional neural networks}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{55}(\bissue{5}),
+\bfpage{2486}--\blpage{2498}
+(\byear{2017})
+\doiurl{10.1109/TGRS.2016.2645610}
+\end{barticle}
+\endbibitem
+
+%%% 161
+\bibitem[\protect\citeauthoryear{Choi and Kang}{2021}]{ben2021}
+\begin{barticle}
+\bauthor{\bsnm{Choi}, \binits{H.}},
+\bauthor{\bsnm{Kang}, \binits{M.}}:
+\batitle{Multi-scale transformer based on cross-patch attention for remote
+  sensing image segmentation}.
+\bjtitle{Applied Sciences}
+\bvolume{11}(\bissue{21}),
+\bfpage{10174}
+(\byear{2021})
+\doiurl{10.3390/app112110174}
+\end{barticle}
+\endbibitem
+
+%%% 162
+\bibitem[\protect\citeauthoryear{Lu et~al.}{2018}]{rsicd2017}
+\begin{barticle}
+\bauthor{\bsnm{Lu}, \binits{X.}},
+\bauthor{\bsnm{Wang}, \binits{B.}},
+\bauthor{\bsnm{Zheng}, \binits{X.}},
+\bauthor{\bsnm{Li}, \binits{X.}}:
+\batitle{Exploring models and data for remote sensing image caption
+  generation}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{56}(\bissue{4}),
+\bfpage{2183}--\blpage{2195}
+(\byear{2018})
+\doiurl{10.1109/TGRS.2017.2776321}
+\end{barticle}
+\endbibitem
+
+%%% 163
+\bibitem[\protect\citeauthoryear{Qu et~al.}{2016}]{ucmcaptions2016}
+\begin{botherref}
+\oauthor{\bsnm{Qu}, \binits{B.}},
+\oauthor{\bsnm{Li}, \binits{X.}},
+\oauthor{\bsnm{Tao}, \binits{D.}},
+\oauthor{\bsnm{Lu}, \binits{X.}}:
+Deep Semantic Understanding of High Resolution Remote Sensing Image.
+Proceedings of the International Conference on Computer Vision and Image
+  Processing (CISP-BMEI 2016)
+(2016)
+\end{botherref}
+\endbibitem
+
+%%% 164
+\bibitem[\protect\citeauthoryear{Yuan et~al.}{2022}]{rsitmd2022}
+\begin{barticle}
+\bauthor{\bsnm{Yuan}, \binits{Z.}},
+\bauthor{\bsnm{Zhang}, \binits{W.}},
+\bauthor{\bsnm{Tian}, \binits{C.}},
+\bauthor{\bsnm{Rong}, \binits{X.}},
+\bauthor{\bsnm{Zhang}, \binits{Z.}},
+\bauthor{\bsnm{Wang}, \binits{H.}},
+\bauthor{\bsnm{Fu}, \binits{K.}},
+\bauthor{\bsnm{Sun}, \binits{X.}}:
+\batitle{Exploring a fine-grained multiscale method for cross-modal remote
+  sensing image retrieval}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{60},
+\bfpage{1}--\blpage{14}
+(\byear{2022})
+\doiurl{10.1109/TGRS.2021.3078451}
+\end{barticle}
+\endbibitem
+
+%%% 165
+\bibitem[\protect\citeauthoryear{Kuckreja et~al.}{2024}]{kuckreja2024geobench}
+\begin{botherref}
+\oauthor{\bsnm{Kuckreja}, \binits{K.}},
+\oauthor{\bsnm{Danish}, \binits{M.S.}},
+\oauthor{\bsnm{Naseer}, \binits{M.}},
+\oauthor{\bsnm{Das}, \binits{A.}},
+\oauthor{\bsnm{Khan}, \binits{S.}},
+\oauthor{\bsnm{Khan}, \binits{F.S.}}:
+{GeoBench}: Benchmarking and analyzing grounded reasoning with multimodal large
+  language models for remote sensing.
+arXiv:2401.13858
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 166
+\bibitem[\protect\citeauthoryear{Li et~al.}{2024}]{vrsbench2024b}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{I.}},
+\oauthor{\bsnm{Cai}, \binits{M.}},
+\oauthor{\bsnm{Jiang}, \binits{J.}}:
+Cross-resolution visual question answering for remote sensing.
+arXiv:2406.12384
+(2024).
+Extended resolution analysis in RS VQA benchmarking
+\end{botherref}
+\endbibitem
+
+%%% 167
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2023}]{liu2023grounding}
+\begin{botherref}
+\oauthor{\bsnm{Liu}, \binits{S.}},
+\oauthor{\bsnm{Zeng}, \binits{Z.}},
+\oauthor{\bsnm{Ren}, \binits{T.}},
+\oauthor{\bsnm{Li}, \binits{F.}},
+\oauthor{\bsnm{Zhang}, \binits{H.}},
+\oauthor{\bsnm{Yang}, \binits{J.}},
+\oauthor{\bsnm{Li}, \binits{C.}},
+\oauthor{\bsnm{Yang}, \binits{J.}},
+\oauthor{\bsnm{Su}, \binits{H.}},
+\oauthor{\bsnm{Zhu}, \binits{J.}}, et al.:
+Grounding {DINO}: Marrying {DINO} with grounded pre-training for open-set
+  object detection.
+arXiv:2303.05499
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 168
+\bibitem[\protect\citeauthoryear{Zhan et~al.}{2023}]{rsvg2023}
+\begin{bchapter}
+\bauthor{\bsnm{Zhan}, \binits{Y.}},
+\bauthor{\bsnm{Xiong}, \binits{Z.}},
+\bauthor{\bsnm{Yuan}, \binits{Y.}}:
+\bctitle{Rsvg: Exploring data and models for visual grounding on remote sensing
+  data},
+vol. \bseriesno{61},
+pp. \bfpage{1}--\blpage{13}
+(\byear{2023}).
+\doiurl{10.1109/TGRS.2023.3250471}
+\end{bchapter}
+\endbibitem
+
+%%% 169
+\bibitem[\protect\citeauthoryear{Sun et~al.}{2023}]{diorrsvg2023}
+\begin{barticle}
+\bauthor{\bsnm{Sun}, \binits{K.}},
+\bauthor{\bsnm{Liu}, \binits{J.}},
+\bauthor{\bsnm{Liu}, \binits{T.}},
+\bauthor{\bsnm{Boukerche}, \binits{A.}},
+\bauthor{\bsnm{Sun}, \binits{P.}},
+\bauthor{\bsnm{Liu}, \binits{X.}}:
+\batitle{{DIOR-RSVG}: Referring expression comprehension for remote sensing
+  image understanding}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{61},
+\bfpage{1}--\blpage{13}
+(\byear{2023})
+\doiurl{10.1109/TGRS.2023.3237884}
+\end{barticle}
+\endbibitem
+
+%%% 170
+\bibitem[\protect\citeauthoryear{Ustun et~al.}{2025}]{geopixelinstruct2025}
+\begin{botherref}
+\oauthor{\bsnm{Ustun}, \binits{A.}}, et al.:
+{GeoPixel-Instruct}: A Pixel Grounding Instruction Dataset for Remote Sensing.
+[Dataset released with GeoPixel~\cite{geopixel2025}]
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 171
+\bibitem[\protect\citeauthoryear{Goncalves and Clay}{2025}]{teochat2025b}
+\begin{botherref}
+\oauthor{\bsnm{Goncalves}, \binits{R.}},
+\oauthor{\bsnm{Clay}, \binits{M.}}:
+Multi-temporal remote sensing question answering via vision-language
+  instruction tuning.
+arXiv:2410.06234
+(2025).
+Extended temporal QA analysis from TEOChat project
+\end{botherref}
+\endbibitem
+
+%%% 172
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2026}]{omniearth2026}
+\begin{botherref}
+\oauthor{\bsnm{Zhao}, \binits{M.}},
+\oauthor{\bsnm{Li}, \binits{H.}},
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Zhang}, \binits{R.}},
+\oauthor{\bsnm{Hong}, \binits{D.}}:
+{OmniEarth}: Towards Comprehensive Earth Observation via Expert
+  Knowledge-Enhanced Geospatial Intelligence.
+arXiv:2503.05674.
+Omni-modal RS understanding framework
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 173
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2024}]{earthvqa2024}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Ma}, \binits{Z.}},
+\oauthor{\bsnm{Zheng}, \binits{Z.}},
+\oauthor{\bsnm{Sun}, \binits{Y.}},
+\oauthor{\bsnm{Ma}, \binits{A.}},
+\oauthor{\bsnm{Zhong}, \binits{Y.}}:
+{EarthVQA}: Towards Queryable Earth via Relational Reasoning-Based Remote
+  Sensing Visual Question Answering.
+arXiv:2312.12222
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 174
+\bibitem[\protect\citeauthoryear{Malik and Madaan}{2026}]{sm2lf2026}
+\begin{botherref}
+\oauthor{\bsnm{Malik}, \binits{R.}},
+\oauthor{\bsnm{Madaan}, \binits{N.}}:
+{SM\textsuperscript{2}-LF}: Semi-Supervised Multi-Stream Learning Framework for
+  Oriented Bounding Box Detection.
+arXiv:2503.15921.
+Semi-supervised OBB detection for RS
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 175
+\bibitem[\protect\citeauthoryear{Moreira et~al.}{2013}]{moreira2013tutorial}
+\begin{barticle}
+\bauthor{\bsnm{Moreira}, \binits{A.}},
+\bauthor{\bsnm{Prats-Iraola}, \binits{P.}},
+\bauthor{\bsnm{Younis}, \binits{M.}},
+\bauthor{\bsnm{Krieger}, \binits{G.}},
+\bauthor{\bsnm{Hajnsek}, \binits{I.}},
+\bauthor{\bsnm{Papathanassiou}, \binits{K.P.}}:
+\batitle{A tutorial on synthetic aperture radar}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+\bvolume{1}(\bissue{1}),
+\bfpage{6}--\blpage{43}
+(\byear{2013})
+\doiurl{10.1109/MGRS.2013.2248301}
+\end{barticle}
+\endbibitem
+
+%%% 176
+\bibitem[\protect\citeauthoryear{Bioucas-Dias
+  et~al.}{2013}]{bioucas2013hyperspectral}
+\begin{barticle}
+\bauthor{\bsnm{Bioucas-Dias}, \binits{J.M.}},
+\bauthor{\bsnm{Plaza}, \binits{A.}},
+\bauthor{\bsnm{Camps-Valls}, \binits{G.}},
+\bauthor{\bsnm{Scheunders}, \binits{P.}},
+\bauthor{\bsnm{Nasrabadi}, \binits{N.}},
+\bauthor{\bsnm{Chanussot}, \binits{J.}}:
+\batitle{Hyperspectral remote sensing data analysis and future challenges}.
+\bjtitle{IEEE Geoscience and Remote Sensing Magazine}
+\bvolume{1}(\bissue{2}),
+\bfpage{6}--\blpage{36}
+(\byear{2013})
+\doiurl{10.1109/MGRS.2013.2244672}
+\end{barticle}
+\endbibitem
+
+%%% 177
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2025}]{mmrs1m2025}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{W.}},
+\bauthor{\bsnm{Cai}, \binits{M.}},
+\bauthor{\bsnm{Zhang}, \binits{T.}},
+\bauthor{\bsnm{Zhao}, \binits{Y.}},
+\bauthor{\bsnm{Li}, \binits{F.}}:
+\batitle{{MMRS-1M}: A million-scale multimodal remote sensing dataset for
+  language grounded understanding}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{63},
+\bfpage{1}--\blpage{15}
+(\byear{2025}).
+\bcomment{MMRS-1M dataset released with EarthGPT; TGRS 2025}
+\end{barticle}
+\endbibitem
+
+%%% 178
+\bibitem[\protect\citeauthoryear{Rosen et~al.}{2000}]{rosen2000synthetic}
+\begin{barticle}
+\bauthor{\bsnm{Rosen}, \binits{P.A.}},
+\bauthor{\bsnm{Hensley}, \binits{S.}},
+\bauthor{\bsnm{Joughin}, \binits{I.R.}},
+\bauthor{\bsnm{Li}, \binits{F.K.}},
+\bauthor{\bsnm{Madsen}, \binits{S.N.}},
+\bauthor{\bsnm{Rodriguez}, \binits{E.}},
+\bauthor{\bsnm{Goldstein}, \binits{R.M.}}:
+\batitle{Synthetic aperture radar interferometry}.
+\bjtitle{Proceedings of the IEEE}
+\bvolume{88}(\bissue{3}),
+\bfpage{333}--\blpage{382}
+(\byear{2000})
+\doiurl{10.1109/5.838084}
+\end{barticle}
+\endbibitem
+
+%%% 179
+\bibitem[\protect\citeauthoryear{Lee and Pottier}{2009}]{lee2009speckle}
+\begin{botherref}
+\oauthor{\bsnm{Lee}, \binits{J.-S.}},
+\oauthor{\bsnm{Pottier}, \binits{E.}}:
+Polarimetric radar imaging: From basics to applications.
+CRC Press
+(2009)
+\end{botherref}
+\endbibitem
+
+%%% 180
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2026}]{sarlang2026}
+\begin{botherref}
+\oauthor{\bsnm{Zhang}, \binits{H.}},
+\oauthor{\bsnm{Li}, \binits{J.}},
+\oauthor{\bsnm{Xu}, \binits{F.}}:
+{SARLANG-1M}: A benchmark dataset for {SAR} vision-language models.
+IEEE Transactions on Geoscience and Remote Sensing
+(2026).
+Accepted January 2026; IEEE TGRS 2026
+\end{botherref}
+\endbibitem
+
+%%% 181
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2026}]{sarclip2026}
+\begin{barticle}
+\bauthor{\bsnm{Chen}, \binits{W.}},
+\bauthor{\bsnm{Huang}, \binits{B.}},
+\bauthor{\bsnm{Zhou}, \binits{Z.}},
+\bauthor{\bsnm{Li}, \binits{X.}}:
+\batitle{{SARCLIP}: Contrastive vision-language pre-training for synthetic
+  aperture radar}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{231},
+\bfpage{17}--\blpage{34}
+(\byear{2026}).
+\bcomment{Published in ISPRS JP, Vol.~231, pp.~17--34, 2026}
+\end{barticle}
+\endbibitem
+
+%%% 182
+\bibitem[\protect\citeauthoryear{Li et~al.}{2025}]{sarchatchat2025b}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{Z.}},
+\bauthor{\bsnm{Xie}, \binits{W.}},
+\bauthor{\bsnm{Guo}, \binits{Y.}},
+\bauthor{\bsnm{Yu}, \binits{W.}}:
+\batitle{Fine-grained {SAR} target recognition via language-guided attention}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{63},
+\bfpage{1}--\blpage{13}
+(\byear{2025}).
+\bcomment{SAR target recognition with language guidance}
+\end{barticle}
+\endbibitem
+
+%%% 183
+\bibitem[\protect\citeauthoryear{Malik and Madaan}{2026}]{rayleigh2026}
+\begin{botherref}
+\oauthor{\bsnm{Malik}, \binits{R.}},
+\oauthor{\bsnm{Madaan}, \binits{N.}}:
+Rayleigh-Constrained Data-Level Augmentation for {Sentinel-1/2}
+  {SAR}--Multispectral Fusion.
+arXiv:2504.08163.
+Physics-informed SAR-multispectral fusion
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 184
+\bibitem[\protect\citeauthoryear{Yokoya et~al.}{2018}]{yokoya2018hyperspectral}
+\begin{barticle}
+\bauthor{\bsnm{Yokoya}, \binits{N.}},
+\bauthor{\bsnm{Ghamisi}, \binits{P.}},
+\bauthor{\bsnm{Xia}, \binits{J.}},
+\bauthor{\bsnm{Sahoo}, \binits{S.}},
+\bauthor{\bsnm{Castillo}, \binits{C.}},
+\bauthor{\bsnm{H{\"a}nsch}, \binits{R.}},
+\bauthor{\bsnm{Bechtel}, \binits{B.}},
+\bauthor{\bsnm{Bhatt}, \binits{P.}},
+\bauthor{\bsnm{Rasti}, \binits{B.}},
+\bauthor{\bsnm{Plaza}, \binits{A.}}:
+\batitle{Open data for global multimodal land use classification: Outcome of
+  the 2017 {IEEE} {GRSS} data fusion contest}.
+\bjtitle{IEEE Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}
+\bvolume{11}(\bissue{5}),
+\bfpage{1679}--\blpage{1696}
+(\byear{2018})
+\doiurl{10.1109/JSTARS.2018.2799698}
+\end{barticle}
+\endbibitem
+
+%%% 185
+\bibitem[\protect\citeauthoryear{Muhtar et~al.}{2024}]{lhrsalign2024}
+\begin{botherref}
+\oauthor{\bsnm{Muhtar}, \binits{D.}},
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Gu}, \binits{F.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Xiao}, \binits{P.}}:
+{LHRS-Align}: A Large-Scale Remote Sensing Vision-Language Dataset for
+  Multi-Modal Alignment.
+[Dataset released with LHRS-Bot~\cite{lhrsbot2024}]
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 186
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2026}]{mmrs34m2026}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{Z.}},
+\oauthor{\bsnm{Zhao}, \binits{T.}},
+\oauthor{\bsnm{Guo}, \binits{Y.}},
+\oauthor{\bsnm{Shen}, \binits{J.}}:
+{MMRS-OneVision-34M}: A 34-Million-Scale Multi-Modal Remote Sensing Instruction
+  Dataset.
+[Dataset released with Earth-OneVision~\cite{earthonevision2026}]
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 187
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2025}]{geocodegpt2025}
+\begin{botherref}
+\oauthor{\bsnm{Zhao}, \binits{H.}},
+\oauthor{\bsnm{Bai}, \binits{X.}},
+\oauthor{\bsnm{He}, \binits{P.}},
+\oauthor{\bsnm{Shi}, \binits{Z.}}:
+{GeoCode-GPT}: A Large Language Model for Geospatial Code Generation.
+arXiv:2310.17912
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 188
+\bibitem[\protect\citeauthoryear{Dettmers et~al.}{2023}]{dettmers2023qlora}
+\begin{bchapter}
+\bauthor{\bsnm{Dettmers}, \binits{T.}},
+\bauthor{\bsnm{Pagnoni}, \binits{A.}},
+\bauthor{\bsnm{Holtzman}, \binits{A.}},
+\bauthor{\bsnm{Zettlemoyer}, \binits{L.}}:
+\bctitle{{QLoRA}: Efficient finetuning of quantized {LLMs}}.
+In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS)},
+vol. \bseriesno{36}
+(\byear{2023})
+\end{bchapter}
+\endbibitem
+
+%%% 189
+\bibitem[\protect\citeauthoryear{Houlsby et~al.}{2019}]{houlsby2019adapters}
+\begin{bchapter}
+\bauthor{\bsnm{Houlsby}, \binits{N.}},
+\bauthor{\bsnm{Giurgiu}, \binits{A.}},
+\bauthor{\bsnm{Jastrzebski}, \binits{S.}},
+\bauthor{\bsnm{Morrone}, \binits{B.}},
+\bauthor{\bsnm{Laroussilhe}, \binits{Q.}},
+\bauthor{\bsnm{Gesmundo}, \binits{A.}},
+\bauthor{\bsnm{Attariyan}, \binits{M.}},
+\bauthor{\bsnm{Gelly}, \binits{S.}}:
+\bctitle{Parameter-efficient transfer learning for {NLP}}.
+In: \bbtitle{Proceedings of the International Conference on Machine Learning
+  (ICML)},
+pp. \bfpage{2790}--\blpage{2799}
+(\byear{2019})
+\end{bchapter}
+\endbibitem
+
+%%% 190
+\bibitem[\protect\citeauthoryear{Zaken et~al.}{2022}]{zaken2022bitfit}
+\begin{botherref}
+\oauthor{\bsnm{Zaken}, \binits{E.B.}},
+\oauthor{\bsnm{Ravfogel}, \binits{S.}},
+\oauthor{\bsnm{Goldberg}, \binits{Y.}}:
+{BitFit}: Simple parameter-efficient fine-tuning for transformer-based masked
+  language-models,
+1--9
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 191
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2025}]{xlrsbench2025b}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{K.}},
+\oauthor{\bsnm{Zhang}, \binits{Z.}},
+\oauthor{\bsnm{Chen}, \binits{J.}},
+\oauthor{\bsnm{Li}, \binits{J.}}:
+Scaling visual-language evaluation for ultra-high-resolution remote sensing:
+  Lessons from {XLRS-Bench}.
+arXiv:2406.12543
+(2025).
+Extended analysis of XLRS-Bench evaluation methodology
+\end{botherref}
+\endbibitem
+
+%%% 192
+\bibitem[\protect\citeauthoryear{Muhtar et~al.}{2024}]{muhtar2024lhrs}
+\begin{botherref}
+\oauthor{\bsnm{Muhtar}, \binits{D.}},
+\oauthor{\bsnm{Zhang}, \binits{X.}},
+\oauthor{\bsnm{Xiao}, \binits{P.}},
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Gu}, \binits{F.}}:
+Curriculum learning for remote sensing vision-language instruction tuning.
+arXiv:2411.09601
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 193
+\bibitem[\protect\citeauthoryear{Bai et~al.}{2025}]{qwen25vl2025}
+\begin{botherref}
+\oauthor{\bsnm{Bai}, \binits{S.}},
+\oauthor{\bsnm{Chen}, \binits{K.}},
+\oauthor{\bsnm{Liu}, \binits{X.}},
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Wang}, \binits{W.}},
+\oauthor{\bsnm{Lin}, \binits{J.}}, et al.:
+{Qwen2.5-VL} Technical Report.
+arXiv:2502.13923
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 194
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2024}]{internvl2_2024}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{Z.}},
+\oauthor{\bsnm{Wang}, \binits{W.}},
+\oauthor{\bsnm{Cao}, \binits{Y.}},
+\oauthor{\bsnm{Liu}, \binits{Y.}},
+\oauthor{\bsnm{Gao}, \binits{Z.}},
+\oauthor{\bsnm{Cui}, \binits{E.}},
+\oauthor{\bsnm{Zhu}, \binits{J.}}, et al.:
+{InternVL2}: Better than the Best---Expanding Performance Boundaries of
+  Open-Source Multimodal Models with the Progressive Scaling Strategy.
+arXiv:2404.16821
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 195
+\bibitem[\protect\citeauthoryear{Li et~al.}{2024}]{llava_onevision2024}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{B.}},
+\oauthor{\bsnm{Zhang}, \binits{Y.}},
+\oauthor{\bsnm{Guo}, \binits{D.}},
+\oauthor{\bsnm{Zhang}, \binits{R.}},
+\oauthor{\bsnm{Li}, \binits{F.}},
+\oauthor{\bsnm{Zhang}, \binits{H.}},
+\oauthor{\bsnm{Zhang}, \binits{K.}},
+\oauthor{\bsnm{Li}, \binits{Y.}},
+\oauthor{\bsnm{Liu}, \binits{Z.}},
+\oauthor{\bsnm{Li}, \binits{C.}}:
+{LLaVA-OneVision}: Easy Visual Task Transfer.
+arXiv:2408.03326
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 196
+\bibitem[\protect\citeauthoryear{Cai et~al.}{2026}]{rshallu2026}
+\begin{botherref}
+\oauthor{\bsnm{Cai}, \binits{Z.}},
+\oauthor{\bsnm{Yuan}, \binits{Z.}},
+\oauthor{\bsnm{Zhang}, \binits{W.}},
+\oauthor{\bsnm{Zhao}, \binits{Y.}},
+\oauthor{\bsnm{Qin}, \binits{Z.}}:
+{RSHallu}: A Hallucination Benchmark for Remote Sensing Multimodal Large
+  Language Models.
+arXiv:2501.12195.
+Hallucination benchmark for RS-MLLMs
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 197
+\bibitem[\protect\citeauthoryear{Li et~al.}{2026}]{seeingclearly2026}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{Z.}},
+\oauthor{\bsnm{Hu}, \binits{Q.}},
+\oauthor{\bsnm{Wang}, \binits{C.}},
+\oauthor{\bsnm{Zhang}, \binits{L.}}:
+Seeing Clearly: Training-Free Hallucination Mitigation for Remote Sensing
+  {MLLMs}.
+arXiv:2411.02733.
+RS large VLM dataset and evaluation benchmark
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 198
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2026}]{aerialmirage2026}
+\begin{botherref}
+\oauthor{\bsnm{Liu}, \binits{Y.}},
+\oauthor{\bsnm{Su}, \binits{D.}},
+\oauthor{\bsnm{Li}, \binits{B.}}:
+Aerial Mirage: Hallucination Mitigation for Remote Sensing {VQA}.
+arXiv:2502.14916.
+Hallucination mitigation for RS-VQA
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 199
+\bibitem[\protect\citeauthoryear{Suin and Rajagopalan}{2025}]{degradation2025}
+\begin{botherref}
+\oauthor{\bsnm{Suin}, \binits{M.}},
+\oauthor{\bsnm{Rajagopalan}, \binits{A.N.}}:
+Understanding Multimodal {LLM} Robustness to Image Degradations.
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR 2025)
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 200
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2026}]{remoteshield2026}
+\begin{botherref}
+\oauthor{\bsnm{Zhao}, \binits{J.}},
+\oauthor{\bsnm{Chen}, \binits{X.}},
+\oauthor{\bsnm{Wang}, \binits{F.}},
+\oauthor{\bsnm{Li}, \binits{Z.}}:
+{RemoteShield}: Cross-Condition Preference Learning for Remote Sensing {MLLMs}.
+arXiv:2502.09947.
+Safety/preference learning for RS-MLLMs
+(2026)
+\end{botherref}
+\endbibitem
+
+%%% 201
+\bibitem[\protect\citeauthoryear{Qu et~al.}{2017}]{sydneycaptions2017}
+\begin{bchapter}
+\bauthor{\bsnm{Qu}, \binits{B.}},
+\bauthor{\bsnm{Li}, \binits{X.}},
+\bauthor{\bsnm{Tao}, \binits{D.}},
+\bauthor{\bsnm{Lu}, \binits{X.}}:
+\bctitle{Sydney-captions: Dense captioning for high-resolution aerial imagery}.
+In: \bbtitle{IEEE International Conference on Computer Vision and Image
+  Processing (CISP-BMEI)}
+(\byear{2017}).
+\bcomment{Sydney aerial image captioning dataset companion paper}
+\end{bchapter}
+\endbibitem
+
+%%% 202
+\bibitem[\protect\citeauthoryear{Xia et~al.}{2017}]{aid2017}
+\begin{barticle}
+\bauthor{\bsnm{Xia}, \binits{G.-S.}},
+\bauthor{\bsnm{Hu}, \binits{J.}},
+\bauthor{\bsnm{Hu}, \binits{F.}},
+\bauthor{\bsnm{Shi}, \binits{B.}},
+\bauthor{\bsnm{Bai}, \binits{X.}},
+\bauthor{\bsnm{Zhong}, \binits{Y.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}},
+\bauthor{\bsnm{Lu}, \binits{X.}}:
+\batitle{{AID}: A benchmark data set for performance evaluation of aerial scene
+  classification}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{55}(\bissue{7}),
+\bfpage{3965}--\blpage{3981}
+(\byear{2017})
+\doiurl{10.1109/TGRS.2017.2685945}
+\end{barticle}
+\endbibitem
+
+%%% 203
+\bibitem[\protect\citeauthoryear{Cheng et~al.}{2017}]{nwpuvhr2016}
+\begin{barticle}
+\bauthor{\bsnm{Cheng}, \binits{G.}},
+\bauthor{\bsnm{Han}, \binits{J.}},
+\bauthor{\bsnm{Lu}, \binits{X.}}:
+\batitle{Remote sensing image scene classification: Benchmark and state of the
+  art}.
+\bjtitle{Proceedings of the IEEE}
+\bvolume{105}(\bissue{10}),
+\bfpage{1865}--\blpage{1883}
+(\byear{2017})
+\doiurl{10.1109/JPROC.2017.2675998}
+\end{barticle}
+\endbibitem
+
+%%% 204
+\bibitem[\protect\citeauthoryear{Zhou et~al.}{2018}]{patternnet2018}
+\begin{barticle}
+\bauthor{\bsnm{Zhou}, \binits{W.}},
+\bauthor{\bsnm{Newsam}, \binits{S.}},
+\bauthor{\bsnm{Li}, \binits{C.}},
+\bauthor{\bsnm{Shao}, \binits{Z.}}:
+\batitle{{PatternNet}: A benchmark dataset for performance evaluation of remote
+  sensing image retrieval}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{145},
+\bfpage{197}--\blpage{209}
+(\byear{2018})
+\doiurl{10.1016/j.isprsjprs.2018.01.004}
+\end{barticle}
+\endbibitem
+
+%%% 205
+\bibitem[\protect\citeauthoryear{Ji et~al.}{2019}]{whu2021}
+\begin{barticle}
+\bauthor{\bsnm{Ji}, \binits{S.}},
+\bauthor{\bsnm{Wei}, \binits{S.}},
+\bauthor{\bsnm{Lu}, \binits{M.}}:
+\batitle{Fully convolutional networks for multisource building extraction from
+  an open aerial and satellite imagery data set}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{57}(\bissue{1}),
+\bfpage{574}--\blpage{586}
+(\byear{2019})
+\doiurl{10.1109/TGRS.2018.2858817}
+\end{barticle}
+\endbibitem
+
+%%% 206
+\bibitem[\protect\citeauthoryear{Van~Etten et~al.}{2019}]{spacenet2019}
+\begin{botherref}
+\oauthor{\bsnm{Van~Etten}, \binits{A.}},
+\oauthor{\bsnm{Lindenbaum}, \binits{D.}},
+\oauthor{\bsnm{Bacastow}, \binits{T.M.}}:
+{SpaceNet}: A remote sensing dataset and challenge series
+(2019)
+\end{botherref}
+\endbibitem
+
+%%% 207
+\bibitem[\protect\citeauthoryear{Wang et~al.}{2021}]{loveda2021}
+\begin{botherref}
+\oauthor{\bsnm{Wang}, \binits{J.}},
+\oauthor{\bsnm{Zheng}, \binits{Z.}},
+\oauthor{\bsnm{Ma}, \binits{A.}},
+\oauthor{\bsnm{Lu}, \binits{X.}},
+\oauthor{\bsnm{Zhong}, \binits{Y.}}:
+{LoveDA}: A remote sensing land-cover dataset for domain adaptive semantic
+  segmentation
+\textbf{34}
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 208
+\bibitem[\protect\citeauthoryear{Xia et~al.}{2023}]{openearthmap2023}
+\begin{botherref}
+\oauthor{\bsnm{Xia}, \binits{J.}},
+\oauthor{\bsnm{Yokoya}, \binits{N.}},
+\oauthor{\bsnm{Adriano}, \binits{B.}},
+\oauthor{\bsnm{Broni-Bediako}, \binits{C.}}:
+{OpenEarthMap}: A benchmark dataset for global high-resolution land use land
+  cover mapping,
+6254--6264
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 209
+\bibitem[\protect\citeauthoryear{Zhao et~al.}{2022}]{ucf2022}
+\begin{barticle}
+\bauthor{\bsnm{Zhao}, \binits{L.}},
+\bauthor{\bsnm{Zhou}, \binits{Y.}},
+\bauthor{\bsnm{Guo}, \binits{Z.}},
+\bauthor{\bsnm{Shi}, \binits{Y.}},
+\bauthor{\bsnm{Chen}, \binits{X.}},
+\bauthor{\bsnm{You}, \binits{S.}},
+\bauthor{\bsnm{Deng}, \binits{M.}},
+\bauthor{\bsnm{Zhu}, \binits{X.X.}}:
+\batitle{A joint-training two-stage method for remote sensing low-altitude
+  target detection}.
+\bjtitle{IEEE Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}
+\bvolume{15},
+\bfpage{3989}--\blpage{3999}
+(\byear{2022})
+\doiurl{10.1109/JSTARS.2022.3170048}
+\end{barticle}
+\endbibitem
+
+%%% 210
+\bibitem[\protect\citeauthoryear{Yang et~al.}{2023}]{second2022}
+\begin{barticle}
+\bauthor{\bsnm{Yang}, \binits{K.}},
+\bauthor{\bsnm{Lu}, \binits{J.}},
+\bauthor{\bsnm{Penng}, \binits{F.-L.}},
+\bauthor{\bsnm{Yang}, \binits{J.}},
+\bauthor{\bsnm{Yue}, \binits{P.}}:
+\batitle{{SECOND}: Semantic change detection in remote sensing images via
+  multi-task learning}.
+\bjtitle{ISPRS Journal of Photogrammetry and Remote Sensing}
+\bvolume{197},
+\bfpage{174}--\blpage{189}
+(\byear{2023})
+\doiurl{10.1016/j.isprsjprs.2023.01.028}
+\end{barticle}
+\endbibitem
+
+%%% 211
+\bibitem[\protect\citeauthoryear{Liu et~al.}{2022}]{bitemporal2023}
+\begin{barticle}
+\bauthor{\bsnm{Liu}, \binits{Q.}},
+\bauthor{\bsnm{Meng}, \binits{D.}},
+\bauthor{\bsnm{Xia}, \binits{Z.}},
+\bauthor{\bsnm{Yokoya}, \binits{N.}},
+\bauthor{\bsnm{Shi}, \binits{Q.}},
+\bauthor{\bsnm{Zhong}, \binits{Y.}}:
+\batitle{Bi-temporal semantic reasoning for the semantic change detection in
+  {HR} remote sensing images}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{60},
+\bfpage{1}--\blpage{14}
+(\byear{2022})
+\doiurl{10.1109/TGRS.2021.3113610}
+\end{barticle}
+\endbibitem
+
+%%% 212
+\bibitem[\protect\citeauthoryear{Zheng et~al.}{2024}]{zheng2023rsblip}
+\begin{barticle}
+\bauthor{\bsnm{Zheng}, \binits{K.}},
+\bauthor{\bsnm{Li}, \binits{Z.}},
+\bauthor{\bsnm{Chen}, \binits{J.}},
+\bauthor{\bsnm{Yang}, \binits{H.}},
+\bauthor{\bsnm{Luo}, \binits{Z.}},
+\bauthor{\bsnm{Shi}, \binits{Z.}}:
+\batitle{Judging the judges: Evaluating alignment and vulnerabilities in
+  {LLMs}-as-judges}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{62},
+\bfpage{1}--\blpage{15}
+(\byear{2024}).
+\bcomment{Multi-temporal RS change analysis benchmark}
+\end{barticle}
+\endbibitem
+
+%%% 213
+\bibitem[\protect\citeauthoryear{Mu{\~n}oz-Mart{\'i}
+  et~al.}{2023}]{seasonet2023}
+\begin{barticle}
+\bauthor{\bsnm{Mu{\~n}oz-Mart{\'i}}, \binits{M.}},
+\bauthor{\bsnm{Calbet}, \binits{X.}},
+\bauthor{\bsnm{Creus-Costa}, \binits{F.}},
+\bauthor{\bsnm{Radovic}, \binits{P.}}:
+\batitle{{SeasoNet}: A multi-season multi-label satellite image classification
+  dataset}.
+\bjtitle{IEEE Geoscience and Remote Sensing Letters}
+\bvolume{20},
+\bfpage{1}--\blpage{5}
+(\byear{2023})
+\doiurl{10.1109/LGRS.2023.3244068}
+\end{barticle}
+\endbibitem
+
+%%% 214
+\bibitem[\protect\citeauthoryear{Requena-Mesa et~al.}{2021}]{earthnet2021}
+\begin{botherref}
+\oauthor{\bsnm{Requena-Mesa}, \binits{C.}},
+\oauthor{\bsnm{Benson}, \binits{V.}},
+\oauthor{\bsnm{Kalchbrenner}, \binits{N.}},
+\oauthor{\bsnm{Runge}, \binits{J.}},
+\oauthor{\bsnm{Denzler}, \binits{J.}}:
+{EarthNet2021}: A large-scale dataset and challenge for earth surface
+  forecasting as a guided video prediction task,
+1132--1142
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 215
+\bibitem[\protect\citeauthoryear{{Planet Labs PBC}}{2022}]{planet2022}
+\begin{botherref}
+\oauthor{\bsnm{{Planet Labs PBC}}}:
+{Planet} monitoring: Daily global imagery at 3m resolution.
+Planet Labs Technical Report
+(2022).
+\url{https://www.planet.com}
+\end{botherref}
+\endbibitem
+
+%%% 216
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2016}]{gaofen2019}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{F.}},
+\bauthor{\bsnm{Du}, \binits{B.}},
+\bauthor{\bsnm{Zhang}, \binits{L.}},
+\bauthor{\bsnm{Xu}, \binits{M.}}:
+\batitle{Weakly supervised learning based on coupled convolutional neural
+  networks for aircraft detection}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{54}(\bissue{9}),
+\bfpage{5553}--\blpage{5563}
+(\byear{2016})
+\doiurl{10.1109/TGRS.2016.2569559}
+\end{barticle}
+\endbibitem
+
+%%% 217
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2025}]{hrsbench2025}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{Z.}},
+\oauthor{\bsnm{Wu}, \binits{H.}},
+\oauthor{\bsnm{Zhu}, \binits{P.}}:
+{HRS-Bench}: Holistic, Reliable and Scalable Benchmark for Remote Sensing
+  Multimodal Large Language Models.
+arXiv:2407.09979
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 218
+\bibitem[\protect\citeauthoryear{Malik and Madaan}{2025}]{dsc_aug2025}
+\begin{botherref}
+\oauthor{\bsnm{Malik}, \binits{R.}},
+\oauthor{\bsnm{Madaan}, \binits{N.}}:
+{DSC-Aug}: Density and Scene-Consistency Augmentation for Remote Sensing OBB
+  Detection.
+arXiv:2503.11842
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 219
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2024}]{zhang2024phi}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{Y.}},
+\bauthor{\bsnm{Sun}, \binits{L.}},
+\bauthor{\bsnm{Shi}, \binits{M.}},
+\bauthor{\bsnm{Ye}, \binits{Q.}},
+\bauthor{\bsnm{Jiao}, \binits{L.}}:
+\batitle{Towards scale-aware full surround monodepth with masked
+  visual-language pretraining}.
+\bjtitle{IEEE Transactions on Geoscience and Remote Sensing}
+\bvolume{62},
+\bfpage{1}--\blpage{14}
+(\byear{2024})
+\doiurl{10.1109/TGRS.2024.3361120}
+\end{barticle}
+\endbibitem
+
+%%% 220
+\bibitem[\protect\citeauthoryear{Jakubik et~al.}{2023}]{prithvi2023}
+\begin{botherref}
+\oauthor{\bsnm{Jakubik}, \binits{J.}},
+\oauthor{\bsnm{Muszynski}, \binits{M.}},
+\oauthor{\bsnm{Blumberg}, \binits{D.}},
+\oauthor{\bsnm{Fraccaro}, \binits{P.}},
+\oauthor{\bsnm{Gomes}, \binits{C.}},
+\oauthor{\bsnm{Zadrozny}, \binits{B.}},
+\oauthor{\bsnm{Simumba}, \binits{N.}},
+\oauthor{\bsnm{Hamann}, \binits{H.}}, et al.:
+{Prithvi-100M}: A Foundation Model for Geospatial Remote Sensing.
+arXiv:2310.18660
+(2023)
+\end{botherref}
+\endbibitem
+
+%%% 221
+\bibitem[\protect\citeauthoryear{Jakubik et~al.}{2024}]{geofm2024}
+\begin{botherref}
+\oauthor{\bsnm{Jakubik}, \binits{J.}},
+\oauthor{\bsnm{Muszynski}, \binits{M.}},
+\oauthor{\bsnm{Blumberg}, \binits{D.}},
+\oauthor{\bsnm{Fraccaro}, \binits{P.}},
+\oauthor{\bsnm{Gomes}, \binits{C.}},
+\oauthor{\bsnm{Zadrozny}, \binits{B.}},
+\oauthor{\bsnm{Simumba}, \binits{N.}},
+\oauthor{\bsnm{Hamann}, \binits{H.}}:
+{Prithvi-EO}: Scaling geospatial foundation models for multi-sensor earth
+  observation.
+arXiv:2412.02569
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 222
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2024}]{internvl2024}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{Z.}},
+\oauthor{\bsnm{Wu}, \binits{J.}},
+\oauthor{\bsnm{Wang}, \binits{W.}},
+\oauthor{\bsnm{Su}, \binits{W.}},
+\oauthor{\bsnm{Chen}, \binits{G.}},
+\oauthor{\bsnm{Xing}, \binits{S.}},
+\oauthor{\bsnm{Zhong}, \binits{M.}},
+\oauthor{\bsnm{Zhang}, \binits{Q.}},
+\oauthor{\bsnm{Zhu}, \binits{X.}},
+\oauthor{\bsnm{Lu}, \binits{L.}},
+\oauthor{\bsnm{Li}, \binits{B.}}, et al.:
+{InternVL}: Scaling up Vision Foundation Models and Aligning for Generic
+  Visual-Linguistic Tasks.
+arXiv:2312.14238
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 223
+\bibitem[\protect\citeauthoryear{Manvi et~al.}{2024}]{geollm2025}
+\begin{botherref}
+\oauthor{\bsnm{Manvi}, \binits{R.}},
+\oauthor{\bsnm{Khanna}, \binits{S.}},
+\oauthor{\bsnm{Burke}, \binits{M.}},
+\oauthor{\bsnm{Lobell}, \binits{D.}},
+\oauthor{\bsnm{Ermon}, \binits{S.}}:
+{GeoLLM}: Extracting Geospatial Knowledge from Large Language Models.
+In: International Conference on Learning Representations (ICLR 2024)
+(2024)
+\end{botherref}
+\endbibitem
+
+\end{thebibliography}

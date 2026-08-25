@@ -1,0 +1,123 @@
+%% ============================================================
+%% SECTION 10: CONCLUSION
+%% EarthVision-LM Survey -- Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% ============================================================
+
+\section{Conclusion}\label{sec10}
+
+This survey has provided a comprehensive, systematic, and architecturally
+grounded analysis of multimodal large language models for remote sensing.
+We propose an architecture-first five-dimensional design space for synthesising
+RS-MLLMs across encoder adaptation, connector design, LLM strategy, modality scope,
+and spatial output---a framework that, to the best of our knowledge, no existing
+RS-MLLM survey has previously formalised with explicit mapping of RS domain
+challenges to each design dimension. The analysis covers
+97 primary RS-MLLM papers (Corpus~A) supported by 113 contextual
+domain references (210 total retrieved), published between January 2022 and August 2026. We organised the
+analysis around a central diagnostic question: \emph{why do RS-MLLMs in 2026 remain
+perception-limited despite three years of rapid development?} The answer, as
+revealed by the five-dimensional design-space analysis, multi-modal coverage study,
+hallucination taxonomy, and quantitative synthesis, is structural rather than incidental.
+
+\textbf{The structural findings.}
+Three structural gaps, each traceable to a specific dimension of the RS-MLLM design
+space, account for the perception gap between current systems and operational
+geospatial intelligence.
+
+The \emph{modality gap} ($\mathcal{M}$-dimension) is the most severe: 84.6\,\% of
+published RS-MLLMs process optical imagery only, despite RS being inherently
+multi-sensor. Recent models such as EarthGPT~\cite{earthgpt2025},
+EarthGPT-X~\cite{earthgptx2026}, and Earth-OneVision~\cite{earthonevision2026}
+substantially expand sensor coverage---Earth-OneVision reaching optical, SAR,
+infrared, multispectral, temporal, and video across nine task categories.
+However, broad HSI capability, physics-grounded cross-sensor reasoning, and
+robust spatial reasoning remain underdeveloped across the field.
+The four specific structural deficits are:
+(i)~broad HSI coverage (no dedicated HSI RS-MLLM exists);
+(ii)~physics-specific modality encoding for SAR backscatter and hyperspectral
+spectral signatures;
+(iii)~systematic cross-sensor evaluation protocols; and
+(iv)~operationally grounded spatiotemporal reasoning.
+HM-Bench results are consistent with the hypothesis that RGB-oriented
+representations and inadequate spectral grounding contribute to Type~III failures,
+confirmed across all 18 evaluated models. These gaps cannot be closed by scaling
+optical training
+data---they require modality-specific encoder design and physics-informed training
+objectives.
+
+The \emph{spatial output gap} ($\mathcal{S}$-dimension) is the most operationally
+consequential: oriented bounding box (OBB) output---the required representation for
+aircraft, ships, and vehicles at arbitrary rotation angles---is present in four
+Corpus~B models (GeoChat, EarthGPT, GeoGround, EarthGPT-X) but limited to optical
+imagery in all cases. Cross-sensor OBB reasoning (SAR/HSI OBB) is essentially
+unaddressed across the entire Corpus~B. Level-5 cross-sensor OBB with segmentation
+is entirely unoccupied.
+
+The \emph{task gap} (Level-4 spatiotemporal reasoning) is the most aspirational:
+operational RS requires multi-temporal causal reasoning; while Earth-OneVision~\cite{earthonevision2026}
+supports temporal inputs and VLRS-Bench~\cite{vlrsbench2026} now targets
+complex reasoning across up to eight temporal phases, explicit causal and
+longitudinal reasoning remains substantially underdeveloped, despite these
+emerging temporal and multi-phase benchmarks and model capabilities. The field
+has saturated Level-1 image-level tasks (VQA, captioning) but remains nascent
+at Level-3 pixel-level tasks and substantially underdeveloped at Level-4.
+
+\textbf{The path forward.}
+The eight future research directions charted in Sect.~\ref{sec9} provide a concrete
+roadmap from perception-limited systems to geospatially intelligent ones. The
+near-term directions---OBB-capable MLLM training, a Type~III hallucination
+benchmark, and a physics-informed SAR encoder---are tractable within the current
+architectural paradigm. Relevant prior work on long-tail OBB
+detection~\cite{odfe2025}, physics-constrained SAR--multispectral
+fusion~\cite{rayleigh2026}, and semi-supervised temporal consistency~\cite{sm2lf2026}
+provides methodological foundations for these directions.
+
+The mid-term directions require architectural innovation: unified multi-sensor
+MLLMs with modality-specific encoder banks, spectral-physics-aware HSI encoders,
+and spatiotemporal reasoning with temporal token fusion and change-aware attention.
+The long-term vision---a geospatial foundation model pre-trained across all sensor
+modalities, spatial resolutions, and temporal scales---requires compute and data
+infrastructure that is currently beyond academic budgets but represents the natural
+convergence point of the trends documented in this survey.
+
+\textbf{What this survey contributes to the field.}
+The five-dimensional design space (Sect.~\ref{sec3}) provides the RS-MLLM community
+with a shared vocabulary for architectural comparison and gap identification. The
+task hierarchy (Sect.~\ref{sec4}) provides a framework for prioritising evaluation
+investment. The multi-modal coverage analysis (Sect.~\ref{sec5}) quantifies the
+modality debt---the investment in SAR and HSI infrastructure that the field must
+make to realise the full potential of RS-MLLM technology. The three-type
+hallucination taxonomy (Sect.~\ref{sec7}) provides the conceptual foundation for
+hallucination detection and mitigation across all sensor modalities. The structured quantitative synthesis
+(Sect.~\ref{sec8}), grounded in a PRISMA-compliant search yielding 97 primary
+RS-MLLM papers (Corpus~A: 31 model studies yielding 26 architectures; 18 benchmark
+studies; 14 dataset studies; 9 hallucination studies; 25 foundation-model studies)
+supported by 113 contextual domain references, establishes
+the empirical baseline against which future field growth can be measured.
+These contributions are explicitly complementary to the concurrent survey of
+Ma~et~al.~\cite{ma2026dsorsp}, which comprehensively covers RS-MLLM evolution,
+multimodal learning, training data, downstream tasks, benchmark comparison,
+generalisation, and spatial/UHR reasoning, with a primary contribution of
+empirical RS-vs-CV-MLLM diagnostic evaluation demonstrating that general-purpose
+CV-MLLMs can match RS-specific models on several tasks. Ma~et~al.\ establish
+\emph{what} the performance gaps are empirically; EarthVision-LM explains
+\emph{why} they exist at the architectural and physics level, and charts the
+path to closing them. Readers are directed to both surveys for a complete
+picture of the RS-MLLM landscape.
+
+\textbf{The broader significance.}
+Remote sensing is among the most consequential application domains for AI,
+spanning high-consequence applications including disaster response, infrastructure
+monitoring, agricultural management, and environmental surveillance.
+RS-MLLMs that hallucinate confidently are not merely inaccurate systems:
+they are potentially dangerous systems, as established in Sect.~\ref{sec7:danger}.
+The development of RS-MLLMs that are physically grounded, multi-sensor capable,
+spatially precise, and hallucination-aware is therefore not only a scientific
+challenge but a societal one.
+
+The field is young---the oldest dedicated RS-MLLM (RSGPT~\cite{rsgpt2023}) appeared
+less than three years before this survey was written---and its growth trajectory
+(3 papers in 2022, 42 in 2025) suggests that the structural gaps identified here
+will be actively contested in the coming years. We hope that the taxonomy, analysis,
+and roadmap presented in EarthVision-LM will provide a useful compass for that work.

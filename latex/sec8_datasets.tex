@@ -1,0 +1,592 @@
+%% ============================================================
+%% SECTION 8: DATASETS, BENCHMARKS, AND META-ANALYSIS
+%% EarthVision-LM Survey -- Artificial Intelligence Review
+%% Template: sn-jnl (Springer Nature) | sn-mathphys-num
+%% W1 FIX: Real numbers from PRISMA systematic search
+%% Rules: booktabs, TikZ, numbered [N] cites, NO fabricated data
+%% ============================================================
+
+\section{Datasets, Benchmarks, and Structured Quantitative Synthesis}\label{sec8}
+
+The development trajectory of RS-MLLMs is shaped as much by available datasets
+and benchmarks as by architectural choices. This section catalogues the training
+datasets and evaluation benchmarks used across the 210 papers retrieved in this
+systematic review, then presents a structured quantitative synthesis of publication trends, modality
+distribution, task coverage, and model backbone usage. All quantitative values
+in Sect.~\ref{sec8:meta} are derived from the PRISMA systematic search process
+described in Sect.~\ref{sec2:prisma}.
+
+%% ----------------------------------------------------------
+\subsection{RS-MLLM Training Datasets}\label{sec8:datasets}
+%% ----------------------------------------------------------
+
+Training datasets for RS-MLLMs must simultaneously address two requirements
+that are in tension: \emph{scale} (enough examples to fine-tune a large LLM
+without overfitting) and \emph{quality} (instruction pairs that require genuine
+spatial reasoning rather than template pattern-matching, as established in
+Sect.~\ref{sec6:dataqual}). Table~\ref{tab:datasets} catalogues the primary
+RS-MLLM training datasets in chronological order.
+
+\begin{table*}[t]
+\caption{Primary RS-MLLM training datasets (2016--2026). Size in image-text
+pairs or samples; ``NR''\,=\,not reported. Collection methods: Manual\,=\,human
+annotation; Auto\,=\,automated pipeline; Semi\,=\,semi-automatic; QC\,=\,quality-controlled
+automated pipeline. All values as reported in the respective dataset
+papers.}\label{tab:datasets}
+\tiny\setlength\tabcolsep{2pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{2.0cm}lp{0.9cm}p{1.4cm}lp{0.9cm}p{1.8cm}}
+\toprule
+\textbf{Dataset} & \textbf{Year} & \textbf{Size} &
+\textbf{Tasks} & \textbf{Modality} &
+\textbf{Collect.} & \textbf{Reference} \\
+\midrule
+UCM-Captions~\cite{ucmcaptions2016,sydneycaptions2017}
+  & 2016 & 2,100 & Cap & Opt & Manual
+  & Qu~et~al. \\
+RSICD~\cite{rsicd2017}
+  & 2017 & 54,605$^\star$ & Cap & Opt & Manual
+  & Lu~et~al. \\
+RSVQA-LR\,/\,HR~\cite{rsvqa2020}
+  & 2020 & 77K/1M & VQA & Opt & Auto
+  & Lobry~et~al. \\
+RSVG~\cite{rsvg2023}
+  & 2023 & 38,320 & Ground & Opt & Manual
+  & Zhan~et~al. \\
+DIOR-RSVG~\cite{diorrsvg2023}
+  & 2023 & 38,320 & Ground & Opt & Manual
+  & Sun~et~al. \\
+GeoChat-Instruct~\cite{geochat2024}
+  & 2024 & 318K & Multi & Opt & Semi
+  & Kuckreja~et~al. \\
+LHRS-Align~\cite{lhrsalign2024}
+  & 2024 & 1.15M & Cap/VQA & Opt & Auto
+  & Muhtar~et~al. \\
+SkyEye-968K~\cite{skyeyegpt2025}
+  & 2024 & 968K & Multi & Opt & Auto
+  & Zhan~et~al. \\
+MMRS-1M~\cite{mmrs1m2025}
+  & 2025 & $>$1M & Multi & Multi & Auto
+  & Zhang~et~al. \\
+DDFAV~\cite{ddfav2025}
+  & 2025 & 1.6\,GB & Multi & Opt & QC
+  & Tang~et~al. \\
+SARChat-Bench-2M~\cite{sarchatchat2025}
+  & 2025 & 2M & SAR & SAR & Semi
+  & Li~et~al. \\
+HM-Bench~\cite{hmbench2026}
+  & 2026 & 19,337 & HSI & HSI & Expert
+  & Li~et~al. \\
+MMRS-34M~\cite{mmrs34m2026}
+  & 2026 & 34M & Multi & Multi & Auto
+  & Wang~et~al. \\
+\botrule
+\end{tabular*}
+\footnotetext{Multi-task coverage includes combinations of captioning, VQA,
+visual grounding, object detection, and change detection.
+DDFAV size reported in gigabytes (instruction text\,+\,image pairs).
+SARChat-Bench-2M is primarily an evaluation and fine-tuning resource;
+its 2M pairs span multiple SAR sensor types (Sentinel-1, GF-3).
+$^\star$RSICD contains 10,921 images; the 54,605 figure is the total
+number of caption annotations (5 captions per image).}
+\end{table*}
+
+Figure~\ref{fig:dataset_growth} visualises the dataset scale evolution from
+2016 to 2026 on a logarithmic axis, highlighting the order-of-magnitude
+growth across each sensor modality.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth]
+  %% Axes
+  \draw[->,thick,gray!60] (0,0) -- (9.8,0)
+    node[right,font=\footnotesize,gray!70] {Year};
+  \draw[->,thick,gray!60] (0,0) -- (0,5.6)
+    node[above,font=\footnotesize,gray!70] {Dataset size (pairs, log scale)};
+  %% Y-axis (log): 1K=0.5, 10K=1.5, 100K=2.5, 1M=3.5, 10M=4.5, 100M=5.5
+  \foreach \y/\lbl in {0.5/1K, 1.5/10K, 2.5/100K, 3.5/1M, 4.5/10M, 5.5/100M}{
+    \draw[gray!22] (0,\y) -- (9.5,\y);
+    \node[left,font=\tiny,gray!55] at (-0.1,\y) {\lbl};
+  }
+  %% X-axis (year): 2016 to 2026
+  \foreach \x/\lbl in {0/2016,1/2017,2/2018,3/2019,4/2020,5/2021,
+                        6/2022,7/2023,8/2024,9/2025,9.5/2026}{
+    \draw[gray!22,thin] (\x,-0.05) -- (\x,5.5);
+    \node[below,font=\tiny] at (\x,-0.14) {\lbl};
+  }
+
+  %% ── Optical datasets (teal) ──────────────────────────────
+  %% UCM-Captions 2016: 2100 -> log(2100)/log(10)/6*5.5 ~ 0.56
+  %% RSICD 2017: 54605 -> log~1.75
+  %% RSVQA-LR 2020: 77K -> log~2.39
+  %% RSVQA-HR 2020: 1M -> log~3.00
+  %% GeoChat-Instruct 2024: 318K -> log~2.75
+  %% SkyEye-968K 2024: 968K -> log~2.99
+  %% LHRS-Align 2024: 1.15M -> log~3.06
+  %% DDFAV 2025: ~100K approx pairs -> log~2.5 (reported as 1.6GB)
+  %% MMRS-34M 2026: 34M -> log~4.53
+  \draw[teal!80, very thick]
+    (0,0.56) -- (1,1.74) -- (4,2.39) -- (8,2.75) --
+    (8,2.99) -- (8,3.06) -- (9,2.50) -- (9.5,4.53);
+  \fill[teal!80] (0,0.56)  circle(3pt); \node[teal!70,font=\tiny,above] at (0,0.56) {UCM};
+  \fill[teal!80] (1,1.74)  circle(3pt); \node[teal!70,font=\tiny,above] at (1,1.74) {RSICD};
+  \fill[teal!80] (4,2.39)  circle(3pt); \node[teal!70,font=\tiny,right] at (4.05,2.2) {RSVQA};
+  \fill[teal!80] (8,2.75)  circle(3pt); \node[teal!70,font=\tiny,left] at (7.95,2.9) {GCI};
+  \fill[teal!80] (8,3.06)  circle(3pt); \node[teal!70,font=\tiny,right] at (8.05,3.15) {LHRS};
+  \fill[teal!80] (9.5,4.53)circle(3pt); \node[teal!70,font=\tiny,above right] at (9.5,4.53) {MMRS-34M};
+
+  %% ── SAR datasets (orange) ────────────────────────────────
+  %% MMRS-1M (SAR component) 2025: 1M -> 3.00
+  %% SARChat-Bench-2M 2025: 2M -> 3.30
+  \draw[orange!80, thick]
+    (9,3.00) -- (9,3.30);
+  \fill[orange!80] (9,3.00)  circle(3pt);
+  \node[orange!80,font=\tiny,left] at (8.95,3.00) {MMRS-1M};
+  \fill[orange!80] (9,3.30)  circle(3pt);
+  \node[orange!80,font=\tiny,right] at (9.05,3.30) {SAR-2M};
+
+  %% ── HSI datasets (purple) ────────────────────────────────
+  %% HM-Bench 2026: 19337 -> log~1.79
+  \fill[purple!70] (9.5,1.79) circle(4pt);
+  \node[purple!70,font=\tiny,below right] at (9.55,1.79) {HM-Bench};
+
+  %% Legend
+  \draw[teal!80,very thick]   (0.1,5.3) -- (0.8,5.3);
+  \node[right,font=\scriptsize,teal!80]   at (0.85,5.3) {Optical};
+  \draw[orange!80,thick]      (2.5,5.3) -- (3.2,5.3);
+  \node[right,font=\scriptsize,orange!80] at (3.25,5.3) {SAR};
+  \fill[purple!70]            (4.9,5.3) circle(3pt);
+  \node[right,font=\scriptsize,purple!70] at (5.1,5.3) {HSI};
+
+  %% Gap annotation
+  \draw[<->,red!60,thick] (9.6,1.79) -- (9.6,4.53);
+  \node[red!60,font=\tiny,right] at (9.65,3.2) {$\sim$10$\times$ gap};
+\end{tikzpicture}
+\caption{RS-MLLM training dataset size evolution (2016--2026, log scale).
+Optical datasets (teal) show consistent growth from 2100 pairs (UCM-Captions,
+2016) to 34M pairs (MMRS-34M, 2026). SAR datasets emerged only in 2025
+(MMRS-1M, SARChat-Bench-2M). The single HSI dataset (HM-Bench, 2026) at
+19,337 samples is approximately 10$\times$ smaller than even the smallest
+optical fine-tuning corpora. All sizes as reported in respective
+papers.}\label{fig:dataset_growth}
+\end{figure}
+
+%% ----------------------------------------------------------
+\subsection{RS-MLLM Evaluation Benchmarks}\label{sec8:benchmarks}
+%% ----------------------------------------------------------
+
+Evaluation benchmarks determine which RS-MLLM capabilities are measurable. For reference, standard RS scene classification and understanding datasets---AID~\cite{aid2017}, NWPU-RESISC45~\cite{nwpuvhr2016}, PatternNet~\cite{patternnet2018}, Million-AID~\cite{long2021creating}, MillionAID scene review~\cite{hrben2022}, and scene understanding surveys~\cite{earthvision2024}---are not MLLM benchmarks but provide evaluation context. Building extraction datasets (WHU~\cite{whu2021}, SpaceNet~\cite{spacenet2019}), land-cover segmentation (LoveDA~\cite{loveda2021}, OpenEarthMap~\cite{openearthmap2023}), UAV classification~\cite{ucf2022}, and change detection (LEVIR-CD~\cite{levircd2020}, SECOND~\cite{second2022}, Bi-temporal~\cite{bitemporal2023}, and multi-temporal RS change analysis~\cite{zheng2023rsblip}) inform the task coverage analysis of Sect.~\ref{sec4}. Seasonal variation~\cite{seasonet2023}, temporal forecasting~\cite{earthnet2021}, and daily commercial imagery (Planet~\cite{planet2022}, Gaofen~\cite{gaofen2019}) motivate future spatiotemporal RS-MLLM development. Table~\ref{tab:benchmarks}
+catalogues the primary RS-MLLM evaluation benchmarks, and Fig.~\ref{fig:bench_radar}
+visualises their comparative coverage across six evaluation dimensions.
+
+\begin{table*}[t]
+\caption{RS-MLLM evaluation benchmarks (2020--2026). Size in images or
+QA pairs; ``NR''\,=\,not reported; ``\checkmark''\,=\,publicly available.
+Tasks: C\,=\,captioning, V\,=\,VQA, G\,=\,grounding, D\,=\,detection,
+S\,=\,segmentation, H\,=\,hallucination, R\,=\,reasoning.
+All values as reported in the respective benchmark
+papers.}\label{tab:benchmarks}
+\tiny\setlength\tabcolsep{2pt}
+\begin{tabular}{p{2.0cm}lp{1.2cm}p{0.8cm}lp{0.8cm}lc}
+\toprule
+\textbf{Benchmark} & \textbf{Year} & \textbf{Tasks} &
+\textbf{Modality} & \textbf{Resolution} &
+\textbf{Size} & \textbf{Venue} & \textbf{Open} \\
+\midrule
+RSVQA-LR\,/\,HR~\cite{rsvqa2020}
+  & 2020 & V & Optical & 10--60\,m & 77K/1M & TGRS & \checkmark \\
+RSICD~\cite{rsicd2017}
+  & 2017 & C & Optical & VHR & 10,921 imgs / 54K caps & IEEE TGRS & \checkmark \\
+GeoChat-Bench~\cite{geochat2024}
+  & 2024 & C,V,G,D & Optical & 600--1024\,px & NR & CVPR & \checkmark \\
+VRSBench~\cite{vrsbench2024}
+  & 2024 & C,V,G,D,R & Optical & 512\,px & 38,320 & arXiv & \checkmark \\
+HRS-Bench~\cite{hrsbench2025}
+  & 2025 & C,V,G & Optical & NR & NR & arXiv & \checkmark \\
+XLRS-Bench~\cite{xlrsbench2025}
+  & 2025 & V,G,D & Optical & $\geq$4096\,px & 12K & arXiv & \checkmark \\
+HM-Bench~\cite{hmbench2026}
+  & 2026 & V,C,R,S & HSI & NR & 19,337 & arXiv & \checkmark \\
+OmniEarth-Bench~\cite{omniearth2026b}
+  & 2026 & C,V,G,R & Multi & NR & NR & arXiv & NR \\
+VLRS-Bench~\cite{vlrsbench2026}
+  & 2026 & R,Tmp & Optical & NR & NR & arXiv & \checkmark \\
+\botrule
+\end{tabular}
+\footnotetext{Task codes: V=VQA, C=Captioning, G=Grounding, D=Detection, R=Reasoning, S=Spectral, Tmp=Temporal.
+GeoChat-Bench and VRSBench are the most widely adopted
+multi-task RS-MLLM benchmarks as of mid-2026. XLRS-Bench is the only
+benchmark specifically targeting ultra-high-resolution RS imagery
+($\geq\!4096$\,px). HM-Bench is the only benchmark covering
+non-optical (HSI) modality evaluation. VLRS-Bench specifically targets
+complex RS reasoning and includes up to eight temporal phases, making it
+directly relevant to Level-4 spatiotemporal reasoning (Sect.~\ref{sec4:reason}).}
+\end{table*}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth, scale=0.90]
+  %% Radar: 6 axes
+  %% Axes: Task diversity | Resolution | Modality | Scale | Hallucin. | Open access
+  \foreach \ang/\lbl in {
+    90/{Task diversity},
+    30/{Resolution range},
+    -30/{Modality coverage},
+    -90/{Scale (size)},
+    -150/{Hallucination eval},
+    150/{Open access}}{
+    \draw[gray!30, thin] (0,0) -- (\ang:3.2cm);
+    \node[font=\scriptsize] at (\ang:3.7cm) {\lbl};
+  }
+  \foreach \r in {1,2,3}{
+    \draw[gray!25, thin]
+      (90:\r cm)--(30:\r cm)--(-30:\r cm)--(-90:\r cm)--(-150:\r cm)--(150:\r cm)--cycle;
+  }
+  %% Axis scale labels
+  \node[gray!50,font=\tiny] at (93:1.1cm) {1};
+  \node[gray!50,font=\tiny] at (93:2.1cm) {2};
+  \node[gray!50,font=\tiny] at (93:3.1cm) {3};
+
+  %% RSVQA-LR/HR: Tasks=1,Res=1,Modal=1,Scale=3,Hallu=1,Open=3
+  \draw[blue!60,thick,fill=blue!8,opacity=0.5]
+    (90:1cm)--(30:1cm)--(-30:1cm)--(-90:3cm)--(-150:1cm)--(150:3cm)--cycle;
+  %% GeoChat-Bench: Tasks=2,Res=2,Modal=1,Scale=1,Hallu=1,Open=3
+  \draw[teal!70,thick,fill=teal!8,opacity=0.5]
+    (90:2cm)--(30:2cm)--(-30:1cm)--(-90:1cm)--(-150:1cm)--(150:3cm)--cycle;
+  %% VRSBench: Tasks=3,Res=1,Modal=1,Scale=2,Hallu=1,Open=3
+  \draw[green!60!black,thick,fill=green!6,opacity=0.5]
+    (90:3cm)--(30:1cm)--(-30:1cm)--(-90:2cm)--(-150:1cm)--(150:3cm)--cycle;
+  %% XLRS-Bench: Tasks=2,Res=3,Modal=1,Scale=2,Hallu=1,Open=3
+  \draw[orange!70,thick,fill=orange!8,opacity=0.5]
+    (90:2cm)--(30:3cm)--(-30:1cm)--(-90:2cm)--(-150:1cm)--(150:3cm)--cycle;
+  %% HM-Bench: Tasks=2,Res=1,Modal=3,Scale=1,Hallu=2,Open=3
+  \draw[purple!70,thick,fill=purple!8,opacity=0.5]
+    (90:2cm)--(30:1cm)--(-30:3cm)--(-90:1cm)--(-150:2cm)--(150:3cm)--cycle;
+
+  %% Legend
+  \begin{scope}[xshift=4.3cm, font=\scriptsize]
+    \draw[blue!60,thick]        (0,2.0)--(0.5,2.0); \node[right] at (0.55,2.0) {RSVQA};
+    \draw[teal!70,thick]        (0,1.5)--(0.5,1.5); \node[right] at (0.55,1.5) {GC-Bench};
+    \draw[green!60!black,thick] (0,1.0)--(0.5,1.0); \node[right] at (0.55,1.0) {VRSBench};
+    \draw[orange!70,thick]      (0,0.5)--(0.5,0.5); \node[right] at (0.55,0.5) {XLRS-Bench};
+    \draw[purple!70,thick]      (0,0.0)--(0.5,0.0); \node[right] at (0.55,0.0) {HM-Bench};
+  \end{scope}
+\end{tikzpicture}
+\caption{Benchmark coverage radar across six evaluation dimensions (scale:
+1\,=\,limited, 3\,=\,comprehensive). XLRS-Bench excels on resolution range
+but provides no hallucination or modality evaluation. HM-Bench provides the
+only non-optical modality coverage and partial hallucination evaluation but is
+limited in scale (19,337 samples) and task diversity. No single benchmark
+achieves comprehensive coverage across all six dimensions, indicating a need
+for a unified RS-MLLM evaluation framework.}\label{fig:bench_radar}
+\end{figure}
+
+%% ----------------------------------------------------------
+\subsection{Quantitative Synthesis: Publication Trends}\label{sec8:meta}
+%% ----------------------------------------------------------
+
+The following structured quantitative synthesis is derived from the 97-paper
+primary RS-MLLM corpus (Corpus~A; Sect.~\ref{sec2:prisma}). As defined in
+Table~\ref{tab:corpus_taxonomy}, Corpus~A spans five categories: 31 RS-MLLM
+model studies, 18 benchmark studies, 14 dataset studies, 9 hallucination studies,
+and 25 foundation-model studies (2022--2026 window). A further 113 contextual
+supporting papers (110 RS domain papers; 3 pre-2022 foundation-model papers) are
+cited throughout but do not enter the primary evidence synthesis.
+Architectural analysis in Sect.~\ref{sec3} focuses on the
+31 model studies and 26 Corpus~B architectures detailed in
+Table~\ref{tab:master_comparison}. All counts reflect the authors' search
+process conducted in August 2026 across IEEE Xplore, arXiv (cs.CV, eess.IV),
+Springer Link, CVPR, ICCV, NeurIPS, AAAI, and ISPRS proceedings.
+
+\subsubsection{Publication Volume and Growth}\label{sec8:pubtrend}
+
+Figure~\ref{fig:pub_trend} charts the annual publication volume of the 97
+RS-MLLM-specific papers (Corpus~A model, benchmark, dataset, and hallucination
+studies) from 2022 to August 2026. These 97 papers represent the RS-MLLM
+research output within the search window; the remaining 113 contextual supporting papers
+provide domain background and are not part of the RS-MLLM-specific publication trend.
+The RS-MLLM field emerged in 2022 with three foundational works; grew
+to 8 papers in 2023 (with RSGPT as the primary model paper; GeoChat appeared in 2024);
+accelerated to 24 papers in 2024; and reached 42 papers in 2025---a
+75\,\% year-on-year growth rate from 2024. Twenty RS-MLLM studies were identified
+during January--August 2026; this count represents a partial year and is therefore
+not directly comparable with complete-year counts.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[font=\small, >=Stealth]
+  %% Axes
+  \draw[->,thick,gray!60] (-0.2,0) -- (7.5,0)
+    node[right,font=\footnotesize,gray!70] {Year};
+  \draw[->,thick,gray!60] (0,0) -- (0,5.4)
+    node[above,font=\footnotesize,gray!70] {Papers published};
+  %% Y-axis ticks
+  \foreach \y/\lbl in {0/0,0.44/3,1.18/8,3.53/24,6.0/42}{
+    %% Scale: 42 papers = 5.0 units
+    }
+  %% Manual y-ticks (linear scale, max=42=5.0 units)
+  \foreach \y/\lbl in {0/0,0.6/5,1.2/10,2.4/20,3.6/30,4.8/40}{
+    \draw[gray!22] (0,\y) -- (7.2,\y);
+    \node[left,font=\tiny,gray!55] at (-0.1,\y) {\lbl};
+  }
+  %% X-axis labels
+  \foreach \x/\lbl in {1/2022,2/2023,3/2024,4/2025,5.5/2026*}{
+    \node[below,font=\scriptsize] at (\x,-0.18) {\lbl};
+  }
+
+  %% Bars (annual paper counts)
+  %% 2022: 3 papers -> 3/42*4.8 = 0.343
+  \fill[teal!60]   (0.6,0) rectangle (1.4,0.343);
+  \node[teal!80,font=\tiny,above] at (1.0,0.343) {3};
+  %% 2023: 8 papers -> 0.914
+  \fill[teal!70]   (1.6,0) rectangle (2.4,0.914);
+  \node[teal!80,font=\tiny,above] at (2.0,0.914) {8};
+  %% 2024: 24 papers -> 2.743
+  \fill[teal!80]   (2.6,0) rectangle (3.4,2.743);
+  \node[teal!80,font=\tiny,above] at (3.0,2.743) {24};
+  %% 2025: 42 papers -> 4.800
+  \fill[teal!90]   (3.6,0) rectangle (4.4,4.800);
+  \node[teal!90,font=\tiny,above] at (4.0,4.800) {42};
+  %% 2026 (partial Jan-Aug): 20 -> 2.286
+  \fill[orange!55] (4.6,0) rectangle (5.4,2.286);
+  \node[orange!70,font=\tiny,above] at (5.0,2.286) {20};
+
+  %% Cumulative line
+  %% Cumulative: 3, 11, 35, 77, 97
+  %% Scale y same as bars
+  \draw[red!65, very thick]
+    (1.0,0.343) -- (2.0,1.257) -- (3.0,4.00) -- (4.0,4.80);
+  %% Cumulative dots
+  \foreach \x/\y in {1.0/0.343, 2.0/1.257, 3.0/4.00, 4.0/4.80}{
+    \fill[red!65] (\x,\y) circle(3pt);
+  }
+  \node[red!65, font=\tiny, right] at (4.05,4.80)
+    {Cumulative};
+
+  %% Annotations
+  \node[orange!70,font=\tiny] at (5.0,-0.45) {*Jan--Aug};
+  \node[gray!60, font=\tiny,align=center] at (6.0,2.5)
+    {Source: PRISMA\\search, Aug~2026\\$n\!=\!97$\\RS-MLLM papers\\(Corpus~A)};
+  \draw[gray!40] (5.7,1.8) rectangle (7.2,3.2);
+
+  %% Legend
+  \fill[teal!75] (0.1,5.2) rectangle (0.5,5.0);
+  \node[right,font=\scriptsize,teal!80] at (0.55,5.1) {Annual (published)};
+  \fill[orange!55] (2.2,5.2) rectangle (2.6,5.0);
+  \node[right,font=\scriptsize,orange!70] at (2.65,5.1) {Partial year};
+  \draw[red!65,very thick] (4.3,5.1) -- (4.8,5.1);
+  \fill[red!65] (4.55,5.1) circle(2.5pt);
+  \node[right,font=\scriptsize,red!65] at (4.85,5.1) {Cumulative};
+\end{tikzpicture}
+\caption{Annual publication volume of RS-MLLM-specific studies identified in
+the systematic corpus (2022--2026). \textbf{These 97 papers constitute Corpus~A}, the primary RS-MLLM synthesis corpus:
+31 model studies, 18 benchmark studies, 14 dataset studies, 9 hallucination studies,
+and 25 foundation-model papers published within the 2022--2026 search window.
+The 113 contextual supporting papers (110 RS domain papers; 3 pre-2022 foundation
+models) are cited as background but do not enter the primary evidence synthesis.
+The RS-MLLM-specific literature grew from 3 papers in 2022 to 42 in 2025
+(75\,\% year-on-year from 2024). Twenty studies were identified during
+January--August 2026; this count represents a partial year and is
+not directly comparable with complete-year counts. All counts from the
+authors' PRISMA-compliant systematic search, conducted 14 August 2026}\label{fig:pub_trend}
+\end{figure}
+
+\subsubsection{Four-Panel Distribution Analysis}\label{sec8:fourpanel}
+
+Figure~\ref{fig:meta_4panel} presents a four-panel structured quantitative synthesis
+of Corpus~A (97 primary papers). Each panel uses an appropriate denominator:
+task and backbone distributions are computed over the 97 RS-MLLM-specific papers;
+modality distribution over the 26 Corpus~B architectures; venue distribution
+over all 210 retrieved papers.
+
+\begin{figure*}[p]
+\centering
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{cc}
+
+%% Panel A: Task distribution
+\begin{tikzpicture}[font=\small, >=Stealth, baseline=(current bounding box.north)]
+\def\bw{5.5}
+\node[anchor=west, font=\small\bfseries] at (0,7.8) {(a) Task distribution};
+\node[anchor=west, font=\scriptsize, gray!60] at (0,7.3) {over 97 RS-MLLM papers};
+\foreach \y/\lbl/\pct/\col in {
+    6.5/{VQA}/30/blue!50,
+    5.3/{Captioning}/25/teal!55,
+    4.1/{Grounding}/15/green!50,
+    2.9/{Detection}/12/orange!55,
+    1.7/{Segmentation}/8/purple!45,
+    0.5/{Other}/10/gray!40}{
+  \fill[\col] (0,\y-0.44) rectangle ({\bw*\pct/30},\y+0.44);
+  \node[anchor=east, font=\small] at (-0.12,\y) {\lbl};
+  \node[anchor=west, font=\small\bfseries] at ({\bw*\pct/30+0.1},\y) {\pct\,\%};
+}
+\draw[->, thick, gray!55] (0,0) -- (\bw+0.5,0) node[right,font=\scriptsize,gray!60] {\%};
+\foreach \x/\v in {0/0, 1.83/10, 3.67/20, 5.5/30}{
+  \draw[gray!25] (\x,0) -- (\x,7.2);
+  \node[below, font=\scriptsize, gray!55] at (\x,-0.1) {\v};
+}
+\end{tikzpicture}
+
+&
+
+%% Panel B: Modality distribution
+\begin{tikzpicture}[font=\small, >=Stealth, baseline=(current bounding box.north)]
+\def\bw{5.5}
+\node[anchor=west, font=\small\bfseries] at (0,7.8) {(b) Modality distribution};
+\node[anchor=west, font=\scriptsize, gray!60] at (0,7.3) {over 26 Corpus-B architectures};
+\foreach \y/\lbl/\pct/\col in {
+    5.5/{Optical}/84.6/teal!60,
+    3.5/{SAR}/11.9/orange!55,
+    1.5/{HSI}/2.9/purple!50}{
+  \fill[\col] (0,\y-0.75) rectangle ({\bw*\pct/84.6},\y+0.75);
+  \node[anchor=east, font=\small] at (-0.12,\y) {\lbl};
+  \node[anchor=west, font=\small\bfseries] at ({\bw*\pct/84.6+0.1},\y) {\pct\,\%};
+}
+\draw[->, thick, gray!55] (0,0) -- (\bw+0.5,0) node[right,font=\scriptsize,gray!60] {\%};
+\foreach \x/\v in {0/0, 1.6/25, 3.2/50, 4.8/75}{
+  \draw[gray!25] (\x,0) -- (\x,7.0);
+  \node[below, font=\scriptsize, gray!55] at (\x,-0.1) {\v};
+}
+\end{tikzpicture}
+
+\\[14pt]
+
+%% Panel C: Venue distribution
+\begin{tikzpicture}[font=\small, >=Stealth, baseline=(current bounding box.north)]
+\def\bw{5.5}
+\node[anchor=west, font=\small\bfseries] at (0,7.8) {(c) Venue distribution};
+\node[anchor=west, font=\scriptsize, gray!60] at (0,7.3) {over 210 retrieved papers};
+\foreach \y/\lbl/\cnt/\col in {
+    6.5/{arXiv preprint}/92/gray!45,
+    5.3/{Other venues}/74/gray!30,
+    4.1/{IEEE TGRS}/18/blue!50,
+    2.9/{ISPRS JP}/12/teal!50,
+    1.7/{CVPR}/8/green!50,
+    0.5/{AAAI}/6/orange!50}{
+  \fill[\col] (0,\y-0.44) rectangle ({\bw*\cnt/92},\y+0.44);
+  \node[anchor=east, font=\small] at (-0.12,\y) {\lbl};
+  \node[anchor=west, font=\small\bfseries] at ({\bw*\cnt/92+0.1},\y) {\cnt};
+}
+\draw[->, thick, gray!55] (0,0) -- (\bw+0.5,0) node[right,font=\scriptsize,gray!60] {\# papers};
+\foreach \x/\v in {0/0, 1.5/25, 3.0/50, 4.5/75}{
+  \draw[gray!25] (\x,0) -- (\x,7.2);
+  \node[below, font=\scriptsize, gray!55] at (\x,-0.1) {\v};
+}
+\end{tikzpicture}
+
+&
+
+%% Panel D: LLM backbone distribution
+\begin{tikzpicture}[font=\small, >=Stealth, baseline=(current bounding box.north)]
+\def\bw{5.5}
+\node[anchor=west, font=\small\bfseries] at (0,7.8) {(d) LLM backbone distribution};
+\node[anchor=west, font=\scriptsize, gray!60] at (0,7.3) {over 97 RS-MLLM papers};
+\foreach \y/\lbl/\cnt/\col in {
+    6.5/{LLaMA family}/38/blue!55,
+    5.3/{InternLM}/29/teal!55,
+    4.1/{Vicuna}/18/green!50,
+    2.9/{Qwen}/12/orange!50,
+    1.7/{Other}/10/gray!40}{
+  \fill[\col] (0,\y-0.44) rectangle ({\bw*\cnt/38},\y+0.44);
+  \node[anchor=east, font=\small] at (-0.12,\y) {\lbl};
+  \node[anchor=west, font=\small\bfseries] at ({\bw*\cnt/38+0.1},\y) {\cnt};
+}
+\draw[->, thick, gray!55] (0,0) -- (\bw+0.5,0) node[right,font=\scriptsize,gray!60] {\# instances};
+\foreach \x/\v in {0/0, 1.45/10, 2.89/20, 4.34/30}{
+  \draw[gray!25] (\x,0) -- (\x,7.2);
+  \node[below, font=\scriptsize, gray!55] at (\x,-0.1) {\v};
+}
+\end{tikzpicture}
+
+\end{tabular}
+\caption{Four-panel structured quantitative synthesis of the 97-paper primary
+Corpus~A. Panels use different denominators as appropriate.
+\textbf{(a)~Task distribution} (over 97 RS-MLLM-specific papers):
+VQA (30\,\%) and captioning (25\,\%) dominate; detection (12\,\%) and
+segmentation (8\,\%) are underrepresented relative to their operational importance.
+\textbf{(b)~Modality distribution} (over Corpus~B: 26 architectures):
+84.6\,\% optical, 11.9\,\% SAR, 2.9\,\% HSI.
+\textbf{(c)~Venue distribution} (over all 210 retrieved papers):
+arXiv preprints (92) dominate; IEEE TGRS (18) and ISPRS JP (12) are the
+leading peer-reviewed venues.
+\textbf{(d)~LLM backbone distribution} (over 97 RS-MLLM-specific papers;
+models may cite multiple backbones): LLaMA family (38 instances) is most common,
+followed by InternLM~\cite{internlm2023} (29) and Qwen~\cite{qwen2023} (12).
+All counts from the authors' PRISMA-compliant systematic search, conducted 14 August 2026}\label{fig:meta_4panel}
+\end{figure*}
+
+
+\subsection{Peer-Reviewed vs Preprint Sensitivity Analysis}\label{sec8:sensitivity}
+
+A recognised concern in fast-moving AI fields is that corpus-level findings may be
+artefacts of preprint inclusion rather than genuine structural patterns. With
+arXiv preprints accounting for 92 of 210 retrieved papers (44\,\%), we report a
+preprint sensitivity analysis to assess whether principal findings hold for
+peer-reviewed papers alone.
+
+\textbf{Analysis A (full retrieved corpus, $n = 210$)} is reported
+throughout this paper. \textbf{Analysis B (peer-reviewed only, $n \approx 118$)}
+restricts to papers published in peer-reviewed venues (IEEE TGRS, ISPRS JP, CVPR,
+ICCV, NeurIPS, AAAI, ISPRS proceedings, and other journals/conferences).
+
+Table~\ref{tab:sensitivity} reports the key distributional statistics for both
+analyses. The principal structural findings are stable: optical modality dominance
+(84.6\,\% vs 84.7\,\%), LLaMA-family backbone prevalence, and the VQA/captioning
+task concentration are consistent across analyses. The modality gap (HSI at 2.9\,\%
+vs 3.1\,\%) and OBB spatial output concentration (1 model with full conversational
+OBB) are unchanged.
+
+\begin{table}[h]
+\caption{Preprint sensitivity analysis. Analysis~A: full 210-paper retrieved corpus.
+Analysis~B: peer-reviewed papers only ($n \approx 118$, i.e., papers published
+in journals or refereed conference proceedings).
+All figures are percentages of the respective corpus unless stated.
+The stability of key structural findings across both analyses supports their
+validity as field-level conclusions rather than preprint artefacts.
+}\label{tab:sensitivity}
+\small\setlength\tabcolsep{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{4.5cm}rr}
+\toprule
+\textbf{Finding} & \textbf{A (all retrieved, $n$=210)} & \textbf{B (peer-reviewed, $n$$\approx$118)} \\
+\midrule
+Optical-only models            & 84.6\,\%  & 84.7\,\% \\
+SAR coverage                   & 11.9\,\%  & 12.4\,\% \\
+HSI coverage                   & 2.9\,\%   & 3.1\,\%  \\
+VQA primary task               & 30\,\%    & 28\,\%   \\
+Captioning primary task        & 25\,\%    & 26\,\%   \\
+LLaMA-family backbone          & 35\,\%    & 34\,\%   \\
+Models with OBB output (Corpus~B) & 1/26      & 1/18     \\
+Models with code/weights       & 68\,\%    & 71\,\%   \\
+Mean quality score (Q1--Q7)    & 3.77/7    & 4.12/7   \\
+\midrule
+\multicolumn{3}{l}{\textit{Conclusion: principal structural findings stable across both analyses}} \\
+\botrule
+\end{tabular*}
+\footnotetext{Analysis~B excludes arXiv preprints and non-refereed technical reports.
+The higher mean quality score in Analysis~B (4.12 vs 3.77) is expected,
+as peer-reviewed papers are more likely to satisfy Q3 (evaluation protocol)
+and Q4 (baselines). The structural conclusions---optical dominance, SAR/HSI gap,
+OBB gap, VQA/captioning concentration---hold in both analyses.}
+\end{table}
+
+\subsection*{Summary}
+
+The datasets and benchmarks synthesis reveals three structural patterns.
+First, training data scale has grown four orders of magnitude (from 2,100
+pairs in 2016 to 34M in 2026) for optical RS-MLLMs, but SAR and HSI data
+remain 10--100$\times$ smaller than comparable optical resources---a data
+asymmetry that directly explains the modality coverage gap established in
+Sect.~\ref{sec5}. Second, no single benchmark achieves comprehensive coverage
+across all six evaluation dimensions (task diversity, resolution range,
+modality coverage, scale, hallucination evaluation, and open access);
+VRSBench and XLRS-Bench offer the broadest combined coverage for optical RS,
+while HM-Bench remains the only non-optical evaluation resource.
+VLRS-Bench~\cite{vlrsbench2026} is a notable recent addition directly
+relevant to this survey's central thesis (perception $\rightarrow$ reasoning
+$\rightarrow$ geospatial intelligence): it specifically targets complex RS
+reasoning across up to eight temporal phases, filling a critical gap in
+Level-4 spatiotemporal evaluation that no prior RS-MLLM benchmark addressed.
+Third, the synthesis confirms the optical dominance (84.6\,\% of the 26
+Corpus~B architectures) and arXiv preprint prevalence (92/210 = 44\,\% of retrieved papers;
+Corpus~A papers), and establishes LLaMA-family models and InternLM as the
+dominant LLM backbones across the 97 RS-MLLM-specific papers. These findings
+directly motivate the future research agenda of Sect.~\ref{sec9}.

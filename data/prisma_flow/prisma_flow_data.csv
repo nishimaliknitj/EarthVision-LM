@@ -1,0 +1,39 @@
+stage,source,count,calculation,notes
+Identification — Database,IEEE Xplore,214,,Primary search 14 Aug 2026
+Identification — Database,arXiv cs.CV,318,,Primary search 14 Aug 2026
+Identification — Database,arXiv eess.IV,87,,Primary search 14 Aug 2026
+Identification — Database,Springer Link,89,,Primary search 14 Aug 2026
+Identification — Database,CVPR Proceedings,42,,2022–2026
+Identification — Database,ICCV Proceedings,28,,2023 + 2025
+Identification — Database,NeurIPS Proceedings,19,,2022–2025
+Identification — Database,AAAI Proceedings,32,,2023–2026
+Identification — Database,ISPRS Proceedings,18,,2022–2026
+Identification — Database TOTAL,,847,,Sum of all databases
+Identification — Snowball,Snowball candidates (forward+backward citation),265,,Applied to 412 title/abstract-passing records
+Deduplication,Cross-database duplicates removed,37,,DOI matching primary; title normalisation fallback
+Unique database records after dedup,,810,847-37,
+Screening — Title/Abstract,Records screened,810,,Both reviewers independent
+Screening — Title/Abstract excluded (off-topic),Off-topic exclusion (E1-E3),398,,Not RS or not LM interface
+Records passing to full-text,,412,810-398,
+Full-text Eligibility — Database,Full-text assessed (database),412,,
+Full-text excluded E5 (no RS-MLLM scope),E5 exclusion,107,,Moved to contextual supporting literature
+Full-text excluded E6 (no code/weights),E6 exclusion,76,,Preprints without public code
+Total full-text excluded,,183,107+76,
+Database-eligible records,,229,412-183,
+Snowball — New records passing eligibility,New snowball records,18,,18/265 = 6.8%; saturation confirmed
+Total eligible pool,,247,229+18,Merge of DB and snowball pathways
+Post-eligibility exclusion E7 (no quantitative results),E7 exclusion,25,,No numeric benchmark scores
+Post-eligibility exclusion E8 (duplicate model report),E8 exclusion,12,,Companion/variant papers
+Total post-eligibility excluded,,37,25+12,
+Full reference corpus,,210,247-37,
+Primary RS-MLLM synthesis corpus (Corpus A),Primary papers,97,,31 model + 18 benchmark + 14 dataset + 9 hallucination + 25 foundation (2022-2026)
+Contextual supporting literature,Contextual papers,113,,110 RS domain + 3 pre-2022 foundation
+Arithmetic check Corpus A + Contextual,,210,97+113,Matches full reference corpus
+Architecture registry (Corpus B),Distinct RS-MLLMs,26,,From 31 model papers; 5 companion/extension reports
+Task-comparable subset (Corpus C),Models with comparable benchmarks,18,,Sufficient data for cross-model quantitative analysis
+Update search candidates (24 Aug 2026),Update search,31,,9 targeted queries
+Update search — to full-text,,14,,
+Update search — post-cutoff eligible,,3,,"LongEarth-R1; RSVideo; IGARSS 2026 session; not in Corpus A"
+Update search — ineligible (AlignJEPA E5),,1,,Not RS-MLLM; excluded under E5
+Inter-rater Cohen kappa (title/abstract),,0.83,,Calculated on 20% random sample (n=162 records)
+Inter-rater Cohen kappa (full-text),,0.89,,Calculated on all 412 full-text assessments

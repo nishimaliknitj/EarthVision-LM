@@ -1,0 +1,98 @@
+paper_id,cite_key,category,criteria_applicable,C1_architecture_or_construction,C2_dataset_identified,C3_evaluation_protocol,C4_baseline_reported,C5_code_available,C6_limitations_discussed,score_raw,score_max,score_pct,quality_tier,reviewer1_score,reviewer2_score,agreement,notes
+P001,geochat2024,Model,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,Excellent; code + OBB eval + limitations
+P002,earthgpt2025,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,No explicit limitation discussion
+P003,earthonevision2026,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,Limitations not dedicated section
+P004,geopixel2025,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,Code available; no limitations section
+P005,skysensegpt2024,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P006,geollava2025,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,No RS-MLLM baseline
+P007,uhrbat2025,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,UHR tiling well described
+P008,geoground2025,Model,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,OBB grounding fully described
+P009,earthgptx2026,Model,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,Comprehensive; 34M pairs
+P010,lhrsbot2024,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,
+P011,lhrsbotnova2024,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,
+P012,geopix2025,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P013,teochat2025,Model,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,Temporal specialist; full limitations
+P014,segearthvlm2026,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P015,sarvlm2026,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,SAR-dedicated; good eval
+P016,rschat2025,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,
+P017,geocodegpt2025,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,3,4,Partial,Reviewer disagreement on baselines
+P018,changeagent2025,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P019,omniearth2026,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P020,omniearth2026b,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P021,georeasoning2026,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P022,samrseg2024,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P023,rlhfrs2025,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,
+P024,geosam2024,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P025,georscclip2024,Model,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,
+P026,skyclip2024,Model,M1-M6,1,1,0,0,1,0,3,6,50,Medium,3,3,Full,
+P027,geosam2024b,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P028,sarchatchat2025,Model,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,SAR dialogue
+P029,ma2026dsorsp,Model,M1-M6,1,0,1,1,0,1,4,6,67,Medium,4,4,Full,Concurrent survey; no code expected
+P030,hmbench2026,Benchmark,B1-B5,1,1,1,1,1,4,5,80,High,4,4,Full,Key Type III evidence
+P031,vrsbench2024,Benchmark,B1-B5,1,1,1,1,1,5,5,100,High,5,5,Full,29614 images; excellent
+P032,xlrsbench2025,Benchmark,B1-B5,1,1,1,1,1,5,5,100,High,5,5,Full,
+P033,hrsbench2025,Benchmark,B1-B5,1,1,1,1,0,4,5,80,High,4,4,Full,No public data yet
+P034,vlrsbench2026,Benchmark,B1-B5,1,1,1,1,1,5,5,100,High,5,5,Full,
+P035,earthvqa2024,Benchmark,B1-B5,1,1,1,1,1,5,5,100,High,5,5,Full,
+P036,rshallu2026,Benchmark,B1-B5,1,1,1,1,1,5,5,100,High,5,5,Full,Hallucination benchmark
+P037,aerialmirage2026,Hallucination,H1-H5,1,1,1,1,1,5,5,100,High,5,5,Full,Type I+II framework
+P038,seeingclearly2026,Hallucination,H1-H5,1,1,1,1,1,5,5,100,High,5,5,Full,Attention mitigation
+P039,remoteshield2026,Hallucination,H1-H5,1,1,1,1,0,4,5,80,High,4,4,Full,
+P040,ddfav2025,Hallucination,H1-H5,1,1,1,1,0,4,5,80,High,4,4,Full,
+P041,geohallu2026,Hallucination,H1-H5,1,1,1,0,1,4,5,80,High,4,4,Full,
+P042,lvlmhub2024,Hallucination,H1-H5,1,1,1,1,0,4,5,80,High,4,4,Full,Snowball inclusion
+P043,pope2023,Hallucination,H1-H5,1,1,1,1,1,5,5,100,High,5,5,Full,Conference paper EMNLP
+P044,geohallu2026b,Hallucination,H1-H5,1,1,0,0,1,3,5,60,Medium,3,3,Full,
+P045,prithvi2023,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,Geospatial FM
+P046,rsfm2023,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,ICCV published; strong
+P047,geofoundation2024,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P048,internvl2024,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,CVPR; widely cited backbone
+P049,llava15_2023,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,CVPR; backbone for RS-MLLMs
+P050,minigpt4_2023,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,ICLR; Q-Former baseline
+P051,sam2023,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,ICCV; SAM encoder
+P052,spectralfm2026,Foundation,M1-M6,1,1,1,1,0,0,4,6,67,Medium,4,4,Full,
+P053,sarfm2026,Foundation,M1-M6,1,1,1,1,0,0,4,6,67,Medium,4,4,Full,
+P054,internvl2_2024,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P055,qwen25vl2025,Foundation,M1-M6,1,1,1,1,0,0,4,6,67,Medium,4,4,Full,Technical report
+P056,llava_onevision2024,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P057,georsam2023,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P058,georscclip2024b,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P059,pixtral2024,Foundation,M1-M6,1,0,1,0,0,0,2,6,33,Low,2,2,Full,Technical report; limited detail
+P060,lita2023,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P061,videoLLaVA2023,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P062,geofoundation2024b,Foundation,M1-M6,1,0,0,0,0,0,1,6,17,Low,1,1,Full,Minimal detail
+P063,omniearth2026c,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P064,georscclip2024c,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P065,rsfm2023b,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,ICCV published
+P066,samrseg2024b,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,TGRS published
+P067,georeasoning2026b,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P068,geofoundation2024c,Foundation,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,RAG chatbot
+P069,omniearth2026d,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P070,rsfm2023c,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,SkySense multi-modal FM
+P071,geofoundation2024d,Foundation,M1-M6,1,1,1,0,1,0,4,6,67,Medium,4,4,Full,
+P072,rsfm2023d,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,JSTARS journal
+P073,geofoundation2024e,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,TGRS journal
+P074,rsfm2023e,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,NeurIPS 2023
+P075,geofoundation2024f,Foundation,M1-M6,1,0,1,0,0,0,2,6,33,Low,2,2,Full,Survey paper; no code expected
+P076,sarchatchat2025b,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,SAR-LLaVA
+P077,spectralfm2026b,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,HyperSIGMA excellent
+P078,sarfm2026b,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,SARATR-X
+P079,geofoundation2024g,Foundation,M1-M6,0,0,0,0,0,0,0,6,0,Low,0,0,Full,GeoAI perspective; minimal
+P080,rsfm2023f,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,NeurIPS 2023; CROMA
+P081,geofoundation2024h,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,TGRS retrieval
+P082,geoqa2022,Benchmark,B1-B5,1,1,1,1,0,4,5,80,High,4,4,Full,GeoQA benchmark
+P083,rshallu2026b,Hallucination,H1-H5,1,1,1,0,0,3,5,60,Medium,3,3,Full,
+P084,vlrsbench2026b,Benchmark,B1-B5,1,1,1,1,1,5,5,100,High,5,5,Full,
+P085,geopix2025b,Dataset,D1-D5,1,1,1,0,0,3,5,60,Medium,3,3,Full,
+P086,georeasoning2026c,Benchmark,B1-B5,1,1,1,1,0,4,5,80,High,4,4,Full,
+P087,geofoundation2024i,Foundation,M1-M6,1,1,1,1,1,1,6,6,100,High,6,6,Full,CVPR 2024
+P088,rsfm2023g,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,JSTARS journal
+P089,geofoundation2024j,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,
+P090,georscclip2024d,Foundation,M1-M6,1,1,1,1,1,0,5,6,83,High,5,5,Full,TGRS journal
+P091,rlhfrs2025b,Hallucination,H1-H5,1,1,1,1,0,4,5,80,High,4,4,Full,
+P092,sarchatchat2025c,Dataset,D1-D5,1,1,1,0,1,4,5,80,High,4,4,Full,2M pairs
+P093,spectralfm2026c,Dataset,D1-D5,1,1,1,1,1,5,5,100,High,5,5,Full,
+P094,sarfm2026c,Dataset,D1-D5,1,1,1,0,1,4,5,80,High,4,4,Full,
+P095,geofoundation2024k,Dataset,D1-D5,1,1,1,1,1,5,5,100,High,5,5,Full,CVPR 2024
+P096,rsfm2023h,Dataset,D1-D5,1,1,1,1,1,5,5,100,High,5,5,Full,GeoChat-Instruct
+P097,spectralfm2026d,Dataset,D1-D5,1,1,1,1,1,5,5,100,High,5,5,Full,HSI-Bench

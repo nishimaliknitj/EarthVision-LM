@@ -1,0 +1,19 @@
+venue,venue_type,paper_count,pct_of_210,primary_or_contextual,notes
+arXiv,Preprint,92,43.8,Both,Includes cs.CV and eess.IV; 44% preprint rate
+IEEE TGRS,Journal,18,8.6,Both,IEEE Transactions on Geoscience and Remote Sensing
+CVPR,Conference,14,6.7,Both,IEEE/CVF CVPR 2022-2026
+ICCV,Conference,9,4.3,Both,IEEE/CVF ICCV 2023 2025
+NeurIPS,Conference,8,3.8,Both,NeurIPS 2022-2025
+ISPRS JPRS,Journal,7,3.3,Both,ISPRS Journal of Photogrammetry and Remote Sensing
+ICLR,Conference,6,2.9,Both,ICLR 2023-2026
+AAAI,Conference,6,2.9,Both,AAAI 2023-2026
+JSTARS,Journal,6,2.9,Both,IEEE Journal of Selected Topics in Applied EO and RS
+Remote Sensing (MDPI),Journal,5,2.4,Both,MDPI Remote Sensing journal
+IEEE GRSL,Journal,4,1.9,Both,IEEE Geoscience and Remote Sensing Letters
+EMNLP,Conference,4,1.9,Both,Empirical Methods in NLP
+ICWSM,Conference,2,1.0,Contextual,Crisis/social media applications
+Other journals,Journal,8,3.8,Both,Springer Nature; Elsevier; etc.
+Other conferences,Conference,11,5.2,Both,IGARSS; ECCV; ACL; etc.
+total,,210,100.0,,
+preprint_count,,92,43.8,,92 of 210 = 43.8%
+peer_reviewed_count,,118,56.2,,118 of 210 peer-reviewed
